@@ -1,0 +1,17 @@
+{% extends '::settings.html.twig' %}
+
+ {% block body %}
+    <p>templates<p>
+	<ul>
+		{% set i = 0 %}
+		{% for tem in template %}
+			<li>
+				{{ tem.getName() }}
+				<a href="{{path('Settings-manageTemplates',{ 'action':'delete','id': tem.id })}}" >delete</a>
+				{% set i = i+1 %}
+			</li>
+		{% endfor %}
+		</ul>
+ 
+ 
+ {% endblock %}

@@ -1,0 +1,15 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: null
+    database_name: testify
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    secret: e65f4553a90b03dd9f391b869fc450a8
+    initialised: false
+    base-path: /cms_pre_alpha

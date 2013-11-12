@@ -1,0 +1,94 @@
+
+<script  type="text/javascript" >
+	var imgUploadPath = "{{ app.request.getBaseURL() }}/";
+</script>
+	<script src="{{ asset('js/default/settings/ckeditor/ckeditor.js')}}"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+<script  type="text/javascript" >
+$(document).ready(function(){
+	CKEDitor_loaded = false;
+	
+
+
+	CKEDITOR.on('instanceReady', function(){
+			var selected = new Array();
+			$("textarea").each(function(){
+			//$("#cke_"+$(this).attr("id")).replaceWith($("<div class='editable'>" + $("textarea").html() + '</div>'));
+			
+			$("#cke_"+$(this).attr("id")).css("visibility","hidden");
+			$("#cke_"+$(this).attr("id")).css("display","none");
+			$(this).css("visibility","visible");
+			$(this).css("display","inherit");
+			
+			$(this).replaceWith($("<div class='"+$(this).attr('class')+"' id='"+$(this).attr('id')+"'>" + $(this).html() + '</div>'));
+		});
+		CKEditor_loaded = true;	
+		
+		$(".ckeditor").each(function(){
+			$( this )
+		   .mouseenter(function() {
+			$( this ).css("background-color","#ffff00");
+			})
+			.mouseleave(function() {
+			$( this ).css("background-color","#ffffff");
+			});
+		});
+		
+		$(".ckeditor").click(function onClick(){
+			$("#cke_"+$(this).attr("id")).css("visibility","visible");
+			$("#cke_"+$(this).attr("id")).css("display","inherit");
+			$(this).css("visibility","hidden");
+			$(this).css("display","none");
+			
+			selected.push($(this).attr("id"));
+		});
+		$(window).bind('click', function(ev) {
+			if ($(ev.target).parents('.hideBox').length) {
+			} else{
+				var error = false;
+				//alert("is child="$(ev.target).is($('.hideBox').find('*')));
+				$.each( selected, function(key,value){
+					if($(ev.target).attr("id")){
+						//error = true;
+					}
+				});
+				if(!error){
+					$.each( selected, function(key,value){
+						$("#cke_"+value).css("visibility","hidden");
+						$("#cke_"+value).css("display","none");
+						$("#"+value).css("visibility","visible");
+						$("#"+value).css("display","inherit");
+						$("#"+value).replaceWith($("<div class='"+$("#"+value).attr('class')+"' id='"+$("#"+value).attr('id')+"'></div>"));
+						$("#"+value ).append(CKEDITOR.instances[value].getData());
+					});
+					selected.splice(0, selected.length);
+				}
+				
+					
+			}
+			$(".ckeditor").click(function onClick(){
+				$("#cke_"+$(this).attr("id")).css("visibility","visible");
+				$("#cke_"+$(this).attr("id")).css("display","inherit");
+				$(this).css("visibility","hidden");
+				$(this).css("display","none");
+				selected.push($(this).attr("id"));
+			});
+			
+			$(".ckeditor").each(function(){
+				$( this )
+			   .mouseenter(function() {
+				$( this ).css("background-color","#ffff00");
+				})
+				.mouseleave(function() {
+				$( this ).css("background-color","#ffffff");
+				});
+			});
+		
+		})
+	}); 
+	
+	
+	
+	
+});
+</script>

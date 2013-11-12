@@ -1,0 +1,19 @@
+Settings-GetTemplate:
+    path:    /Settings/new-template/step-1
+    defaults: { _controller: CmsWebSiteBundle:Templates:getTemplate }
+
+Settings-initTemplate:
+    path:    /Settings/new-template/step-2
+    defaults: { _controller: CmsWebSiteBundle:Templates:initTemplate }
+
+Settings-otherAssetsUpload:
+    path:    /Settings/new-template/step-3
+    defaults: { _controller: CmsWebSiteBundle:Templates:otherAssetsUpload }
+
+Settings-selectTemplate:
+    path:    /Settings/new-page/step-1
+    defaults: { _controller: CmsWebSiteBundle:Templates:selectTemplate }
+
+Settings-manageTemplates:
+    path:    /Settings/manage-templates
+    defaults: { _controller: CmsWebSiteBundle:Templates:manageTemplates }

@@ -1,0 +1,24 @@
+cms_web_site_initialisation:
+    resource: "@CmsWebSiteBundle/Resources/config/routing/routing-initialisation.yml"
+    prefix:   /
+
+cms_web_site_templates:
+    resource: "@CmsWebSiteBundle/Resources/config/routing/routing-templates.yml"
+    prefix:   /
+
+cms_web_site_settings:
+    resource: "@CmsWebSiteBundle/Resources/config/routing/routing-settings.yml"
+    prefix:   /
+
+cms_web_site_uploads:
+    resource: "@CmsWebSiteBundle/Resources/config/routing/routing-uploads.yml"
+    prefix:   /
+
+cms_web_site_user:
+    resource: "@CmsWebSiteBundle/Resources/config/routing/routing-user.yml"
+    prefix:   /
+
+cms_web_site:
+    resource: "@CmsWebSiteBundle/Resources/config/routing-webSite.yml"
+    prefix:   /
+

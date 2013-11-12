@@ -1,0 +1,15 @@
+Uploads-uploadImage-wysiwyg:
+    path:    /Settings/Uploads/Images-wysiwyg
+    defaults: { _controller: CmsWebSiteBundle:Uploads:imagesWysiwyg }
+
+Uploads-uploadImage:
+    path:    /Settings/Uploads/Images
+    defaults: { _controller: CmsWebSiteBundle:Uploads:images }
+
+Uploads-browseImage:
+    path:    /Settings/images
+    defaults: { _controller: CmsWebSiteBundle:Uploads:browseImages }
+
+Uploads-selectImage-wysiwyg:
+    path:    /Settings/Uploads/selectImage-wysiwyg
+    defaults: { _controller: CmsWebSiteBundle:Uploads:selectImagesWysiwyg }

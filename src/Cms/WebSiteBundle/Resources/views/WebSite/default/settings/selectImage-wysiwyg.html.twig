@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Select image</title>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+	<script type="text/javascript">
+	{% if from == "imgVar" %}
+		function select_image(path) {
+			localStorage.setItem("path",path);
+			localStorage.setItem("for",localStorage.getItem("for"));
+			window.parent.opener.someFunctionToCallWhenPopUpCloses();
+			self.close();
+		}
+	{% else %}
+		function select_image(path) {
+			var CKEditorFuncNum = {{app.request.query.get('CKEditorFuncNum')}};
+			window.parent.opener.CKEDITOR.tools.callFunction( CKEditorFuncNum, path, '' );
+			self.close();
+		}
+	{% endif %}
+	</script>
+	
+
+</head>
+<body>
+<h1>Imga list</h1>
+		<ul>
+		{% for img in imgList %}
+			<li>
+				<a href="javascript:select_image('{{ img.path }}');">
+				<img src="{{ asset(img.path) }}" id="img-{{img.id }}">{{ img.name }}
+				</a>
+			</li>
+		{% endfor %}
+		</ul>
+
+</body>
+<script   type="text/javascript" >
+		
+		{% for img in imgList %}
+			var img = $('#img-{{img.id}}'); 
+			//or however you get a handle to the IMG
+			var width = img.clientWidth;
+			var height = img.clientHeight;
+
+			var newWidth = 100;
+			var newHeight = newWidth/width*height;
+
+			img.css({'width' : newWidth , newHeight : '700px'});
+		{% endfor %}
+	</script>
+</html>

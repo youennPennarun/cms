@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>{% block title %}Youenn PENNARUN -Portfolio{% endblock %}</title>
+ <!-- tr -->
+    {% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('css/mainCss.css') }}" type="text/css" />
+      <link rel="stylesheet" href="{{ asset('css/separators.css') }}" type="text/css" />
+    {% endblock %}
+	
+  </head>
+  <body>
+	<div id="header">
+		<div id="mainTitle">Youenn PENNARUN</div>
+		<div id="subtitle">quas qui tenent, eruditi appellantur aut ne deterruisset alios a studiis.</div>
+	</div>
+	<div id="separator-aoi"></div>
+	<div id = "block">
+		<div id="content">
+			<p>
+			Haec igitur Epicuri non probo, inquam. De cetero vellem equidem aut ipse doctrinis fuisset instructior est enim, quod tibi ita videri necesse est,
+			non satis politus iis artibus, quas qui tenent, eruditi appellantur aut ne deterruisset alios a studiis. quamquam te quidem video minime esse deterritum.
+
+			Quid enim tam absurdum quam delectari multis inanimis rebus, ut honore, ut gloria, ut aedificio, ut vestitu cultuque corporis, animante virtute praedito,
+			eo qui vel amare vel, ut ita dicam, redamare possit, non admodum delectari? Nihil est enim remuneratione benevolentiae, nihil vicissitudine studiorum officiorumque iucundius.
+
+			Dumque ibi diu moratur commeatus opperiens, quorum translationem ex Aquitania verni imbres solito crebriores prohibebant auctique torrentes,
+			Herculanus advenit protector domesticus,Hermogenis ex magistro equitum filius, apud Constantinopolim, ut supra rettulimus, populari quondam turbela discerpti.
+			quo verissime referente quae Gallus egerat, damnis super praeteritis maerens et futurorum timore suspensus angorem animi quam diu potuit emendabat.
+			  <br>
+			  <br>
+			  <a href="{{ path('Index') }}">test</a>
+			</p>
+		</div>
+	</div>
+	<div id="separator-beach-storm"></div>
+	<div id = "block" class="b2">
+		<div id="content">
+			<p>
+			Haec igitur Epicuri non probo, inquam. De cetero vellem equidem aut ipse doctrinis fuisset instructior est enim, quod tibi ita videri necesse est,
+			non satis politus iis artibus, quas qui tenent, eruditi appellantur aut ne deterruisset alios a studiis. quamquam te quidem video minime esse deterritum.
+
+			Quid enim tam absurdum quam delectari multis inanimis rebus, ut honore, ut gloria, ut aedificio, ut vestitu cultuque corporis, animante virtute praedito,
+			eo qui vel amare vel, ut ita dicam, redamare possit, non admodum delectari? Nihil est enim remuneratione benevolentiae, nihil vicissitudine studiorum officiorumque iucundius.
+
+			Dumque ibi diu moratur commeatus opperiens, quorum translationem ex Aquitania verni imbres solito crebriores prohibebant auctique torrentes,
+			Herculanus advenit protector domesticus,Hermogenis ex magistro equitum filius, apud Constantinopolim, ut supra rettulimus, populari quondam turbela discerpti.
+			quo verissime referente quae Gallus egerat, damnis super praeteritis maerens et futurorum timore suspensus angorem animi quam diu potuit emendabat.
+			  <br>
+			  <br>
+			</p>
+		</div>
+	</div>
+  </body>
+	{% block javascripts %}
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ asset('js/cssEditor.js') }}"></script>
+	
+	<script>
+	setBgColor("#block","#F38630");
+	setBgColor("#block.b2","#69D2E7");
+	</script>
+	{% endblock %}
+</html>

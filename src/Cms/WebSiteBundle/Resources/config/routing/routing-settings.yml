@@ -1,0 +1,7 @@
+Settings-newPage:
+    path:    /Settings/new-page/step-2
+    defaults: { _controller: CmsWebSiteBundle:Settings:newPage }
+
+Settings-pagePreview:
+    path:    /Settings/preview
+    defaults: { _controller: CmsWebSiteBundle:Settings:pagePreview }

@@ -1,0 +1,31 @@
+
+#separator-red{
+	background-color : #ff0000;
+	height : 20px;
+	width : 100%;
+}
+#separator-green{
+	background-color : #00ff00;
+	height : 20px;
+	width : 100%;
+}
+#separator-blue{
+	background-color : #0000ff;
+	height : 20px;
+	width : 100%;
+}
+#separator-aoi{
+	background-color : #69D2E7;
+	height : 20px;
+	width : 100%;
+}
+#separator-pondwater{
+	background-color : #A7DBD8;
+	height : 20px;
+	width : 100%;
+}
+#separator-beach-storm{
+	background-color : #E0E4CC;
+	height : 20px;
+	width : 100%;
+}

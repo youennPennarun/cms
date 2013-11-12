@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>{% block title %}Youenn PENNARUN -Portfolio{% endblock %}</title>
+ <!-- tr -->
+    {% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('css/mainCss.css') }}" type="text/css" />
+      <link rel="stylesheet" href="{{ asset('css/separators.css') }}" type="text/css" />
+    {% endblock %}
+	
+  </head>
+  <body>
+	<h1>404 - page no found</h1>
+	{{ url }} didn't exist...
+  </body>
+	{% block javascripts %}
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ asset('js/cssEditor.js') }}"></script>
+	
+	<script>
+	setBgColor("#block","#F38630");
+	setBgColor("#block.b2","#69D2E7");
+	</script>
+	{% endblock %}
+</html>

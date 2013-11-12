@@ -1,0 +1,14 @@
+{% extends '::settings.html.twig' %}
+
+ {% block body %}
+    <p>set template<p>
+	{% if form is defined %}
+		{{ form(form) }}
+	{% endif %}
+	
+	{% if path == "" %}
+		<p> pas path <p>
+	{% else %}
+		{{ path }}
+	{% endif %}
+ {% endblock %}

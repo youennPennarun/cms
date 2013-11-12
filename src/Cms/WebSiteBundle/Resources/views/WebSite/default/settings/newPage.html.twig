@@ -1,0 +1,18 @@
+{% extends '::settings.html.twig' %}
+
+ {% block body %}
+	<h1 class="editable">bla</h1>
+	<form method="POST" {{ form_enctype(form) }}>
+	<ul>
+	{% for var in form.varList %}
+		<li>
+			{{ form_row(var) }}
+		</li>
+	{% endfor %}
+	</ul>
+	
+	{{ form_row(form.save) }}
+	{{ form_row(form.preview) }}
+	{{form_rest(form)}}
+</form>
+{% endblock %}

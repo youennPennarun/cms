@@ -1,0 +1,14 @@
+{% extends '::settings.html.twig' %}
+	{% block body %}
+	 <h1>Upload images</h1>
+	<form method="POST" {{ form_enctype(form) }}>
+		
+		{{ form_widget(form.images,{ "full_name" : "form[images][]" } ) }}
+	{{form_rest(form)}}
+	</form>
+	{% endblock %}
+
+	{% block javascripts %}
+	{% endblock %}
+
+

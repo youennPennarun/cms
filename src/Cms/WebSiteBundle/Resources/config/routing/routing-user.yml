@@ -1,0 +1,9 @@
+User-Sign-up:
+    path:    /User/Sign-up
+    defaults: { _controller: CmsWebSiteBundle:User:SignUp }
+
+login:
+    pattern:   /Settings/login
+    defaults:  { _controller: CmsWebSiteBundle:User:login }
+login_check:
+    pattern:   /Settings/login_check

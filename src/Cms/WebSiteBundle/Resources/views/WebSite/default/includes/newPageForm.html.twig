@@ -1,0 +1,43 @@
+{% if form is defined %}
+	
+	<form method="POST" {{ form_enctype(form) }} id="form">
+	{{ form_row(form.pageName) }}
+	{{ form_row(form.preview) }}
+	{{ form_row(form.save,{ 'id' : 'saveButton'}) }}
+	<div style="display: none;">
+		<div id="var">
+		{% for varForm in form.varList %}
+			-<br>
+			<p>bla{{i}}</p>
+			{{ form_label(varForm) }}
+			{{ form_errors(varForm) }}
+			{{ form_widget(varForm, { 'id': "form-"~i, 'class' : 'variable' }) }}
+			--<br>
+			{% set i = i +1 %}
+		{% endfor %}
+		alert("{{i}}");
+		</div>
+	</div>	
+		{{ form_rest(form) }}
+	</form>
+	<script>
+	$(document).ready(function(){
+		$( "a" ).click(function( event ) {
+		  event.preventDefault();
+		});
+		$("#form").submit(function(){
+			{% set i = 0 %}
+			{% for varForm in form.varList %}
+				if($("#val-{{i}}").attr("class") == "ckeditor"){
+					$("#form-{{ i }}").val(CKEDITOR.instances['val-{{ i }}'].getData());
+				}else if($("#[cmsId = 'val-{{ i }}']").attr("cmsClass") == "editable-img"){
+					$("#form-{{ i }}").val("<img src="+$("#[cmsId = 'val-{{ i }}']").attr("src")+" id="+$("#[cmsId = 'val-{{ i }}']").attr("id")+" class="+$("#[cmsId = 'val-{{ i }}']").attr("class")+" width="+$("#[cmsId = 'val-{{ i }}']").attr("width")+" height="+$("#[cmsId = 'val-{{ i }}']").attr("height")+" >");
+					
+				}
+				{% set i = i +1 %}
+			{% endfor %}
+			
+			});
+		});
+	</script>
+{% endif %}

@@ -1,0 +1,9 @@
+Index:
+    path:    /
+    defaults: { _controller: CmsWebSiteBundle:WebSite:index }
+PageNoFound:
+    path:    /page-no-found
+    defaults: { _controller: CmsWebSiteBundle:WebSite:pageNoFound }
+Page:
+    path:    /{pageName}
+    defaults: { _controller: CmsWebSiteBundle:WebSite:page }

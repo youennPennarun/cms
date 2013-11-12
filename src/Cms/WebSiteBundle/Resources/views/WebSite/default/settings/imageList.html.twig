@@ -1,0 +1,38 @@
+{% extends '::settings.html.twig' %}
+
+ {% block body %}
+ <h1>Imga list</h1>
+	{% if action == "" %}
+		<ul>
+		{% for img in imgList %}
+			<li>
+			{{ asset(img.path) }}
+				<img src="{{ asset(img.path) }}" id="img-{{img.id }}">{{ img.name }}
+				<a href="{{path('Uploads-browseImage',{ 'action':'edit','id': img.id })}}" >edit</a>
+				<a href="{{path('Uploads-browseImage',{ 'action':'delete','id': img.id })}}" >delete</a>
+			</li>
+		{% endfor %}
+		</ul>
+	{%endif %}
+	
+
+{% endblock %}
+
+{% block javascripts %}
+	<script   type="text/javascript" >
+		
+		{% for img in imgList %}
+			var img = $('#img-{{img.id}}'); 
+			//or however you get a handle to the IMG
+			var width = img.clientWidth;
+			var height = img.clientHeight;
+
+			var newWidth = 100;
+			var newHeight = newWidth/width*height;
+
+			img.css({'width' : newWidth , newHeight : '700px'});
+		{% endfor %}
+	</script>
+{% endblock %}
+
+

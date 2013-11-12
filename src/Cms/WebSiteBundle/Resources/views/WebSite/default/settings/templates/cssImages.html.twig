@@ -1,0 +1,35 @@
+{% extends '::settings.html.twig' %}
+
+{% block body %}
+    <p>get template<p>
+	
+
+  <form method="POST"  enctype="multipart/form-data">
+		<br>
+		{% set i = 0 %}
+		<ul>
+		{% for imagesField in form.imagesFiles %}
+			<li>
+				{{ form_errors(attribute(form.images,i)) }}
+				{{ form_widget(attribute(form.images,i)) }}
+				{{ form_errors(imagesField) }}
+				{{ form_widget(imagesField) }}
+				{% set i = i+1 %}
+			</li>
+		{% endfor %}
+		</ul>
+		
+		{{form_widget(form.submit)}}
+		<hr>
+			{{form_rest(form)}}
+		<hr>
+	</form>
+
+{#
+	{{ form(form)}}
+#}
+		
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

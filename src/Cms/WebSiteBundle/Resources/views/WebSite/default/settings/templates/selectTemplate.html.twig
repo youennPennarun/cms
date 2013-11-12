@@ -1,0 +1,32 @@
+{% extends '::settings.html.twig' %}
+
+ {% block body %}
+    <p>templates<p>
+  <form method="POST"  enctype="multipart/form-data">
+	<ul>
+		{% set i = 0 %}
+		{% for tem in template %}
+			<li>
+				{{ form_widget(attribute(form.checkBox,i), { 'attr': {'class': 'checkbox'} }) }}
+				{{ tem.getName() }}
+				{% set i = i+1 %}
+			</li>
+		{% endfor %}
+		</ul>
+		{{form_row(form.submit)}}
+	{{ form_rest(form) }}
+	</form>
+ 
+ 
+<script>
+	jQuery(document).ready(function() {
+		$('.checkbox').click(function(){
+			$('.checkbox').each(function(){
+				$(this).prop("checked",false);
+			})
+			$(this).prop("checked", "checked");		
+		})
+	});
+
+</script>
+ {% endblock %}

@@ -1,0 +1,16 @@
+ini-settings:
+    pattern:  /ini
+    defaults: { _controller: CmsWebSiteBundle:Initialisation:initialisationDb }
+
+ini-settings-createDB:
+    pattern:  /ini/createDB
+    defaults: { _controller: CmsWebSiteBundle:Initialisation:createDB }
+
+ini-settings-admin:
+    pattern:  /ini/admin
+    defaults: { _controller: CmsWebSiteBundle:Initialisation:initialisationAdmin }
+
+ini-cache:
+    pattern:  /ini/cacheClear
+    defaults: { _controller: CmsWebSiteBundle:Initialisation:cacheClear }
+
