@@ -2,7 +2,7 @@ parameters:
     database_driver: pdo_mysql
     database_host: localhost
     database_port: null
-    database_name: testify
+    database_name: null
     database_user: root
     database_password: null
     mailer_transport: smtp
@@ -11,5 +11,5 @@ parameters:
     mailer_password: null
     locale: en
     secret: 68c4e87211a9f3c32fabff1b111fe154
-    initialised: true
-    base-path: /cms
+    initialised: false
+    base-path: /
