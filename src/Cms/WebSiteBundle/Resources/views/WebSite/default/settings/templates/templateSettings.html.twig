@@ -1,0 +1,15 @@
+{% extends '::settings.html.twig' %}
+{# getting template information from the config.yml file #}
+{% set controller = app.request.attributes.get("_controller")|split('::')[1] %}
+{% set cms_page_title = attribute(pageNames, controller)['pageName'] %}
+{% set fileName = attribute(pageNames, controller)['fileName'] %}
+
+{% block title %}{{ cms_page_title }}{% endblock %}
+{% block body %}
+	<div class="hero-unit">
+		<h1>{{ cms_page_title }}</h1>
+	</div>
+	<div class="row-fluid">
+		{% include "CmsWebSiteBundle:WebSite:default/settings/templates/"~fileName~".html.twig" %}	
+	</div>
+{% endblock %}

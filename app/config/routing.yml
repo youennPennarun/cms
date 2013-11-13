@@ -8,7 +8,7 @@ cms_web_site_templates:
 
 cms_web_site_settings:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-settings.yml"
-    prefix:   /
+    prefix:   /Settings
 
 cms_web_site_uploads:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-uploads.yml"

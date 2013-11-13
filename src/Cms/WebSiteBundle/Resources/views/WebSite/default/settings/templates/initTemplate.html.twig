@@ -1,10 +1,4 @@
-{% extends '::settings.html.twig' %}
-
-{% block body %}
-    <p>get template<p>
-	
-
-  <form method="POST"  enctype="multipart/form-data">
+<form method="POST"  enctype="multipart/form-data">
 		{{ form_row(form.name) }}
 		{{ form_label(form.assetsFiles) }}
 		{{ form_errors(form.assetsFiles) }}
@@ -58,11 +52,6 @@
 		<hr>
 	</form>
 
-{#
-	{{ form(form)}}
-#}
-		
-{% endblock %}
 
 {% block javascripts %}
 	<script>

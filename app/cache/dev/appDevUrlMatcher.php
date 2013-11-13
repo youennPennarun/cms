@@ -188,14 +188,28 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\TemplatesController::manageTemplatesAction',  '_route' => 'Settings-manageTemplates',);
             }
 
-            // Settings-newPage
-            if ($pathinfo === '/Settings/new-page/step-2') {
-                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\SettingsController::newPageAction',  '_route' => 'Settings-newPage',);
+            // Settings
+            if (rtrim($pathinfo, '/') === '/Settings') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'Settings');
+                }
+
+                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\SettingsController::indexAction',  '_route' => 'Settings',);
             }
 
-            // Settings-pagePreview
-            if ($pathinfo === '/Settings/preview') {
-                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\SettingsController::pagePreviewAction',  '_route' => 'Settings-pagePreview',);
+            // Settings-newPage
+            if ($pathinfo === '/Settings/new-page/step-2') {
+                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\PagesController::newPageAction',  '_route' => 'Settings-newPage',);
+            }
+
+            // Settings-browsePages
+            if ($pathinfo === '/Settings/browse-pages') {
+                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\PagesController::browsePagesAction',  '_route' => 'Settings-browsePages',);
+            }
+
+            // Settings-editPage
+            if (0 === strpos($pathinfo, '/Settings/edit-page') && preg_match('#^/Settings/edit\\-page/(?P<pageName>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'Settings-editPage')), array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\PagesController::editPagesAction',));
             }
 
             if (0 === strpos($pathinfo, '/Settings/Uploads/Images')) {

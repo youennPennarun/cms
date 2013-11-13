@@ -1,15 +1,17 @@
 
 	{% block menu %}
-	<div id="settingsMenu">
-	<hr>
-	<h3>menu</h3>
-	<ul>
-	<li><a href="{{path('Settings-newPage')}}">New Page</a></li>
-	<li><a href="{{path('Uploads-uploadImage')}}">Upload an image</a></li>
-	<li><a href="{{path('Uploads-browseImage')}}">Browse images</a></li>
-	<li><a href="{{path('Settings-GetTemplate')}}">Upload a Template</a></li>
-	</ul>
-	<hr>
+	<div class="well sidebar-nav">
+		<ul class="nav nav-list">
+            <li class="nav-header">Pages</li>
+			<li><a href="{{path('Settings-newPage')}}">New Page</a></li>
+			<li><a href="{{path('Settings-browsePages')}}">Browse Pages</a></li>
+            <li class="nav-header">Images</li>
+			<li><a href="{{path('Uploads-uploadImage')}}">Upload an image</a></li>
+			<li><a href="{{path('Uploads-browseImage')}}">Browse images</a></li>
+            <li class="nav-header">Templates</li>
+			<li><a href="{{path('Settings-GetTemplate')}}">Upload a Template</a></li>
+			<li><a href="{{path('Settings-manageTemplates')}}">Browse Templates</a></li>
+		</ul>
 	</div>
 	
 	{% endblock %}

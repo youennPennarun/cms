@@ -168,10 +168,11 @@
 				}else{		//if there is no error	
 					$error = !copy($this->path.".tmp",$this->path);	
 					$regexpVar = "({{([^\(]*)}})";
-					$regexpHead = "([ ]*<head>[ ]*)";
+					$regexpHead = "([ ]*< *head *>[ ]*)";
 					$regexpImgSrc = '(< *img[^>]*src *= *["\']?([^"\']*).*>)';
 					$regexpImg = '/(.*(<img[^>]+>).*)/i';
-					$regexpEndBody = "([ ]*</body>[ ]*)";
+					$regexpStartBody = "([ ]*< *body *>[ ]*)";
+					$regexpEndBody = "([ ]*< */body *>[ ]*)";
 					$nn = 0;
 					
 					$handle = fopen($this->path.".tmp", 'r');
@@ -190,6 +191,9 @@
 							}
 							if(preg_match($regexpHead,$bufferTmp,$return)) {
 								$buffer = $buffer."\r\n"."{% include 'CmsWebSiteBundle:WebSite:default/includes/includes.html.twig' %}"."\r\n"; //add an include used to make the new page
+							}
+							if(preg_match($regexpStartBody,$bufferTmp,$return)) {
+								$buffer = $buffer."\r\n"."{% include 'CmsWebSiteBundle:WebSite:default/includes/menu/adminTopBar.html.twig' %}"; //add an include used to make the new page
 							}
 							if(preg_match($regexpEndBody,$bufferTmp,$return)) {
 								$buffer = "{% include 'CmsWebSiteBundle:WebSite:default/includes/newPageForm.html.twig' %}"."\r\n".$buffer; //add an include used to make the new page

@@ -1,7 +1,15 @@
-Settings-newPage:
-    path:    /Settings/new-page/step-2
-    defaults: { _controller: CmsWebSiteBundle:Settings:newPage }
+Settings:
+    path:    /
+    defaults: { _controller: CmsWebSiteBundle:Settings:index }
 
-Settings-pagePreview:
-    path:    /Settings/preview
-    defaults: { _controller: CmsWebSiteBundle:Settings:pagePreview }
+Settings-newPage:
+    path:    /new-page/step-2
+    defaults: { _controller: CmsWebSiteBundle:Pages:newPage }
+
+Settings-browsePages:
+    path:    /browse-pages
+    defaults: { _controller: CmsWebSiteBundle:Pages:browsePages }
+
+Settings-editPage:
+    path:    /edit-page/{pageName}
+    defaults: { _controller: CmsWebSiteBundle:Pages:editPages }

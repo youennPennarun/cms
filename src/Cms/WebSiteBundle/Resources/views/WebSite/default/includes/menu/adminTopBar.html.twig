@@ -1,0 +1,39 @@
+{% if app.user %}
+	{% set controller = app.request.attributes.get("_controller")|split('::')[1] %}
+	{% if controller == "newPageAction" %}
+		<div class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="navbar-inner">
+			<div class="container">
+			  <a class="brand" href="./index.html">Admin Pannel</a>
+			  <div class="nav-collapse collapse">
+				<ul class="nav">
+					{% include 'CmsWebSiteBundle:WebSite:default/includes/newPageForm.html.twig' %}
+				</ul>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	{% else %}
+		<div class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="navbar-inner">
+			<div class="container">
+			  <a class="brand" href="./index.html">Admin Pannel</a>
+			  <div class="nav-collapse collapse">
+				<ul class="nav">
+					<li><a href="{{path('Settings-newPage')}}">New Page</a></li>
+					<li><a href="{{path('Settings-browsePages')}}">Browse Pages</a></li>
+					<li><a href="{{path('Uploads-uploadImage')}}">Upload an image</a></li>
+					<li><a href="{{path('Uploads-browseImage')}}">Browse images</a></li>
+					<li><a href="{{path('Settings-GetTemplate')}}">Upload a Template</a></li>
+					<li><a href="{{path('Settings-manageTemplates')}}">Browse Templates</a></li>
+				</ul>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	{% endif %}
+		
+	
+
+
+{% endif %}

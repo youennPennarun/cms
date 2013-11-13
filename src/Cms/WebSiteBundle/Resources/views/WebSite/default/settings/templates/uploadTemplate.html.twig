@@ -1,0 +1,14 @@
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="alert fade in">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+{% for flashMessage in app.session.flashbag.get('error') %}
+    <div class="alert alert-block alert-error fade in">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+{% if form is defined %}
+	{{ form(form) }}
+{% endif %}

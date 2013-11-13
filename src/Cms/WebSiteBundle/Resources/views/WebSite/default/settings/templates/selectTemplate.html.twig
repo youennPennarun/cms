@@ -1,21 +1,14 @@
-{% extends '::settings.html.twig' %}
 
- {% block body %}
-    <p>templates<p>
-  <form method="POST"  enctype="multipart/form-data">
-	<ul>
-		{% set i = 0 %}
-		{% for tem in template %}
-			<li>
-				{{ form_widget(attribute(form.checkBox,i), { 'attr': {'class': 'checkbox'} }) }}
-				{{ tem.getName() }}
-				{% set i = i+1 %}
-			</li>
-		{% endfor %}
-		</ul>
-		{{form_row(form.submit)}}
+<form method="POST"  enctype="multipart/form-data">
+	{% set i = 0 %}
+	{% for tem in template %}
+		{{ form_widget(attribute(form.checkBox,i), { 'attr': {'class': 'checkbox'} }) }}
+		{{ tem.getName() }}
+		{% set i = i+1 %}
+	{% endfor %}
+	{{form_row(form.submit)}}
 	{{ form_rest(form) }}
-	</form>
+</form>
  
  
 <script>
@@ -29,4 +22,3 @@
 	});
 
 </script>
- {% endblock %}

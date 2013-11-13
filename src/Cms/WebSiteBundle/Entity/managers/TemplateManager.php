@@ -26,7 +26,7 @@
 							unlink($entry);
 						}
 						else{
-							$this->rmdir_recursive($entry);
+							$this->removeDirectory($entry);
 						}
 					}
 				}

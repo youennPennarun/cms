@@ -4,8 +4,8 @@
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Session\Session;
-	use Cms\WebSiteBundle\Entity\Template;
 	use Cms\WebSiteBundle\Entity\Uploader;
+	use Cms\WebSiteBundle\Entity\Template;
 	use Cms\WebSiteBundle\Entity\Page;
 	use Cms\WebSiteBundle\Entity\Text;
 	use Cms\WebSiteBundle\Entity\managers\TemplateManager;
@@ -26,15 +26,32 @@
 			
 			$form->handleRequest($request);
 			if ($form->isValid()) {
-				$uploader->uploadTemplate();
-				
-				$template = new Template;
-				$template->setPath($uploader->getAbsolutePath());
-				$template->setName($uploader->getName());
-				$session->set("template-tmp",$template);
-				return $this->redirect($this->generateUrl('Settings-initTemplate'));
+				$data = $form->getData();	// get all the inputs
+				$rep = $this->getDoctrine()
+							->getRepository('CmsWebSiteBundle:Template');
+				$t=array();
+				$t = $rep->findOneBy(array("name"=>$uploader->getName()));
+				if($t == null){
+					$uploader->uploadTemplate();
+					
+					$template = new Template;
+					$template->setPath($uploader->getAbsolutePath());
+					$template->setName($uploader->getName());
+					$session->set("template-tmp",$template);
+					return $this->redirect($this->generateUrl('Settings-initTemplate'));
+				}else{
+					 $this->get('session')->getFlashBag()->add(
+						'error',
+						'This template name already exist'
+					);
+					$form = $this->createFormBuilder($data)
+						->add('name','text')
+						->add("file","file")
+						->add("submit","submit")
+						->getForm();
+				}
 			}	
-			return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/getTemplate.html.twig',
+			return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/templateSettings.html.twig',
 				array("form" => $form->createView(), "path"=>__DIR__));
 		}
 		
@@ -201,7 +218,7 @@
 					return $this->redirect($this->generateUrl('Settings-otherAssetsUpload'));
 				}
 			}
-			return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/initTemplate.html.twig',
+			return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/templateSettings.html.twig',
 				array("form"=>$form->createView()));
 		}
 		
@@ -254,7 +271,6 @@
 						$tmp = explode("/",$asset);
 						$name = $tmp[count($tmp)-1];
 						$linesToBeReplaced[$asset] = $this->container->getParameter('base-path')."/".$uploader->uploadAssets($data["imagesFiles"][$i],$name,$template->getName());
-						echo $linesToBeReplaced[$asset];
 						if(explode(".",$name)[count(explode(".",$name))-1] == "css"){
 							array_push($cssFilesPath,"/".$tmp);
 						}
@@ -272,7 +288,7 @@
 				$session->remove("cssToAnalyse");
 				$session->remove("template-tmp");
 			}
-			return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/cssImages.html.twig',
+			return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/templateSettings.html.twig',
 				array("form"=>$form->createView()));
 		}
 		
@@ -317,7 +333,7 @@
 				$session->set("template",$template[$selected]);
 				return $this->redirect($this->generateUrl('Settings-newPage'));
 			}
-			return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/selectTemplate.html.twig',
+			return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/templateSettings.html.twig',
 				array("template"=>$template,"form"=>$form->createView()));
 
 		
@@ -326,7 +342,6 @@
 		
 		public function manageTemplatesAction(Request $request)
 		{
-			
 			$action = $request->query->get('action');
 			$id = $request->query->get('id');
 			if(isset($action) && isset($id)){
@@ -349,7 +364,7 @@
 						->getRepository('CmsWebSiteBundle:Template');
 				$template = array();
 				$template = $repo->findAll();
-				return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/manageTemplate.html.twig',
+				return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/templateSettings.html.twig',
 					array("template"=>$template));
 			}
 		}

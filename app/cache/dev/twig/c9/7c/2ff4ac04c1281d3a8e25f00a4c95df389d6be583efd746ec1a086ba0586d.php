@@ -1,0 +1,73 @@
+<?php
+
+/* CmsWebSiteBundle:WebSite:default/includes/menu/settingMenu.html.twig */
+class __TwigTemplate_c97c2ff4ac04c1281d3a8e25f00a4c95df389d6be583efd746ec1a086ba0586d extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+            'menu' => array($this, 'block_menu'),
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "
+\t";
+        // line 2
+        $this->displayBlock('menu', $context, $blocks);
+    }
+
+    public function block_menu($context, array $blocks = array())
+    {
+        // line 3
+        echo "\t<div class=\"well sidebar-nav\">
+\t\t<ul class=\"nav nav-list\">
+            <li class=\"nav-header\">Pages</li>
+\t\t\t<li><a href=\"";
+        // line 6
+        echo $this->env->getExtension('routing')->getPath("Settings-newPage");
+        echo "\">New Page</a></li>
+\t\t\t<li><a href=\"";
+        // line 7
+        echo $this->env->getExtension('routing')->getPath("Settings-browsePages");
+        echo "\">Browse Pages</a></li>
+            <li class=\"nav-header\">Images</li>
+\t\t\t<li><a href=\"";
+        // line 9
+        echo $this->env->getExtension('routing')->getPath("Uploads-uploadImage");
+        echo "\">Upload an image</a></li>
+\t\t\t<li><a href=\"";
+        // line 10
+        echo $this->env->getExtension('routing')->getPath("Uploads-browseImage");
+        echo "\">Browse images</a></li>
+            <li class=\"nav-header\">Templates</li>
+\t\t\t<li><a href=\"";
+        // line 12
+        echo $this->env->getExtension('routing')->getPath("Settings-GetTemplate");
+        echo "\">Upload a Template</a></li>
+\t\t\t<li><a href=\"";
+        // line 13
+        echo $this->env->getExtension('routing')->getPath("Settings-manageTemplates");
+        echo "\">Browse Templates</a></li>
+\t\t</ul>
+\t</div>
+\t
+\t";
+    }
+
+    public function getTemplateName()
+    {
+        return "CmsWebSiteBundle:WebSite:default/includes/menu/settingMenu.html.twig";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  52 => 12,  43 => 9,  38 => 7,  34 => 6,  29 => 3,  23 => 2,  20 => 1,  170 => 46,  167 => 45,  152 => 43,  148 => 42,  146 => 41,  143 => 40,  125 => 39,  122 => 38,  119 => 37,  114 => 34,  111 => 33,  107 => 28,  104 => 27,  100 => 24,  97 => 23,  94 => 22,  90 => 13,  87 => 12,  81 => 4,  77 => 47,  75 => 37,  72 => 36,  70 => 33,  64 => 29,  62 => 27,  58 => 25,  56 => 13,  46 => 14,  37 => 8,  25 => 1,  53 => 13,  47 => 10,  44 => 12,  41 => 8,  35 => 7,  30 => 4,  28 => 4,  26 => 3,);
+    }
+}

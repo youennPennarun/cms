@@ -25,6 +25,23 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    globals: 
+        pageNames : 
+            getTemplateAction :
+                pageName : "upload a new template"
+                fileName : "uploadTemplate"
+            initTemplateAction :
+                pageName : "Initialisation"
+                fileName : "initTemplate"
+            otherAssetsUploadAction :
+                pageName : "Assets"
+                fileName : "assets"
+            selectTemplateAction :
+                pageName : "select the template"
+                fileName : "selectTemplate"
+            manageTemplatesAction :
+                pageName : "Template manager"
+                fileName : "manageTemplate"
 
 # Assetic Configuration
 assetic:

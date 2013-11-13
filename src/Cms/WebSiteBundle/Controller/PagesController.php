@@ -1,0 +1,239 @@
+<?php
+	namespace Cms\WebSiteBundle\Controller;
+	 
+	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+	use Symfony\Component\HttpFoundation\Request;
+	use Symfony\Component\HttpFoundation\Session\Session;
+	use Cms\WebSiteBundle\Entity\Template;
+	use Cms\WebSiteBundle\Entity\Uploader;
+	use Cms\WebSiteBundle\Entity\Page;
+	use Cms\WebSiteBundle\Entity\Text;
+	 
+	class PagesController extends Controller
+	{
+		public function newPageAction(Request $request){
+		
+			$session = $this->getRequest()->getSession();
+			$template = $session->get('template');
+			if($template == null ){
+				return $this->redirect($this->generateUrl('Settings-selectTemplate'));
+			}
+			
+			$varList = array();
+			$varEditor = array();
+			$i=0;
+			$o=0;			
+			foreach($template->getVariableArray() as $varName=>$values){
+				$varList[] = $varName; 
+				if( $values['type'] == 'text'){
+					$varEditor[$varName] = "<div class='hideBox'><textarea class='ckeditor' id='val-".$i."'><p>".$varName."</p></textarea ></div>";
+					
+				}else if($values['type'] == 'image'){
+					if(isset($values['options']['id'])){
+						$id= $values['options']['id'];
+					}else{
+						$id = '';
+					}
+					if(isset($values['options']['class'])){
+						$class= $values['options']['class'];
+					}else{
+						$class= '';
+					}
+					$varEditor[$varName] = "<img src='/img.jpg' class='".$class."' id='".$id."' width='".$values['options']['width']."' height='".$values['options']['height']."' cmsClass='editable-img' cmsId='val-".$i."'>";
+					
+				}
+				$i++;
+			}
+			$defaultData = array('varList'=>$varList);
+			$form = $this->createFormBuilder($defaultData)
+				->add('pageName', 'text')
+				->add('save','submit')
+				->add('varList', 'collection', array(
+						'type'   => 'text',
+						'label'  =>  'Variables : '))
+				->getForm();
+			$form->handleRequest($request);
+			if ($form->isValid()) {	
+				$data = $form->getData();
+				$repo = $this->getDoctrine()
+						->getRepository('CmsWebSiteBundle:Page');
+				$page=$repo->findOneBy(array("name"=>$data['pageName']));
+				if($page == null){
+					$newPage = new Page;
+					$var = array();
+					$newPage->setName($data['pageName']);
+					$newPage->setTemplate($template->getName());
+					$i=0;
+					foreach( $data['varList'] as $varValue){
+						$text = new Text;
+						$text->setValue($varValue);
+						$em = $this->getDoctrine()->getManager();
+						$em->persist($text);
+						$em->flush();
+						
+						$var[$varList[$i]] = $text->getId();
+						$i++;
+					}
+					$newPage->setContent($var);
+					$em = $this->getDoctrine()->getManager();
+					$newPage->setContent($var);
+						
+					$em->persist($newPage);
+					$em->flush();
+					$session->remove('template');
+					return $this->redirect($this->generateUrl('Page',array("pageName"=>$data['pageName'])));
+				}else{
+					$i = 0;
+					foreach($template->getVariableArray() as $varName=>$values){
+						$varList[] = $varName; 
+						if( $values['type'] == 'text'){
+							$varEditor[$varName] = "<div class='hideBox'><textarea class='ckeditor' id='val-".$i."'>".$data['varList'][$i]."</textarea ></div>";
+							
+						}else if($values['type'] == 'image'){
+							if(isset($values['options']['id'])){
+								$id= $values['options']['id'];
+							}else{
+								$id = '';
+							}
+							if(isset($values['options']['class'])){
+								$class= $values['options']['class'];
+							}else{
+								$class= '';
+							}
+							$varEditor[$varName] = $data['varList'][$i];
+						}
+						$i++;
+					}
+					$form = $this->createFormBuilder($data)
+						->add('pageName', 'text')
+						->add('save','submit')
+						->add('varList', 'collection', array(
+								'type'   => 'text',
+								'label'  =>  'Variables : '))
+						->getForm();
+				}
+					
+				
+			}
+			return $this->render('CmsWebSiteBundle:WebSite:'.$template->getName().'.html.twig',
+				array_merge (array('form'=>$form->createView(), 'includesPath' => array('default/includes/js/ckeditor.html.twig')),$varEditor));
+		
+		}
+		
+		public function editPagesAction($pageName,Request $request){
+			$repo = $this->getDoctrine()
+						->getRepository('CmsWebSiteBundle:Page');
+			$page=$repo->findOneBy(array("name"=>$pageName));
+			$contentList = $page->getContent();
+			$repo = $this->getDoctrine()
+							->getRepository('CmsWebSiteBundle:Template');
+			$template = $repo->findOneBy(array("name"=>$page->getTemplate()));
+			$i = 0;
+			$varList = array();
+			$ids = array();
+			foreach($template->getVariableArray() as $varName => $values){
+				$id = null;
+					foreach($contentList as $cVarName => $varId){
+						if($cVarName == $varName){
+							$id=$varId;
+							array_push($ids,$id);
+						}
+					}
+					if($id != null){
+						$repo = $this->getDoctrine()
+							->getRepository('CmsWebSiteBundle:text');
+						$text = $repo->findOneBy(array("id"=>$id));
+						if( $values['type'] == 'text'){
+							$content[$varName] = "<div class='hideBox'><textarea class='ckeditor' id='val-".$i."'>".$text->getValue()."</textarea ></div>";
+							
+						}else if($values['type'] == 'image'){
+							$content[$varName] = $text->getValue();
+						}
+						$i++;
+						array_push($varList,$text->getValue());
+					}
+				
+			}
+			$defaultData = array('pageName' => $pageName,'varList'=>$varList);
+			$form = $this->createFormBuilder($defaultData)
+				->add('pageName', 'text')
+				->add('save','submit')
+				->add('varList', 'collection', array(
+						'type'   => 'text',
+						'label'  =>  'Variables : '))
+				->getForm();
+			$form->handleRequest($request);
+			if ($form->isValid()) {	
+				$data = $form->getData();
+				$i = 0;
+				foreach($ids as $id){
+					$varValue = $data['varList'][$i];
+					$em = $this->getDoctrine()->getManager();
+					$text = $em->getRepository('CmsWebSiteBundle:Text')->find($id);
+					if (!$text) {
+						throw $this->createNotFoundException(
+							'Variable not found : '.$id
+						);
+					}
+					$text->setValue($varValue);
+					$em->flush();
+					$i++;
+				}
+					return $this->redirect($this->generateUrl('Page',array("pageName"=>$pageName)));
+				}
+			
+			return $this->render('CmsWebSiteBundle:WebSite:'.$template->getName().'.html.twig',
+				array_merge (array('form'=>$form->createView(), 'includesPath' => array('default/includes/js/ckeditor.html.twig')),$content));
+		
+		}
+		
+		public function browsePagesAction(Request $request){
+			$action = $request->query->get('action');
+			$id = $request->query->get('id');
+			if($action != "" && $id == ""){
+				return $this->redirect($this->generateUrl('Settings-browsePages'));
+			}else if($action == "delete"){
+				$em = $this->getDoctrine()->getManager();
+				$repo = $this->getDoctrine()
+						->getRepository('CmsWebSiteBundle:Page');
+				$page=$repo->findOneBy(array("id"=>$id));
+				if($page != null){
+					$contentList = $page->getContent();
+					$repo = $this->getDoctrine()
+									->getRepository('CmsWebSiteBundle:Template');
+					$template = $repo->findOneBy(array("name"=>$page->getTemplate()));
+					
+					foreach($template->getVariableArray() as $varName => $values){
+						$textId = null;
+						foreach($contentList as $cVarName => $varId){
+							if($cVarName == $varName){
+								echo "founded";
+								$textId=$varId;
+							}
+						}
+						if($textId != null){
+							$text = $em->getRepository('CmsWebSiteBundle:Text')->findOneBy(array("id"=>$textId));
+							if($text != null){
+								$em->remove($text);
+								$em->flush();
+							}
+						}
+					}
+					$em->remove($page);
+					$em->flush();
+				}
+				return $this->redirect($this->generateUrl('Settings-browsePages'));
+			}
+			$repo = $this->getDoctrine()
+					->getRepository('CmsWebSiteBundle:Page');
+			$pages = array();
+			$pages = $repo->findAll();
+			
+			
+			return $this->render('CmsWebSiteBundle:WebSite:default/settings/pages/browsePages.html.twig',
+				array("pageList"=>$pages));
+
+		
+		}		
+	}
+?>
