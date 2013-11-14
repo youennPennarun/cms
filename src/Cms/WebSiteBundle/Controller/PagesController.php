@@ -12,7 +12,6 @@
 	class PagesController extends Controller
 	{
 		public function newPageAction(Request $request){
-		
 			$session = $this->getRequest()->getSession();
 			$template = $session->get('template');
 			if($template == null ){
@@ -45,6 +44,7 @@
 				$i++;
 			}
 			$defaultData = array('varList'=>$varList);
+			
 			$form = $this->createFormBuilder($defaultData)
 				->add('pageName', 'text')
 				->add('save','submit')
@@ -55,8 +55,6 @@
 			$form->handleRequest($request);
 			if ($form->isValid()) {	
 				$data = $form->getData();
-				$repo = $this->getDoctrine()
-						->getRepository('CmsWebSiteBundle:Page');
 				$page=$repo->findOneBy(array("name"=>$data['pageName']));
 				if($page == null){
 					$newPage = new Page;

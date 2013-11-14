@@ -2,7 +2,7 @@
 	
 	<form method="POST" {{ form_enctype(form) }} id="form" style="display:inline;">
 	<li style="display:inline-block;>{{ form_row(form.pageName) }}</li>
-	<li class = "btn" style="display:inline;>{{ form_row(form.save,{ 'id' : 'saveButton'}) }}</li>
+	<li  style="display:inline;">{{ form_row(form.save,{ 'id' : 'saveButton','class' : "btn"}) }}</li>
 	
 	<div style="display: none; visibility:hidden;">
 		<div id="var">
@@ -20,11 +20,26 @@
 	</div>	
 		{{ form_rest(form) }}
 	</form>
+	
+	
 	<script>
+	function openMenuList(){
+		//$("[cmsId = '"+localStorage.getItem("for")+"']").attr("id",localStorage.getItem("id"));
+		alert(localStorage.getItem("id"));
+		var left  = ($(window).width()/2)-(900/2),
+					top   = ($(window).height()/2)-(600/2),
+					popUp = window.open("{{ path('Settings-selectMenuWysiwyg',{"from":"menuVar"}) }}", "select image", "width=900, height=600, top="+top+", left="+left);
+	}
+	
 	$(document).ready(function(){
 		$( "a" ).not(".defaultAction").click(function( event ) {
 		  event.preventDefault();
 		});
+		
+		$( ".addMenu" ).click(function() {
+			openMenuList();
+		});
+		
 		$("#form").submit(function(){
 			{% set i = 0 %}
 			

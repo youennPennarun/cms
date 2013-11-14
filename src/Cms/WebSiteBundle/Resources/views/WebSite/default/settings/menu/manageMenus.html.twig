@@ -1,0 +1,9 @@
+{% set i = 0 %}
+{% for menu in menus %}
+	<div class="span4">
+		<h3>{{ menu.getName() }}<h3>
+		<a class="btn btn-primary" href="{{path('Settings-editMenu',{'id': menu.id })}}" >edit</a>
+		<a class="btn btn-danger" href="{{path('Settings-manageMenus',{ 'action':'delete','id': menu.id })}}" >delete</a>
+		{% set i = i+1 %}
+	</div>
+{% endfor %}

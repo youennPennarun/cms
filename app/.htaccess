@@ -1,1 +1,6 @@
-deny from all
+Order Deny,Allow 
+Deny from All 
+<FilesMatch "\.log$">
+    Order Deny,Allow 
+    Allow from All 
+</FilesMatch>

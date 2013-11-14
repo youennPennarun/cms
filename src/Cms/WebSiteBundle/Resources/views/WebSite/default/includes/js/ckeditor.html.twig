@@ -37,8 +37,10 @@ $(document).ready(function(){
 		$(".ckeditor").click(function onClick(){
 			$("#cke_"+$(this).attr("id")).css("visibility","visible");
 			$("#cke_"+$(this).attr("id")).css("display","inherit");
+			CKEDITOR.instances[$(this).attr("id")].setMode('source'); 
 			$(this).css("visibility","hidden");
 			$(this).css("display","none");
+			CKEDITOR.instances[$(this).attr("id")].setMode( 'wysiwyg', function() {} );
 			
 			selected.push($(this).attr("id"));
 		});

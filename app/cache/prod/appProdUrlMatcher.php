@@ -104,6 +104,42 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'Settings-editPage')), array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\PagesController::editPagesAction',));
             }
 
+            if (0 === strpos($pathinfo, '/Settings/Menu')) {
+                // Settings-newMenu
+                if ($pathinfo === '/Settings/Menu/new-menu') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\MenuController::newMenuAction',  '_route' => 'Settings-newMenu',);
+                }
+
+                // Settings-manageMenus
+                if ($pathinfo === '/Settings/Menu/manage-menus') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\MenuController::manageMenusAction',  '_route' => 'Settings-manageMenus',);
+                }
+
+                // Settings-editMenu
+                if ($pathinfo === '/Settings/Menu/edit-menu') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\MenuController::editMenuAction',  '_route' => 'Settings-editMenu',);
+                }
+
+                // Settings-selectMenuWysiwyg
+                if ($pathinfo === '/Settings/Menu/select-menu-wysiwyg') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\MenuController::selectMenuWysiwygAction',  '_route' => 'Settings-selectMenuWysiwyg',);
+                }
+
+            }
+
+            if (0 === strpos($pathinfo, '/Settings/Debug')) {
+                // Settings-getLog
+                if ($pathinfo === '/Settings/Debug/getLog') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\DebugController::getLogAction',  '_route' => 'Settings-getLog',);
+                }
+
+                // Settings-clearLog
+                if ($pathinfo === '/Settings/Debug/clearLog') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\DebugController::clearLogAction',  '_route' => 'Settings-clearLog',);
+                }
+
+            }
+
             if (0 === strpos($pathinfo, '/Settings/Uploads/Images')) {
                 // Uploads-uploadImage-wysiwyg
                 if ($pathinfo === '/Settings/Uploads/Images-wysiwyg') {

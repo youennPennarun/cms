@@ -13,3 +13,28 @@ Settings-browsePages:
 Settings-editPage:
     path:    /edit-page/{pageName}
     defaults: { _controller: CmsWebSiteBundle:Pages:editPages }
+
+Settings-newMenu:
+    path:    /Menu/new-menu
+    defaults: { _controller: CmsWebSiteBundle:Menu:newMenu }
+
+Settings-manageMenus:
+    path:    /Menu/manage-menus
+    defaults: { _controller: CmsWebSiteBundle:Menu:manageMenus }
+
+Settings-editMenu:
+    path:    /Menu/edit-menu
+    defaults: { _controller: CmsWebSiteBundle:Menu:editMenu }
+
+Settings-selectMenuWysiwyg:
+    path:    /Menu/select-menu-wysiwyg
+    defaults: { _controller: CmsWebSiteBundle:Menu:selectMenuWysiwyg }
+
+
+Settings-getLog:
+    path:    /Debug/getLog
+    defaults: { _controller: CmsWebSiteBundle:Debug:getLog }
+
+Settings-clearLog:
+    path:    /Debug/clearLog
+    defaults: { _controller: CmsWebSiteBundle:Debug:clearLog }

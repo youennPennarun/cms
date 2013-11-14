@@ -27,6 +27,7 @@ twig:
     strict_variables: %kernel.debug%
     globals: 
         pageNames : 
+        #Template pages var
             getTemplateAction :
                 pageName : "upload a new template"
                 fileName : "uploadTemplate"
@@ -42,6 +43,16 @@ twig:
             manageTemplatesAction :
                 pageName : "Template manager"
                 fileName : "manageTemplate"
+        #Menu pages var
+            newMenuAction :
+                pageName : "create a new menu"
+                fileName : "newMenu"
+            editMenuAction :
+                pageName : "edit a menu"
+                fileName : "editMenu"
+            manageMenusAction :
+                pageName : "Menus manager"
+                fileName : "manageMenus"
 
 # Assetic Configuration
 assetic:

@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Select image</title>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+	<link rel="stylesheet" href="{{ app.request.getBaseURL() }}/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="{{ app.request.getBaseURL() }}/bootstrap/css/bootstrap-responsive.min.css" />
+	<script src="{{ app.request.getBaseURL() }}/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	{% if from == "menuVar" %}
+		function select_image(id) {
+			localStorage.setItem("id",id);
+			localStorage.setItem("for",localStorage.getItem("for"));
+			window.parent.opener.someFunctionToCallWhenPopUpCloses();
+			self.close();
+		}
+	{% else %}
+		function select_menu(id) {
+			var CKEditorFuncNum = {{app.request.query.get('CKEditorFuncNum')}};
+			window.parent.opener.CKEDITOR.tools.callFunction( CKEditorFuncNum, id, '' );
+			self.close();
+		}
+	{% endif %}
+	</script>
+	
+
+</head>
+<body>
+
+{% set i = 0 %}
+{% for menu in menuList %}
+	<div class="span4">
+		<h3>{{ menu.getName() }}<h3>
+			<a class="btn btn-primary" href="javascript:select_menu('{{ menu.id }}');" >select</a>
+		{% set i = i+1 %}
+	</div>
+{% endfor %}
+
+</body>
