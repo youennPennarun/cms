@@ -358,6 +358,7 @@
 				$manager = new TemplateManager;
 				$manager->removeTemplateAssets($templateToDelete->getName());
 				unset($templateToDelete);
+				$this->get('session')->getFlashBag()->set('validation', 'the template '.$index->getName().' is removed');
 				return $this->redirect($this->generateUrl('Settings-manageTemplates'));
 			}else{
 				$repo = $this->getDoctrine()

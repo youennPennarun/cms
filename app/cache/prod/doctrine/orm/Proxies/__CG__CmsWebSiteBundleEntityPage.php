@@ -87,10 +87,22 @@ class Page extends \Cms\WebSiteBundle\Entity\Page implements \Doctrine\ORM\Proxy
         return parent::getContent();
     }
 
+    public function setIsIndex($isIndex)
+    {
+        $this->__load();
+        return parent::setIsIndex($isIndex);
+    }
+
+    public function getIsIndex()
+    {
+        $this->__load();
+        return parent::getIsIndex();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'template', 'content');
+        return array('__isInitialized__', 'id', 'name', 'template', 'content', 'isIndex');
     }
 
     public function __clone()

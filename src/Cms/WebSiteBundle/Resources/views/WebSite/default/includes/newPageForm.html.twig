@@ -23,28 +23,18 @@
 	
 	
 	<script>
-	function openMenuList(){
-		//$("[cmsId = '"+localStorage.getItem("for")+"']").attr("id",localStorage.getItem("id"));
-		alert(localStorage.getItem("id"));
-		var left  = ($(window).width()/2)-(900/2),
-					top   = ($(window).height()/2)-(600/2),
-					popUp = window.open("{{ path('Settings-selectMenuWysiwyg',{"from":"menuVar"}) }}", "select image", "width=900, height=600, top="+top+", left="+left);
-	}
+	
 	
 	$(document).ready(function(){
 		$( "a" ).not(".defaultAction").click(function( event ) {
 		  event.preventDefault();
 		});
 		
-		$( ".addMenu" ).click(function() {
-			openMenuList();
-		});
 		
 		$("#form").submit(function(){
 			{% set i = 0 %}
 			
 			{% for varForm in form.varList %}
-				
 				if($("#val-{{i}}").attr("class") == "ckeditor"){
 					$("#form-{{ i }}").val(CKEDITOR.instances['val-{{ i }}'].getData());
 					
@@ -52,6 +42,8 @@
 					$("#form-{{ i }}").val("<img src="+$("#[cmsId = 'val-{{ i }}']").attr("src")+" id="+$("#[cmsId = 'val-{{ i }}']").attr("id")+" class="+$("#[cmsId = 'val-{{ i }}']").attr("class")+" width="+$("#[cmsId = 'val-{{ i }}']").attr("width")+" height="+$("#[cmsId = 'val-{{ i }}']").attr("height")+"  cmsClass='editable-img' cmsId='val-{{ i }}' >");
 					
 					
+				}else if ($("#[cmsId = 'val-{{ i }}']").attr("class") == "CMS_MENU_EDITABLE"){
+					$("#form-{{ i }}").val($("#[cmsId = 'val-{{ i }}']").html());
 				}
 				{% set i = i +1 %}
 			{% endfor %}

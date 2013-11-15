@@ -27,7 +27,11 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
 
         if (0 === strpos($pathinfo, '/ini')) {
             // ini-settings
-            if ($pathinfo === '/ini') {
+            if (rtrim($pathinfo, '/') === '/ini') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'ini-settings');
+                }
+
                 return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\InitialisationController::initialisationDbAction',  '_route' => 'ini-settings',);
             }
 
@@ -120,6 +124,11 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                     return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\MenuController::editMenuAction',  '_route' => 'Settings-editMenu',);
                 }
 
+                // Settings-getMenuRender
+                if (0 === strpos($pathinfo, '/Settings/Menu/getMenu') && preg_match('#^/Settings/Menu/getMenu/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'Settings-getMenuRender')), array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\MenuController::getMenuViewAction',));
+                }
+
                 // Settings-selectMenuWysiwyg
                 if ($pathinfo === '/Settings/Menu/select-menu-wysiwyg') {
                     return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\MenuController::selectMenuWysiwygAction',  '_route' => 'Settings-selectMenuWysiwyg',);
@@ -140,27 +149,30 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
 
             }
 
-            if (0 === strpos($pathinfo, '/Settings/Uploads/Images')) {
-                // Uploads-uploadImage-wysiwyg
-                if ($pathinfo === '/Settings/Uploads/Images-wysiwyg') {
-                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UploadsController::imagesWysiwygAction',  '_route' => 'Uploads-uploadImage-wysiwyg',);
+            if (0 === strpos($pathinfo, '/Settings/Uploads')) {
+                if (0 === strpos($pathinfo, '/Settings/Uploads/Images')) {
+                    // Uploads-uploadImage-wysiwyg
+                    if ($pathinfo === '/Settings/Uploads/Images-wysiwyg') {
+                        return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UploadsController::imagesWysiwygAction',  '_route' => 'Uploads-uploadImage-wysiwyg',);
+                    }
+
+                    // Uploads-uploadImage
+                    if ($pathinfo === '/Settings/Uploads/Images') {
+                        return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UploadsController::imagesAction',  '_route' => 'Uploads-uploadImage',);
+                    }
+
                 }
 
-                // Uploads-uploadImage
-                if ($pathinfo === '/Settings/Uploads/Images') {
-                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UploadsController::imagesAction',  '_route' => 'Uploads-uploadImage',);
+                // Uploads-browseImage
+                if ($pathinfo === '/Settings/Uploads/browse-images') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UploadsController::browseImagesAction',  '_route' => 'Uploads-browseImage',);
                 }
 
-            }
+                // Uploads-selectImage-wysiwyg
+                if ($pathinfo === '/Settings/Uploads/selectImage-wysiwyg') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UploadsController::selectImagesWysiwygAction',  '_route' => 'Uploads-selectImage-wysiwyg',);
+                }
 
-            // Uploads-browseImage
-            if ($pathinfo === '/Settings/images') {
-                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UploadsController::browseImagesAction',  '_route' => 'Uploads-browseImage',);
-            }
-
-            // Uploads-selectImage-wysiwyg
-            if ($pathinfo === '/Settings/Uploads/selectImage-wysiwyg') {
-                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UploadsController::selectImagesWysiwygAction',  '_route' => 'Uploads-selectImage-wysiwyg',);
             }
 
         }

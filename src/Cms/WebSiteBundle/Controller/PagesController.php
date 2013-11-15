@@ -22,10 +22,15 @@
 			$varEditor = array();
 			$i=0;
 			$o=0;			
+			$regexMenu = "(CMS_MENU_[1-9]+)";
 			foreach($template->getVariableArray() as $varName=>$values){
 				$varList[] = $varName; 
 				if( $values['type'] == 'text'){
-					$varEditor[$varName] = "<div class='hideBox'><textarea class='ckeditor' id='val-".$i."'><p>".$varName."</p></textarea ></div>";
+					if(preg_match_all($regexMenu, $varName, $matches)){
+						$varEditor[$varName] = "<div class='CMS_MENU_EDITABLE' cmsId='val-".$i."'>ADD A MENU</div>";
+					}else{
+						$varEditor[$varName] = "<div class='hideBox'><textarea class='ckeditor' id='val-".$i."'><p>".$varName."</p></textarea ></div>";
+					}
 					
 				}else if($values['type'] == 'image'){
 					if(isset($values['options']['id'])){
@@ -55,6 +60,8 @@
 			$form->handleRequest($request);
 			if ($form->isValid()) {	
 				$data = $form->getData();
+			$repo = $this->getDoctrine()
+						->getRepository('CmsWebSiteBundle:Page');
 				$page=$repo->findOneBy(array("name"=>$data['pageName']));
 				if($page == null){
 					$newPage = new Page;
@@ -129,6 +136,7 @@
 			$i = 0;
 			$varList = array();
 			$ids = array();
+			$regexMenu = "(CMS_MENU_[1-9]+)";
 			foreach($template->getVariableArray() as $varName => $values){
 				$id = null;
 					foreach($contentList as $cVarName => $varId){
@@ -142,7 +150,12 @@
 							->getRepository('CmsWebSiteBundle:text');
 						$text = $repo->findOneBy(array("id"=>$id));
 						if( $values['type'] == 'text'){
-							$content[$varName] = "<div class='hideBox'><textarea class='ckeditor' id='val-".$i."'>".$text->getValue()."</textarea ></div>";
+							if(preg_match_all($regexMenu, $varName, $matches)){
+								$content[$varName] = "<div class='CMS_MENU_EDITABLE' cmsId='val-".$i."'>".$text->getValue()."</div>";
+							}else{
+								$content[$varName] = "<div class='hideBox'><textarea class='ckeditor' id='val-".$i."'>".$text->getValue()."</textarea ></div>";
+							}
+							
 							
 						}else if($values['type'] == 'image'){
 							$content[$varName] = $text->getValue();
@@ -217,9 +230,25 @@
 							}
 						}
 					}
+					$oldPageName = $page->getName();
 					$em->remove($page);
 					$em->flush();
 				}
+				$this->get('session')->getFlashBag()->set('validation', 'the page '.$oldPageName.' is removed');				
+				return $this->redirect($this->generateUrl('Settings-browsePages'));
+			}else if($action == "setIndex"){
+				$em = $this->getDoctrine()->getManager();
+				$repo = $this->getDoctrine()
+									->getRepository('CmsWebSiteBundle:Page');
+				$pages = array();
+				$pages = $repo->findBy(array("isIndex"=>true));
+				$index = $repo->findOneBy(array("id"=>$id));
+				foreach($pages as $p){
+					$p->setIsIndex(false);
+				}
+				$index->setIsIndex(true);
+				$em->flush();
+				$this->get('session')->getFlashBag()->set('validation', 'the page '.$index->getName().' is know the index');
 				return $this->redirect($this->generateUrl('Settings-browsePages'));
 			}
 			$repo = $this->getDoctrine()

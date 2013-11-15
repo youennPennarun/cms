@@ -1,13 +1,20 @@
 {% extends '::settings.html.twig' %}
 
  {% block body %}
-    <p>templates<p>
+    <p>Pages<p>
 	<ul>
+	{% for flashMessage in app.session.flashbag.get('validation') %}
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			{{ flashMessage }}
+		</div>
+	{% endfor %}
 		{% set i = 0 %}
 		{% for page in pageList %}
 			<li>
 				{{ page.getName() }}
 				<a href="{{path('Page', { 'pageName': page.getName() }) }}">see the page</a> ||
+				<a href="{{path('Settings-browsePages', { 'action': 'setIndex','id':page.getId() }) }}">set as index</a> ||
 				<a href="{{path('Settings-editPage', { 'pageName': page.getName() }) }}">edit the page</a> ||
 				<a href="{{path('Settings-browsePages', { 'action': 'delete','id':page.getId() }) }}">remove</a>
 				{% set i = i+1 %}

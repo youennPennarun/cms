@@ -23,7 +23,7 @@
 				setImage();
 				
 			});
-		}); 
+	}); 
 	function openBrowser(){
 		$("[cmsId = '"+localStorage.getItem("for")+"']").attr("src",localStorage.getItem("path"));
 		var left  = ($(window).width()/2)-(900/2),
@@ -32,7 +32,7 @@
 	}
 	
 	
-	function someFunctionToCallWhenPopUpCloses() {setImage();}
+	function imgPopUpClosed() {setImage();}
 		function setImage() {
 				$("[cmsId = '"+localStorage.getItem("for")+"']").attr("src",localStorage.getItem("path"));
 				var imgWidth = $("[cmsId = '"+localStorage.getItem("for")+"']").width();
@@ -88,6 +88,37 @@
 					);
 				
 				
-			}
+		}
+		$(document).ready(function(){
+			localStorage.removeItem("for");
+			localStorage.removeItem("path");
+			$('.CMS_MENU_EDITABLE').click(function(){
+				localStorage.setItem("for",$(this).attr("cmsId"));
+				localStorage.setItem("id",$(this).attr("0"));
+				openMenuList();
+				
+			});
+		});
+		function openMenuList(){
+		var left  = ($(window).width()/2)-(900/2),
+					top   = ($(window).height()/2)-(600/2),
+					popUp = window.open("{{ path('Settings-selectMenuWysiwyg',{"from":"menuVar"}) }}", "select image", "width=900, height=600, top="+top+", left="+left);
+		}
+		function menuPopUpClosed() {setMenu();}
+		function setMenu(){
+			var path = "{{ path('Settings-getMenuRender', {'id': localStorage.getItem("menuId")}) }}"+localStorage.getItem("menuId");
+			
+			$.ajax({
+				url: path,
+			    type: "POST",
+			    cache: "false",
+			    dataType: "html",
+				success: function(data) {
+					$("[cmsId = '"+localStorage.getItem("for")+"']").empty();
+					$("[cmsId = '"+localStorage.getItem("for")+"']").append(data);
+				}
+			});
+		
+		}
 	</script>
 	{% endblock %}

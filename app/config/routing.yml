@@ -1,10 +1,10 @@
 cms_web_site_initialisation:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-initialisation.yml"
-    prefix:   /
+    prefix:   /ini
 
 cms_web_site_templates:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-templates.yml"
-    prefix:   /
+    prefix:   /Settings
 
 cms_web_site_settings:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-settings.yml"
@@ -12,7 +12,7 @@ cms_web_site_settings:
 
 cms_web_site_uploads:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-uploads.yml"
-    prefix:   /
+    prefix:   /Settings/Uploads
 
 cms_web_site_user:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-user.yml"

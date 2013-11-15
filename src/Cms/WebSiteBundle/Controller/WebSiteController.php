@@ -14,7 +14,38 @@ class WebsiteController extends BaseController
 {
 	public function indexAction()
 	{
-		return $this->render('CmsWebSiteBundle:WebSite:default/pages/index.html.twig');
+		$repo = $this->getDoctrine()
+						->getRepository('CmsWebSiteBundle:Page');
+		$page=$repo->findOneBy(array("isIndex"=>true));
+		if($page != null){
+			$contentList = $page->getContent();
+			
+			$repo = $this->getDoctrine()
+							->getRepository('CmsWebSiteBundle:Template');
+			$template = $repo->findOneBy(array("name"=>$page->getTemplate()));
+			
+			foreach($template->getVariableArray() as $varName => $varType){
+				$id = null;
+					foreach($contentList as $cVarName => $varId){
+						if($cVarName == $varName){
+							$id=$varId;
+						}
+					}
+					if($id != null){
+						$repo = $this->getDoctrine()
+							->getRepository('CmsWebSiteBundle:text');
+						$text = $repo->findOneBy(array("id"=>$id));
+						$content[$varName] = $text->getValue();
+					}
+				
+			}
+			return $this->render('CmsWebSiteBundle:WebSite:'.$template->getName().'.html.twig',$content);
+		}else{
+			$url = $this->getRequest()->getUri();
+			$session = $this->getRequest()->getSession();
+			$session->set("url",$url);
+			
+		}
 	}
   
 	public function pageAction($pageName){

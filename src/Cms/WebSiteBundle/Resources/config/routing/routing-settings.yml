@@ -26,6 +26,10 @@ Settings-editMenu:
     path:    /Menu/edit-menu
     defaults: { _controller: CmsWebSiteBundle:Menu:editMenu }
 
+Settings-getMenuRender:
+    path:    /Menu/getMenu/{id}
+    defaults: { _controller: CmsWebSiteBundle:Menu:getMenuView }
+
 Settings-selectMenuWysiwyg:
     path:    /Menu/select-menu-wysiwyg
     defaults: { _controller: CmsWebSiteBundle:Menu:selectMenuWysiwyg }

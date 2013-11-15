@@ -3,7 +3,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Select image</title>
+<title>Select menu</title>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
 	<link rel="stylesheet" href="{{ app.request.getBaseURL() }}/bootstrap/css/bootstrap.min.css" />
@@ -11,10 +11,10 @@
 	<script src="{{ app.request.getBaseURL() }}/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 	{% if from == "menuVar" %}
-		function select_image(id) {
-			localStorage.setItem("id",id);
+		function select_menu(id) {
+			localStorage.setItem("menuId",id);
 			localStorage.setItem("for",localStorage.getItem("for"));
-			window.parent.opener.someFunctionToCallWhenPopUpCloses();
+			window.parent.opener.menuPopUpClosed();
 			self.close();
 		}
 	{% else %}

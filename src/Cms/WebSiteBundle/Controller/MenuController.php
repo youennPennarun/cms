@@ -84,18 +84,29 @@ class MenuController extends BaseController
 	
 	}
 	
-	public function selectMenuWysiwygAction(Request $request)
-		{
-			
-			$repo = $this->getDoctrine()
-				->getRepository('CmsWebSiteBundle:Menu');
-			$menuList = $repo->findAll();
-			
-			$from = $request->query->get('from');
-			
-			
-			return $this->render('CmsWebSiteBundle:WebSite:default/settings/menu/selectMenuWysiwyg.html.twig',array ("menuList"=> $menuList,"from" => $from));
+	public function getMenuViewAction($id){
+		$repo = $this->getDoctrine()
+			->getRepository('CmsWebSiteBundle:Menu');
+		$menuContent = $repo->findOneBy(array("id"=>$id));
+		$menu = "<ul>\n";
+		foreach($menuContent->getContent() as $m){
+			$menu .= "<li><a href='".$m->path."' >".$m->linkName."</a></li>\n";
 		}
+		$menu .= "</ul><br>\n";
+		return $this->render('CmsWebSiteBundle:WebSite:default/settings/menu/renderMenu.html.twig',
+				array("menu"=>$menu));
+	}
+	
+	public function selectMenuWysiwygAction(Request $request)
+	{
+			
+		$repo = $this->getDoctrine()
+			->getRepository('CmsWebSiteBundle:Menu');
+		$menuList = $repo->findAll();
+		
+		$from = $request->query->get('from');
+		return $this->render('CmsWebSiteBundle:WebSite:default/settings/menu/selectMenuWysiwyg.html.twig',array ("menuList"=> $menuList,"from" => $from));
+	}
 	
 
 }

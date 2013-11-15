@@ -11,7 +11,7 @@
 		function select_image(path) {
 			localStorage.setItem("path",path);
 			localStorage.setItem("for",localStorage.getItem("for"));
-			window.parent.opener.someFunctionToCallWhenPopUpCloses();
+			window.parent.opener.imgPopUpClosed();
 			self.close();
 		}
 	{% else %}

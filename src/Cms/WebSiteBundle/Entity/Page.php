@@ -33,6 +33,11 @@
 		 */
 		protected $content;
 		
+		/**
+		 * @ORM\Column(name="isIndex",type="boolean", length=255)
+		 */
+		protected $isIndex = false;
+		
 		
 	
 	
@@ -113,5 +118,28 @@
     public function getContent()
     {
         return $this->content;
+    }
+	
+	/**
+     * Set isIndex
+     *
+     * @param boolean $isIndex
+     * @return Page
+     */
+    public function setIsIndex($isIndex)
+    {
+        $this->isIndex = $isIndex;
+    
+        return $this;
+    }
+
+    /**
+     * Get isIndex
+     *
+     * @return boolean 
+     */
+    public function getIsIndex()
+    {
+        return $this->isIndex;
     }
 }
