@@ -7,3 +7,6 @@ login:
     defaults:  { _controller: CmsWebSiteBundle:User:login }
 login_check:
     pattern:   /Settings/login_check
+
+logout:
+    pattern:   /Settings/logout

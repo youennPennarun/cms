@@ -1,4 +1,6 @@
-app\config\parameters.yml
+/app/config/parameters.yml
+/app/cache/*
+/app/logs/*
 #################
 ## Eclipse
 #################

@@ -63,13 +63,18 @@ class __TwigTemplate_c97c2ff4ac04c1281d3a8e25f00a4c95df389d6be583efd746ec1a086ba
         // line 15
         echo $this->env->getExtension('routing')->getPath("Settings-manageMenus");
         echo "\">manage menus</a></li>
-            <li class=\"nav-header\">Debug</li>
+            <li class=\"nav-header\">Account</li>
 \t\t\t<li><a href=\"";
         // line 17
+        echo $this->env->getExtension('routing')->getPath("logout");
+        echo "\">logout</a></li>
+            <li class=\"nav-header\">Debug</li>
+\t\t\t<li><a href=\"";
+        // line 19
         echo $this->env->getExtension('routing')->getPath("Settings-getLog");
         echo "\">logs</a></li>
 \t\t\t<li><a href=\"";
-        // line 18
+        // line 20
         echo $this->env->getExtension('routing')->getPath("Settings-clearLog");
         echo "\">clear logs</a></li>
 \t\t</ul>
@@ -85,6 +90,6 @@ class __TwigTemplate_c97c2ff4ac04c1281d3a8e25f00a4c95df389d6be583efd746ec1a086ba
 
     public function getDebugInfo()
     {
-        return array (  73 => 18,  69 => 17,  60 => 14,  56 => 13,  47 => 10,  43 => 9,  38 => 7,  34 => 6,  29 => 3,  23 => 2,  20 => 1,  176 => 46,  173 => 45,  158 => 43,  154 => 42,  152 => 41,  149 => 40,  131 => 39,  128 => 38,  125 => 37,  120 => 34,  117 => 33,  113 => 28,  110 => 27,  106 => 24,  103 => 23,  100 => 22,  96 => 13,  93 => 12,  87 => 4,  83 => 47,  81 => 37,  78 => 36,  76 => 33,  70 => 29,  68 => 27,  64 => 15,  62 => 22,  52 => 12,  50 => 12,  45 => 10,  41 => 9,  37 => 8,  30 => 4,  25 => 1,  31 => 4,  28 => 3,);
+        return array (  74 => 19,  69 => 17,  60 => 14,  56 => 13,  47 => 10,  43 => 9,  38 => 7,  34 => 6,  29 => 3,  23 => 2,  20 => 1,  176 => 46,  173 => 45,  158 => 43,  154 => 42,  152 => 41,  149 => 40,  131 => 39,  128 => 38,  125 => 37,  120 => 34,  117 => 33,  113 => 28,  110 => 27,  106 => 24,  103 => 23,  100 => 22,  96 => 13,  93 => 12,  87 => 4,  83 => 47,  81 => 37,  78 => 20,  76 => 33,  70 => 29,  68 => 27,  64 => 15,  62 => 22,  52 => 12,  50 => 12,  45 => 10,  41 => 9,  37 => 8,  30 => 4,  25 => 1,  31 => 4,  28 => 3,);
     }
 }

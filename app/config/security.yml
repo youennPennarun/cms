@@ -28,8 +28,8 @@ security:
                 check_path: /Settings/login_check
                 login_path: /Settings/login
             logout:
-                path:   _demo_logout
-                target: _demo
+                path:   /Settings/logout
+                target: /
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"

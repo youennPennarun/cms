@@ -170,15 +170,23 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
             return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UserController::SignUpAction',  '_route' => 'User-Sign-up',);
         }
 
-        if (0 === strpos($pathinfo, '/Settings/login')) {
-            // login
-            if ($pathinfo === '/Settings/login') {
-                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UserController::loginAction',  '_route' => 'login',);
+        if (0 === strpos($pathinfo, '/Settings/log')) {
+            if (0 === strpos($pathinfo, '/Settings/login')) {
+                // login
+                if ($pathinfo === '/Settings/login') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UserController::loginAction',  '_route' => 'login',);
+                }
+
+                // login_check
+                if ($pathinfo === '/Settings/login_check') {
+                    return array('_route' => 'login_check');
+                }
+
             }
 
-            // login_check
-            if ($pathinfo === '/Settings/login_check') {
-                return array('_route' => 'login_check');
+            // logout
+            if ($pathinfo === '/Settings/logout') {
+                return array('_route' => 'logout');
             }
 
         }
