@@ -5,5 +5,5 @@ PageNoFound:
     path:    /page-no-found
     defaults: { _controller: CmsWebSiteBundle:WebSite:pageNoFound }
 Page:
-    path:    /{pageName}
+    path:    /{path}
     defaults: { _controller: CmsWebSiteBundle:WebSite:page }

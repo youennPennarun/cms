@@ -612,7 +612,7 @@ class appProdProjectContainer extends Container
     }
     protected function getSecurity_FirewallService()
     {
-        return $this->services['security.firewall'] = new \Symfony\Component\Security\Http\Firewall(new \Symfony\Bundle\SecurityBundle\Security\FirewallMap($this, array('security.firewall.map.context.dev' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/(_(profiler|wdt)|css|images|js)/'), 'security.firewall.map.context.login' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/Settings/login$'), 'security.firewall.map.context.secured_area' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/Settings/'))), $this->get('event_dispatcher'));
+        return $this->services['security.firewall'] = new \Symfony\Component\Security\Http\Firewall(new \Symfony\Bundle\SecurityBundle\Security\FirewallMap($this, array('security.firewall.map.context.dev' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/(_(profiler|wdt)|css|images|js)/'), 'security.firewall.map.context.login' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/Settings/login$'), 'security.firewall.map.context.secured_area' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/Settings'))), $this->get('event_dispatcher'));
     }
     protected function getSecurity_Firewall_Map_Context_DevService()
     {
@@ -968,7 +968,7 @@ class appProdProjectContainer extends Container
         $instance->addExtension(new \Symfony\Bundle\AsseticBundle\Twig\AsseticExtension($this->get('assetic.asset_factory'), $this->get('templating.name_parser'), false, array(), array(), new \Symfony\Bundle\AsseticBundle\DefaultValueSupplier($this)));
         $instance->addExtension(new \Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension());
         $instance->addGlobal('app', $this->get('templating.globals'));
-        $instance->addGlobal('pageNames', array('getTemplateAction' => array('pageName' => 'upload a new template', 'fileName' => 'uploadTemplate'), 'initTemplateAction' => array('pageName' => 'Initialisation', 'fileName' => 'initTemplate'), 'otherAssetsUploadAction' => array('pageName' => 'Assets', 'fileName' => 'assets'), 'selectTemplateAction' => array('pageName' => 'select the template', 'fileName' => 'selectTemplate'), 'manageTemplatesAction' => array('pageName' => 'Template manager', 'fileName' => 'manageTemplate'), 'newMenuAction' => array('pageName' => 'create a new menu', 'fileName' => 'newMenu'), 'editMenuAction' => array('pageName' => 'edit a menu', 'fileName' => 'editMenu'), 'manageMenusAction' => array('pageName' => 'Menus manager', 'fileName' => 'manageMenus')));
+        $instance->addGlobal('pageNames', array('getTemplateAction' => array('pageName' => 'upload a new template', 'fileName' => 'uploadTemplate'), 'initTemplateAction' => array('pageName' => 'Initialisation', 'fileName' => 'initTemplate'), 'otherAssetsUploadAction' => array('pageName' => 'Assets', 'fileName' => 'assets'), 'selectTemplateAction' => array('pageName' => 'select the template', 'fileName' => 'selectTemplate'), 'manageTemplatesAction' => array('pageName' => 'Template manager', 'fileName' => 'manageTemplate'), 'newMenuAction' => array('pageName' => 'create a new menu', 'fileName' => 'newMenu'), 'editMenuAction' => array('pageName' => 'edit a menu', 'fileName' => 'editMenu'), 'manageMenusAction' => array('pageName' => 'Menus manager', 'fileName' => 'manageMenus'), 'newCategorieAction' => array('pageName' => 'create a new categorie', 'fileName' => 'newCategorie'), 'manageCategoriesAction' => array('pageName' => 'Categories manager', 'fileName' => 'manageCategories')));
         return $instance;
     }
     protected function getTwig_Controller_ExceptionService()
@@ -1120,7 +1120,6 @@ class appProdProjectContainer extends Container
             'mailer_password' => NULL,
             'locale' => 'en',
             'secret' => '68c4e87211a9f3c32fabff1b111fe154',
-            'initialised' => true,
             'base-path' => '/cms',
             'controller_resolver.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerResolver',
             'controller_name_converter.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerNameParser',

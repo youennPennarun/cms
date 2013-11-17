@@ -1,0 +1,7 @@
+Settings-newCategory:
+    path:    /new-category
+    defaults: { _controller: CmsWebSiteBundle:Categories:newCategory }
+
+Settings-manageCategories:
+    path:    /manage-categories
+    defaults: { _controller: CmsWebSiteBundle:Categories:manageCategories }

@@ -84,6 +84,16 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\TemplatesController::manageTemplatesAction',  '_route' => 'Settings-manageTemplates',);
             }
 
+            // Settings-newCategory
+            if ($pathinfo === '/Settings/new-category') {
+                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\CategoriesController::newCategoryAction',  '_route' => 'Settings-newCategory',);
+            }
+
+            // Settings-manageCategories
+            if ($pathinfo === '/Settings/manage-categories') {
+                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\CategoriesController::manageCategoriesAction',  '_route' => 'Settings-manageCategories',);
+            }
+
             // Settings
             if (rtrim($pathinfo, '/') === '/Settings') {
                 if (substr($pathinfo, -1) !== '/') {
@@ -134,6 +144,11 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                     return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\MenuController::selectMenuWysiwygAction',  '_route' => 'Settings-selectMenuWysiwyg',);
                 }
 
+            }
+
+            // Test-uno
+            if ($pathinfo === '/Settings/test') {
+                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\AdminController::testPageAction',  '_route' => 'Test-uno',);
             }
 
             if (0 === strpos($pathinfo, '/Settings/Debug')) {
@@ -218,7 +233,7 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
         }
 
         // Page
-        if (preg_match('#^/(?P<pageName>[^/]++)$#s', $pathinfo, $matches)) {
+        if (preg_match('#^/(?P<path>[^/]++)$#s', $pathinfo, $matches)) {
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'Page')), array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\WebSiteController::pageAction',));
         }
 

@@ -166,7 +166,8 @@
 				if($error){
 					return;
 				}else{		//if there is no error	
-					$error = !copy($this->path.".tmp",$this->path);	
+					$error = !copy($this->path.".tmp",$this->path);
+					$regexTitle = "/(< *title *>(.*)< *\/ *title *>)/i";
 					$regexpVar = "({{([^\(]*)}})";
 					$regexpHead = "([ ]*< *head *>[ ]*)";
 					$regexpImgSrc = '(< *img[^>]*src *= *["\']?([^"\']*).*>)';
@@ -184,6 +185,10 @@
 						{
 							$buffer = fgets($handle) ;
 							$bufferTmp = str_replace(" ","",$buffer);	//we delete the spaces
+							if(preg_match($regexpTitle,$bufferTmp,$return)) {
+								$r="{{ CMS_PAGE_TITLE }}";
+								$buffer = str_replace($return[1],$r,$buffer);
+							}
 							if(preg_match($regexpVar,$bufferTmp,$return)) {
 								$r=str_replace("+","",$return[1]);
 								$r=str_replace("-","",$r);
@@ -230,20 +235,6 @@
 			
 			
 			
-			
-			// public function __sleep()
-			// {
-				// $ref   = new \ReflectionClass(__CLASS__);
-				// $props = $ref->getProperties(\ReflectionProperty::IS_PROTECTED);
-				 
-				// $serialize_fields = array();
-					 
-				// foreach ($props as $prop) {
-					// $serialize_fields[] = $prop->name;
-				// }
-				
-				// return $serialize_fields;
-			// }
 			
 		
 

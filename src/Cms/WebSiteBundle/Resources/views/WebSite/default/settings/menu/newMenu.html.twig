@@ -1,5 +1,4 @@
-{% extends '::settings.html.twig' %}
-{% block body %}
+
 <form method="post" action="" {{ form_enctype(form) }}>
 {{ form_row(form.name) }}
 
@@ -14,7 +13,23 @@
 </form>
 
 
+<div id="dialog">
+	page list : 
+	<li class="page_path">/</li>
+	{% for page in pages %}
+		<li class="page_path">{{ page.getPath() }}</li>
+	
+	{% endfor %}
+
+</div>
+
+
 <script>
+	jQuery(document).ready(function() {
+		$("#dialog").dialog({
+			autoOpen: false
+		});
+	});
 	// Récupère le div qui contient la collection de tags
 	var collectionHolder = $('ul.content');
 
@@ -54,6 +69,12 @@
 		var $newFormLi = $('<li class="deletable"></li>').append(newForm);
 		addLinkFormDeleteLink($newFormLi);
 		$newLinkLi.before($newFormLi);
+		
+		$('.path_input').click( function(){
+		
+			getPath($(this))
+		});
+	
 	}
 	
 	function addLinkFormDeleteLink($tagFormLi) {
@@ -68,5 +89,13 @@
 			$tagFormLi.remove();
 		});
 	}
+	
+	function getPath(setTo){
+		$( "#dialog" ).dialog( "open" );
+		$( "#dialog li" ).click(function(){
+			setTo.val($(this).html());
+		$( "#dialog" ).dialog( "close" );
+		
+		});
+	}
 </script>
-{% endblock %}

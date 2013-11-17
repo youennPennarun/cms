@@ -23,7 +23,7 @@ security:
             security: false
 
         secured_area:
-            pattern:    ^/Settings/
+            pattern:    ^/Settings
             form_login:
                 check_path: /Settings/login_check
                 login_path: /Settings/login

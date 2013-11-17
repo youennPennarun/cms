@@ -13,7 +13,7 @@
 		{% for page in pageList %}
 			<li>
 				{{ page.getName() }}
-				<a href="{{path('Page', { 'pageName': page.getName() }) }}">see the page</a> ||
+				<a href="{{path('Page', { 'path': page.getPath() }) }}">see the page</a> ||
 				<a href="{{path('Settings-browsePages', { 'action': 'setIndex','id':page.getId() }) }}">set as index</a> ||
 				<a href="{{path('Settings-editPage', { 'pageName': page.getName() }) }}">edit the page</a> ||
 				<a href="{{path('Settings-browsePages', { 'action': 'delete','id':page.getId() }) }}">remove</a>

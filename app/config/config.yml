@@ -53,6 +53,13 @@ twig:
             manageMenusAction :
                 pageName : "Menus manager"
                 fileName : "manageMenus"
+        #Categories pages var
+            newCategorieAction :
+                pageName : "create a new categorie"
+                fileName : "newCategorie"
+            manageCategoriesAction :
+                pageName : "Categories manager"
+                fileName : "manageCategories"
 
 # Assetic Configuration
 assetic:

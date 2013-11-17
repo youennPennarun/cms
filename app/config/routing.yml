@@ -6,6 +6,10 @@ cms_web_site_templates:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-templates.yml"
     prefix:   /Settings
 
+cms_web_site_categories:
+    resource: "@CmsWebSiteBundle/Resources/config/routing/routing-categories.yml"
+    prefix:   /Settings
+
 cms_web_site_settings:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-settings.yml"
     prefix:   /Settings

@@ -63,6 +63,18 @@ class Page extends \Cms\WebSiteBundle\Entity\Page implements \Doctrine\ORM\Proxy
         return parent::getName();
     }
 
+    public function setPath($path)
+    {
+        $this->__load();
+        return parent::setPath($path);
+    }
+
+    public function getPath()
+    {
+        $this->__load();
+        return parent::getPath();
+    }
+
     public function setTemplate($template)
     {
         $this->__load();
@@ -87,6 +99,18 @@ class Page extends \Cms\WebSiteBundle\Entity\Page implements \Doctrine\ORM\Proxy
         return parent::getContent();
     }
 
+    public function setCategories($categories)
+    {
+        $this->__load();
+        return parent::setCategories($categories);
+    }
+
+    public function getCategories()
+    {
+        $this->__load();
+        return parent::getCategories();
+    }
+
     public function setIsIndex($isIndex)
     {
         $this->__load();
@@ -99,10 +123,22 @@ class Page extends \Cms\WebSiteBundle\Entity\Page implements \Doctrine\ORM\Proxy
         return parent::getIsIndex();
     }
 
+    public function setIsReady($isReady)
+    {
+        $this->__load();
+        return parent::setIsReady($isReady);
+    }
+
+    public function getIsReady()
+    {
+        $this->__load();
+        return parent::getIsReady();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'template', 'content', 'isIndex');
+        return array('__isInitialized__', 'id', 'name', 'path', 'template', 'content', 'categories', 'isIndex', 'isReady');
     }
 
     public function __clone()

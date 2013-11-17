@@ -1,0 +1,8 @@
+{% set i = 0 %}
+{% for category in categories %}
+	<div class="span4">
+		<h3>{{ category.getName() }}<h3>
+		<a class="btn btn-danger" href="{{path('Settings-manageCategories',{ 'action':'delete','id': category.id })}}" >delete</a>
+		{% set i = i+1 %}
+	</div>
+{% endfor %}

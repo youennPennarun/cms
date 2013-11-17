@@ -18,12 +18,13 @@ class MenuController extends BaseController
 {
 	public function newMenuAction(Request $request){
 		$menu = new Menu;
-		
-
 		$form = $this->createForm(new MenuType(), $menu);
+		$repo = $this->getDoctrine()
+					->getRepository('CmsWebSiteBundle:Page');
+		$pages = $repo->findAll();
+		
 		if ($request->isMethod('POST')) {
         $form->bind($this->getRequest());
-
         //if ($form->isValid()) {
 				echo "gtrf";
 				$data = $form->getData();	// get all the inputs
@@ -36,7 +37,7 @@ class MenuController extends BaseController
 				$em->flush();
 			
 		}
-		return $this->render('CmsWebSiteBundle:WebSite:default/settings/menu/menuSettings.html.twig',array("form"=>$form->createView()));
+		return $this->render('CmsWebSiteBundle:WebSite:default/settings/menu/menuSettings.html.twig',array("form"=>$form->createView(),"pages"=>$pages));
 	
 	}
 	

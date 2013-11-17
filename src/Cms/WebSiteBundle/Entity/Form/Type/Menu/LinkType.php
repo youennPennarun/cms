@@ -10,7 +10,10 @@ class LinkType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('linkName'); 
-        $builder->add('path');
+        $builder->add('path','text',array(
+								'attr'=> array('class'=>'path_input')
+							)
+						);
 		
     }
 	

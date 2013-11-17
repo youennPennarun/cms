@@ -30,12 +30,14 @@
 		public function clearLogAction(){
 			$prodLogPath = $this->get('kernel')->getRootDir()."/logs/prod.log";
 			 $arr = file($prodLogPath);
+			echo $lines."<br>";
 			$fh = fopen($prodLogPath, 'w');
 			$i = 0;
 			
-		while ($i < count($arr)-1) {
+		//while ($i < $lines) {
 			   fwrite($fh,"");
-			}
+			   $i++;
+			//}
 
 			return $this->redirect($this->generateUrl('Settings-getLog'));
 			

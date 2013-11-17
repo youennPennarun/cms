@@ -1,9 +1,13 @@
 {% if form is defined %}
 	
 	<form method="POST" {{ form_enctype(form) }} id="form" style="display:inline;">
-	<li style="display:inline-block;>{{ form_row(form.pageName) }}</li>
-	<li  style="display:inline;">{{ form_row(form.save,{ 'id' : 'saveButton','class' : "btn"}) }}</li>
+	<div class="row" style="text-align: center;">
+	 <div class="span1">{{ form_label(form.pageName) }}</div>
+	 <div class="span3">{{ form_widget(form.pageName) }}</div>
+	<div class="span1"><button type="button" class="btn btn-primary">Primary</button></div>
 	
+	<div class="span1">{{ form_row(form.save,{ 'id' : 'saveButton','class' : "btn btn-primary"}) }}</div>
+	</div>
 	<div style="display: none; visibility:hidden;">
 		<div id="var">
 			{% set i = 0 %}
@@ -15,7 +19,6 @@
 			--<br>
 			{% set i = i +1 %}
 		{% endfor %}
-		alert("{{i}}");
 		</div>
 	</div>	
 		{{ form_rest(form) }}

@@ -34,6 +34,10 @@ Settings-selectMenuWysiwyg:
     path:    /Menu/select-menu-wysiwyg
     defaults: { _controller: CmsWebSiteBundle:Menu:selectMenuWysiwyg }
 
+Test-uno:
+    path:    /test
+    defaults: { _controller: CmsWebSiteBundle:Admin:testPage }
+
 
 Settings-getLog:
     path:    /Debug/getLog
