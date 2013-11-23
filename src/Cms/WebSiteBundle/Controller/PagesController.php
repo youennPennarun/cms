@@ -33,6 +33,8 @@
 				->add('varList', 'collection', array(
 						'type'   => 'text',
 						'label'  =>  'Variables : '))
+				->add('categories', 'text')
+				->add('path', 'text')
 				->getForm();
 			$form->handleRequest($request);
 			if ($form->isValid()) {	
@@ -43,9 +45,10 @@
 				if($page == null){
 					
 					$newPage = new Page;
+					$newPage->setCategories(explode("|~|",$data['categories']));
 					$var = array();
 					$newPage->setName($data['pageName']);
-					$newPage->setPath($data['pageName']);
+					$newPage->setPath($data['path']);
 					$newPage->setTemplate($template->getName());
 					$i=0;
 					foreach( $data['varList'] as $varValue){
@@ -65,7 +68,7 @@
 					$em->persist($newPage);
 					$em->flush();
 					$session->remove('template');
-					return $this->redirect($this->generateUrl('Page',array("path"=>$newPage['path'])));
+					return $this->redirect($this->generateUrl('Page',array("path"=>$newPage->getPath())));
 				}else{
 					$i = 0;
 					foreach($template->getVariableArray() as $varName=>$values){
@@ -152,6 +155,7 @@
 				->add('varList', 'collection', array(
 						'type'   => 'text',
 						'label'  =>  'Variables : '))
+				->add('categories', 'text')
 				->getForm();
 			$form->handleRequest($request);
 			if ($form->isValid()) {	
@@ -178,7 +182,6 @@
 			$content["CMS_PAGE_TITLE"] = $page->getName();
 			return $this->render('CmsWebSiteBundle:WebSite:'.$template->getName().'.html.twig',
 				array_merge (array('form'=>$form->createView(), 'includesPath' => array('default/includes/js/ckeditor.html.twig')),$content));
-		
 		}
 		
 		public function browsePagesAction(Request $request){
@@ -243,6 +246,11 @@
 			return $this->render('CmsWebSiteBundle:WebSite:default/settings/pages/browsePages.html.twig',
 				array("pageList"=>$pages));
 
+		
+		}
+		
+		public function pageSettingsAction(Request $request){
+			return $this->render('CmsWebSiteBundle:WebSite:default/settings/pages/pageSettings.html.twig');
 		
 		}
 		

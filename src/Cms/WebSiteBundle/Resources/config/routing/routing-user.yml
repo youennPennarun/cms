@@ -10,3 +10,11 @@ login_check:
 
 logout:
     pattern:   /Settings/logout
+
+User-manageUsers:
+    pattern:   /Settings/User/manage-users
+    defaults:  { _controller: CmsWebSiteBundle:User:manageUsers }
+
+Check-User-Username:
+    pattern:   /Settings/User/check-username/{{ username }}
+    defaults:  { _controller: CmsWebSiteBundle:User:checkUserName }

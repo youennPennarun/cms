@@ -4,6 +4,8 @@
 				{% set path = "CmsWebSiteBundle:WebSite:" ~ include %}
 				{% include path %}
 		{% endfor %}
+		{% set path = "CmsWebSiteBundle:WebSite:default/includes/js/newPage-image.html.twig" %}
+		{% include path %}
 	{% endif %}
 	<script src="http://www.google.com/jsapi"></script>
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery-ui.css" />
@@ -13,7 +15,13 @@
 	<script src="{{ app.request.getBaseURL() }}/bootstrap/js/bootstrap.min.js"></script>
 	<script>
 	google.load("jquery", "1.3.2");
-	google.load("jqueryui", "1.7.2");	
+	
+	if (jQuery.ui) {
+		console.log("JQuery UI already loaded");
+	}else{
+		google.load("jqueryui", "1.7.2");	
+	}
+	
 	$(document).ready(function(){
 			localStorage.removeItem("for");
 			localStorage.removeItem("path");
@@ -23,82 +31,111 @@
 				setImage();
 				
 			});
+			$(".settings-button").click(function(){
+				setSettingsDialog();
+			});
+		
+			
 	}); 
-	function openBrowser(){
-		$("[cmsId = '"+localStorage.getItem("for")+"']").attr("src",localStorage.getItem("path"));
-		var left  = ($(window).width()/2)-(900/2),
-					top   = ($(window).height()/2)-(600/2),
-					popUp = window.open("{{ path('Uploads-selectImage-wysiwyg',{"from":"imgVar"}) }}", "select image", "width=900, height=600, top="+top+", left="+left);
+	
+	
+	function setSettingsDialog(){
+	//	var pageName = $("#form_pageName").val();
+		var str = 	'<div id="settingsDialog" title="page settings">\n'+
+					'<button class="settings-setCategories">categories</button><br>\n'+
+					'Path : <input type="text" id="settings-setPath" value="'+$("#path").val()+'">\n'+
+					'</div>\n';
+		$("body").append(str);
+		$("#settingsDialog").dialog({
+			modal: true,
+			closeOnEscape: false,
+			open: function(event, ui) {
+				//$(".ui-dialog-titlebar-close").hide();
+				$("a.ui-dialog-titlebar-close").remove();    //courtesy of user281180, see below
+			 },
+			buttons: {
+				Save: function() {
+					$("#path").val($("#settings-setPath").val());
+					removeSettingsDialog();
+				}
+			}
+		});
+		$(".settings-setCategories").click(function(){
+				settingsDialog_setCat();
+		});
+		
+		
+		$("#settings-setPath").bind('input', function() {
+			var value = $(this).val();
+			value = value.replace(" ","");
+			value = value.replace(/^[/]/,"");
+			//value = value.replace("/"+pageName,"");
+			$(this).val(value);
+		});
+		
+	
+	}
+	function removeSettingsDialog(){
+		$("#settingsDialog").dialog("close");
+		$("#settingsDialog").remove();
+		console.log($("#settingsDialog").html());
+	}
+	
+	function settingsDialog_setCat(){
+		removeSettingsDialog();
+		var path = "{{ path('Category-selectCat') }}";
+		var str = 	'<div id="setCatDialog" title="page settings">\n'+
+					'<h1 class="loading-CMS-AJAX">Loading...</h1>'+
+					'</div>\n';
+		$("body").append(str);
+		$.ajax({
+			url: path,
+			type: "POST",
+			cache: "false",
+			dataType: "html",
+			success: function(data) {
+				data = JSON.parse(data);
+				for (var i = 0; i < data.length; i++) {
+				var str = 	"<div><input type='checkbox' value='"+data[i].id+"' class='categoryCheckBox'>"+data[i].name+"</input></div><br>\n"+
+							"";
+				$("#setCatDialog").append(str);
+					$(".loading-CMS-AJAX").remove();
+				}
+				str = "<button class='setCatButton'>set categories</button><br>\n";
+				$("#setCatDialog").append(str);
+				$(".setCatButton").click(function(){
+					$("#categories").val("");
+					$(".categoryCheckBox").each(function(){
+						if($(this).attr('checked')){
+							$("#categories").val($("#categories").val()+"|~|"+$(this).attr("value"));
+						}
+					
+					});
+					alert($("#categories").val());
+				});
+			}
+		});
+		$("#setCatDialog").dialog({
+			modal: true,
+			width:500,
+			height:500
+		});
+		
+		
+	
 	}
 	
 	
-	function imgPopUpClosed() {setImage();}
-		function setImage() {
-				$("[cmsId = '"+localStorage.getItem("for")+"']").attr("src",localStorage.getItem("path"));
-				var imgWidth = $("[cmsId = '"+localStorage.getItem("for")+"']").width();
-				var imgHeight = $("[cmsId = '"+localStorage.getItem("for")+"']").height();
-				var imgSrc = $("[cmsId = '"+localStorage.getItem("for")+"']").attr("src");
-				var str = 	'<div id="dialog" title="Image settings">'+
-							'<fieldset>'+
-							'	<label for="url">url</label>'+
-							'	<input type="text" name="url" id="url" class="text ui-widget-content ui-corner-all" value="'+imgSrc+'"/>'+
-							'	<button name="browse" id="browseImg" class="text ui-widget-content ui-corner-all">browse images</button>'+
-							'	<label for="width">width</label>'+
-							'	<input type="text" name="width" id="width" class="text ui-widget-content ui-corner-all" value="'+imgWidth+'"/>'+
-							'	<label for="height">height</label>'+
-							'	<input type="text" name="height" id="height" class="text ui-widget-content ui-corner-all" value="'+imgHeight+'"/>'+
-							'</fieldset>'+
-							'</div>';
-				$("body").append(str);
-				$("#width").bind("change paste keyup", function() {
-					imgWidth = parseFloat($(this).val());
-					$("[cmsId = '"+localStorage.getItem("for")+"']").width(imgWidth);
-				});
-				$("#height").bind("change paste keyup", function() {
-					imgHeight = parseFloat($(this).val());
-					$("[cmsId = '"+localStorage.getItem("for")+"']").height(imgHeight);
-				});
-				$("#browseImg").click(function(){
-					openBrowser();
-					$( "#dialog" ).dialog( "close" );
-					$("#dialog").remove();
-				});
-					$( "#dialog" ).dialog({
-							modal: true,
-							buttons: {
-							"Set image": function(){
-								imgWidth = parseFloat($("#width").val());
-								imgHeight = parseFloat($("#height").val());
-								$("[cmsId = '"+localStorage.getItem("for")+"']").attr("src",localStorage.getItem("path"));
-								$("[cmsId = '"+localStorage.getItem("for")+"']").width(imgWidth);
-								$("[cmsId = '"+localStorage.getItem("for")+"']").height(imgHeight);
-								$( this ).dialog( "close" );
-								$("#dialog").remove();
-								 localStorage.removeItem("for");
-								 localStorage.removeItem("path");
-							},
-								Cancel: function() {
-									$( this ).dialog( "close" );
-									$("#dialog").remove();
-									 localStorage.removeItem("for");
-									 localStorage.removeItem("path");
-								}
-							}
-						}
-					);
-				
-				
-		}
-		$(document).ready(function(){
-			localStorage.removeItem("for");
-			localStorage.removeItem("path");
-			$('.CMS_MENU_EDITABLE').click(function(){
-				localStorage.setItem("for",$(this).attr("cmsId"));
-				localStorage.setItem("id",$(this).attr("0"));
-				openMenuList();
-				
-			});
+	$(document).ready(function(){
+		localStorage.removeItem("for");
+		localStorage.removeItem("path");
+		$('.CMS_MENU_EDITABLE').click(function(){
+			localStorage.setItem("for",$(this).attr("cmsId"));
+			localStorage.setItem("id",$(this).attr("0"));
+			openMenuList();
+			
 		});
+	});
 		function openMenuList(){
 		var left  = ($(window).width()/2)-(900/2),
 					top   = ($(window).height()/2)-(600/2),
@@ -120,5 +157,7 @@
 			});
 		
 		}
+		
+		
 	</script>
 	{% endblock %}

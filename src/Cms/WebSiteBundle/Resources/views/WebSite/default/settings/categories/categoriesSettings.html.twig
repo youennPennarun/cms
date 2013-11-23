@@ -3,7 +3,6 @@
 {% set controller = app.request.attributes.get("_controller")|split('::')[1] %}
 {% set cms_page_title = attribute(pageNames, controller)['pageName'] %}
 {% set fileName = attribute(pageNames, controller)['fileName'] %}
-
 {% block title %}{{ cms_page_title }}{% endblock %}
 {% block body %}
 	<div class="hero-unit">

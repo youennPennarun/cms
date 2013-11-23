@@ -6,7 +6,8 @@ security:
             iterations:       1
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
+        ROLE_USER:        ROLE_USER
+        ROLE_ADMIN:       ROLE_ADMIN
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
@@ -35,5 +36,5 @@ security:
             #    realm: "Secured Demo Area"
 
     access_control:
-        - { path: ^/Settings/getTemplate, roles: ROLE_ADMIN }
+        - { path: ^/Settings, roles: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

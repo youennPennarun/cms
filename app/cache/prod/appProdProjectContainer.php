@@ -29,6 +29,7 @@ class appProdProjectContainer extends Container
             'cache_warmer' => 'getCacheWarmerService',
             'controller_name_converter' => 'getControllerNameConverterService',
             'debug.emergency_logger_listener' => 'getDebug_EmergencyLoggerListenerService',
+            'demo.tokens.action_listener' => 'getDemo_Tokens_ActionListenerService',
             'doctrine' => 'getDoctrineService',
             'doctrine.dbal.connection_factory' => 'getDoctrine_Dbal_ConnectionFactoryService',
             'doctrine.dbal.default_connection' => 'getDoctrine_Dbal_DefaultConnectionService',
@@ -235,6 +236,10 @@ class appProdProjectContainer extends Container
     {
         return $this->services['debug.emergency_logger_listener'] = new \Symfony\Component\HttpKernel\EventListener\ErrorsLoggerListener('emergency', $this->get('monolog.logger.emergency', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
+    protected function getDemo_Tokens_ActionListenerService()
+    {
+        return $this->services['demo.tokens.action_listener'] = new \Cms\WebSiteBundle\EventListener\EventListener($this);
+    }
     protected function getDoctrineService()
     {
         return $this->services['doctrine'] = new \Doctrine\Bundle\DoctrineBundle\Registry($this, array('default' => 'doctrine.dbal.default_connection'), array('default' => 'doctrine.orm.default_entity_manager'), 'default', 'default');
@@ -288,6 +293,7 @@ class appProdProjectContainer extends Container
     protected function getEventDispatcherService()
     {
         $this->services['event_dispatcher'] = $instance = new \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher($this);
+        $instance->addListenerService('kernel.controller', array(0 => 'demo.tokens.action_listener', 1 => 'onKernelController'), 0);
         $instance->addSubscriberService('response_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener');
         $instance->addSubscriberService('streamed_response_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\StreamedResponseListener');
         $instance->addSubscriberService('locale_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\LocaleListener');
@@ -630,7 +636,7 @@ class appProdProjectContainer extends Container
         $d = $this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE);
         $e = $this->get('http_kernel');
         $f = $this->get('security.authentication.manager');
-        $g = new \Symfony\Component\HttpFoundation\RequestMatcher('^/Settings/getTemplate');
+        $g = new \Symfony\Component\HttpFoundation\RequestMatcher('^/Settings');
         $h = new \Symfony\Component\Security\Http\AccessMap();
         $h->add($g, array(0 => 'ROLE_ADMIN'), NULL);
         $i = new \Symfony\Component\Security\Http\HttpUtils($d, $d);
@@ -954,7 +960,7 @@ class appProdProjectContainer extends Container
     }
     protected function getTwigService()
     {
-        $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader'), array('debug' => false, 'strict_variables' => false, 'exception_controller' => 'twig.controller.exception:showAction', 'autoescape_service' => NULL, 'autoescape_service_method' => NULL, 'cache' => 'C:/wamp/www/cms/app/cache/prod/twig', 'charset' => 'UTF-8', 'paths' => array()));
+        $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader'), array('cache' => false, 'debug' => false, 'strict_variables' => false, 'exception_controller' => 'twig.controller.exception:showAction', 'autoescape_service' => NULL, 'autoescape_service_method' => NULL, 'charset' => 'UTF-8', 'paths' => array()));
         $instance->addExtension(new \Symfony\Bundle\SecurityBundle\Twig\Extension\LogoutUrlExtension($this->get('templating.helper.logout_url')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\SecurityExtension($this->get('security.context', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($this->get('translator')));
@@ -968,7 +974,7 @@ class appProdProjectContainer extends Container
         $instance->addExtension(new \Symfony\Bundle\AsseticBundle\Twig\AsseticExtension($this->get('assetic.asset_factory'), $this->get('templating.name_parser'), false, array(), array(), new \Symfony\Bundle\AsseticBundle\DefaultValueSupplier($this)));
         $instance->addExtension(new \Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension());
         $instance->addGlobal('app', $this->get('templating.globals'));
-        $instance->addGlobal('pageNames', array('getTemplateAction' => array('pageName' => 'upload a new template', 'fileName' => 'uploadTemplate'), 'initTemplateAction' => array('pageName' => 'Initialisation', 'fileName' => 'initTemplate'), 'otherAssetsUploadAction' => array('pageName' => 'Assets', 'fileName' => 'assets'), 'selectTemplateAction' => array('pageName' => 'select the template', 'fileName' => 'selectTemplate'), 'manageTemplatesAction' => array('pageName' => 'Template manager', 'fileName' => 'manageTemplate'), 'newMenuAction' => array('pageName' => 'create a new menu', 'fileName' => 'newMenu'), 'editMenuAction' => array('pageName' => 'edit a menu', 'fileName' => 'editMenu'), 'manageMenusAction' => array('pageName' => 'Menus manager', 'fileName' => 'manageMenus'), 'newCategorieAction' => array('pageName' => 'create a new categorie', 'fileName' => 'newCategorie'), 'manageCategoriesAction' => array('pageName' => 'Categories manager', 'fileName' => 'manageCategories')));
+        $instance->addGlobal('pageNames', array('getTemplateAction' => array('pageName' => 'upload a new template', 'fileName' => 'uploadTemplate'), 'initTemplateAction' => array('pageName' => 'Initialisation', 'fileName' => 'initTemplate'), 'otherAssetsUploadAction' => array('pageName' => 'Assets', 'fileName' => 'assets'), 'selectTemplateAction' => array('pageName' => 'select the template', 'fileName' => 'selectTemplate'), 'manageTemplatesAction' => array('pageName' => 'Template manager', 'fileName' => 'manageTemplate'), 'newMenuAction' => array('pageName' => 'create a new menu', 'fileName' => 'newMenu'), 'editMenuAction' => array('pageName' => 'edit a menu', 'fileName' => 'editMenu'), 'manageMenusAction' => array('pageName' => 'Menus manager', 'fileName' => 'manageMenus'), 'newCategoryAction' => array('pageName' => 'create a new categorie', 'fileName' => 'newCategorie'), 'manageCategoriesAction' => array('pageName' => 'Categories manager', 'fileName' => 'manageCategories')));
         return $instance;
     }
     protected function getTwig_Controller_ExceptionService()
@@ -1030,7 +1036,7 @@ class appProdProjectContainer extends Container
     }
     protected function getSecurity_Access_DecisionManagerService()
     {
-        return $this->services['security.access.decision_manager'] = new \Symfony\Component\Security\Core\Authorization\AccessDecisionManager(array(0 => new \Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter(new \Symfony\Component\Security\Core\Role\RoleHierarchy(array('ROLE_ADMIN' => array(0 => 'ROLE_USER'), 'ROLE_SUPER_ADMIN' => array(0 => 'ROLE_USER', 1 => 'ROLE_ADMIN', 2 => 'ROLE_ALLOWED_TO_SWITCH')))), 1 => new \Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter($this->get('security.authentication.trust_resolver'))), 'affirmative', false, true);
+        return $this->services['security.access.decision_manager'] = new \Symfony\Component\Security\Core\Authorization\AccessDecisionManager(array(0 => new \Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter(new \Symfony\Component\Security\Core\Role\RoleHierarchy(array('ROLE_USER' => array(0 => 'ROLE_USER'), 'ROLE_ADMIN' => array(0 => 'ROLE_ADMIN'), 'ROLE_SUPER_ADMIN' => array(0 => 'ROLE_USER', 1 => 'ROLE_ADMIN', 2 => 'ROLE_ALLOWED_TO_SWITCH')))), 1 => new \Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter($this->get('security.authentication.trust_resolver'))), 'affirmative', false, true);
     }
     protected function getSecurity_Authentication_ManagerService()
     {
@@ -1120,6 +1126,7 @@ class appProdProjectContainer extends Container
             'mailer_password' => NULL,
             'locale' => 'en',
             'secret' => '68c4e87211a9f3c32fabff1b111fe154',
+            'initialised' => 'true',
             'base-path' => '/cms',
             'controller_resolver.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerResolver',
             'controller_name_converter.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerNameParser',
@@ -1338,8 +1345,11 @@ class appProdProjectContainer extends Container
             'security.access.always_authenticate_before_granting' => false,
             'security.authentication.hide_user_not_found' => true,
             'security.role_hierarchy.roles' => array(
-                'ROLE_ADMIN' => array(
+                'ROLE_USER' => array(
                     0 => 'ROLE_USER',
+                ),
+                'ROLE_ADMIN' => array(
+                    0 => 'ROLE_ADMIN',
                 ),
                 'ROLE_SUPER_ADMIN' => array(
                     0 => 'ROLE_USER',
@@ -1370,12 +1380,12 @@ class appProdProjectContainer extends Container
                 0 => 'form_div_layout.html.twig',
             ),
             'twig.options' => array(
+                'cache' => false,
                 'debug' => false,
                 'strict_variables' => false,
                 'exception_controller' => 'twig.controller.exception:showAction',
                 'autoescape_service' => NULL,
                 'autoescape_service_method' => NULL,
-                'cache' => 'C:/wamp/www/cms/app/cache/prod/twig',
                 'charset' => 'UTF-8',
                 'paths' => array(
                 ),

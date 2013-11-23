@@ -94,6 +94,19 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\CategoriesController::manageCategoriesAction',  '_route' => 'Settings-manageCategories',);
             }
 
+            if (0 === strpos($pathinfo, '/Settings/Categories')) {
+                // Category-selectCat
+                if ($pathinfo === '/Settings/Categories/select-Settings') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\CategoriesController::selectCatPageSettingsAction',  '_route' => 'Category-selectCat',);
+                }
+
+                // Category-getCatPages
+                if (0 === strpos($pathinfo, '/Settings/Categories/getCatPage') && preg_match('#^/Settings/Categories/getCatPage/(?P<categoryName>[^/]++)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'Category-getCatPages')), array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\CategoriesController::getCategoryPagesAction',));
+                }
+
+            }
+
             // Settings
             if (rtrim($pathinfo, '/') === '/Settings') {
                 if (substr($pathinfo, -1) !== '/') {
@@ -116,6 +129,11 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
             // Settings-editPage
             if (0 === strpos($pathinfo, '/Settings/edit-page') && preg_match('#^/Settings/edit\\-page/(?P<pageName>[^/]++)$#s', $pathinfo, $matches)) {
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'Settings-editPage')), array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\PagesController::editPagesAction',));
+            }
+
+            // Settings-settingsPage
+            if ($pathinfo === '/Settings/page-settings') {
+                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\PagesController::pageSettingsAction',  '_route' => 'Settings-settingsPage',);
             }
 
             if (0 === strpos($pathinfo, '/Settings/Menu')) {
@@ -144,11 +162,6 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                     return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\MenuController::selectMenuWysiwygAction',  '_route' => 'Settings-selectMenuWysiwyg',);
                 }
 
-            }
-
-            // Test-uno
-            if ($pathinfo === '/Settings/test') {
-                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\AdminController::testPageAction',  '_route' => 'Test-uno',);
             }
 
             if (0 === strpos($pathinfo, '/Settings/Debug')) {
@@ -197,23 +210,39 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
             return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UserController::SignUpAction',  '_route' => 'User-Sign-up',);
         }
 
-        if (0 === strpos($pathinfo, '/Settings/log')) {
-            if (0 === strpos($pathinfo, '/Settings/login')) {
-                // login
-                if ($pathinfo === '/Settings/login') {
-                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UserController::loginAction',  '_route' => 'login',);
+        if (0 === strpos($pathinfo, '/Settings')) {
+            if (0 === strpos($pathinfo, '/Settings/log')) {
+                if (0 === strpos($pathinfo, '/Settings/login')) {
+                    // login
+                    if ($pathinfo === '/Settings/login') {
+                        return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UserController::loginAction',  '_route' => 'login',);
+                    }
+
+                    // login_check
+                    if ($pathinfo === '/Settings/login_check') {
+                        return array('_route' => 'login_check');
+                    }
+
                 }
 
-                // login_check
-                if ($pathinfo === '/Settings/login_check') {
-                    return array('_route' => 'login_check');
+                // logout
+                if ($pathinfo === '/Settings/logout') {
+                    return array('_route' => 'logout');
                 }
 
             }
 
-            // logout
-            if ($pathinfo === '/Settings/logout') {
-                return array('_route' => 'logout');
+            if (0 === strpos($pathinfo, '/Settings/User')) {
+                // User-manageUsers
+                if ($pathinfo === '/Settings/User/manage-users') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UserController::manageUsersAction',  '_route' => 'User-manageUsers',);
+                }
+
+                // Check-User-Username
+                if ($pathinfo === '/Settings/User/check-username/{{ username }}') {
+                    return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\UserController::checkUserNameAction',  '_route' => 'Check-User-Username',);
+                }
+
             }
 
         }
@@ -233,7 +262,7 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
         }
 
         // Page
-        if (preg_match('#^/(?P<path>[^/]++)$#s', $pathinfo, $matches)) {
+        if (preg_match('#^/(?P<path>.+)$#s', $pathinfo, $matches)) {
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'Page')), array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\WebSiteController::pageAction',));
         }
 

@@ -1,6 +1,7 @@
 <?php
 	namespace Cms\WebSiteBundle\Controller;
 	 
+	use Cms\WebSiteBundle\Controller\preControllerController;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Session\Session;

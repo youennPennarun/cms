@@ -14,6 +14,10 @@ Settings-editPage:
     path:    /edit-page/{pageName}
     defaults: { _controller: CmsWebSiteBundle:Pages:editPages }
 
+Settings-settingsPage:
+    path:    /page-settings
+    defaults: { _controller: CmsWebSiteBundle:Pages:pageSettings }
+
 Settings-newMenu:
     path:    /Menu/new-menu
     defaults: { _controller: CmsWebSiteBundle:Menu:newMenu }
@@ -34,9 +38,6 @@ Settings-selectMenuWysiwyg:
     path:    /Menu/select-menu-wysiwyg
     defaults: { _controller: CmsWebSiteBundle:Menu:selectMenuWysiwyg }
 
-Test-uno:
-    path:    /test
-    defaults: { _controller: CmsWebSiteBundle:Admin:testPage }
 
 
 Settings-getLog:

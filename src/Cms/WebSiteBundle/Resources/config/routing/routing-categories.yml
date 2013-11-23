@@ -5,3 +5,12 @@ Settings-newCategory:
 Settings-manageCategories:
     path:    /manage-categories
     defaults: { _controller: CmsWebSiteBundle:Categories:manageCategories }
+
+Category-selectCat:
+    path:    /Categories/select-Settings
+    defaults: { _controller: CmsWebSiteBundle:Categories:selectCatPageSettings }
+
+Category-getCatPages:
+    path:    /Categories/getCatPage/{categoryName}
+    defaults: { _controller: CmsWebSiteBundle:Categories:getCategoryPages }
+

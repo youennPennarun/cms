@@ -1,0 +1,51 @@
+
+
+{% extends '::settings.html.twig' %}
+{# getting template information from the config.yml file #}
+{% set controller = app.request.attributes.get("_controller")|split('::')[1] %}
+{% set cms_page_title = attribute(pageNames, controller)['pageName'] %}
+{% set fileName = attribute(pageNames, controller)['fileName'] %}
+
+{% block title %}{{ cms_page_title }}{% endblock %}
+{% block body %}
+	<div class="hero-unit">
+		<h1>{{ cms_page_title }}</h1>
+	</div>
+	{% for flashMessage in app.session.flashbag.get('validation') %}
+	<div class="alert alert-success">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+		{{ flashMessage }}
+	</div>
+	{% endfor %}
+	<div class="row-fluid">
+		<table class="table table-striped">
+		{% for user in userList %}
+			<tr>
+				<td>{{ user.getUsername() }}</td>
+				<td>
+				{% for role in user.getRoles() %}
+					{{ role }}
+				{% endfor %}
+				</td>
+				<td>{{ user.getFirstName() }} {{ user.getLastName() }}</td>
+				<td>{{ user.getEmail() }}</td>
+				<td><a class="btn btn-danger deleteUser" id='{{user.getId()}}'  >delete</a></td>
+			</tr>
+		{% endfor %}	
+		</table>
+	</div>
+{% endblock %}
+
+{#href=""#}
+{% block javascripts %}
+<script>
+$(".deleteUser").click(function(){
+	bootbox.confirm("Are you sure?", function(result) {
+	if(result){
+		$(location).attr('href',"{{path('User-manageUsers',{ 'action':'delete','id': user.getId() })}}");
+	}
+	}); 
+});
+</script>
+
+{% endblock %}

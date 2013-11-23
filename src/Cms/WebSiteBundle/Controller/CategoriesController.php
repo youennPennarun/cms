@@ -3,6 +3,7 @@
 	 
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\Request;
+	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\HttpFoundation\Session\Session;
 	use Cms\WebSiteBundle\Entity\Categories;
 	 
@@ -14,7 +15,6 @@
 				->add('name','text')
 				->add("submit","submit")
 				->getForm();
-				
 				
 			
 			$form->handleRequest($request);
@@ -47,10 +47,61 @@
 				}
 			}
 		
-		
 			return $this->render('CmsWebSiteBundle:WebSite:default/settings/categories/categoriesSettings.html.twig',
 				array("form"=>$form->createView()));
 		
+		
+		}
+		public function getCategoryPagesAction($categoryName){
+		
+			$repo = $this->getDoctrine()
+				->getRepository('CmsWebSiteBundle:Categories');
+			$category = $repo->findOneBy(array("name"=>$categoryName));
+			
+			$repo = $this->getDoctrine()
+				->getRepository('CmsWebSiteBundle:Page');
+			$pages = $repo->findAll();
+			
+			$catPages = array();
+			
+			foreach($pages as $p){
+				$getIt = false;
+				foreach($p->getCategories() as $cat){
+					if($cat = $category->getId())
+						$getIt = true;
+				}
+				if($getIt){
+					array_push($catPages,$p);
+					echo $p->getName();
+				}
+				
+			}
+			
+				
+				
+				return $this->render('CmsWebSiteBundle:WebSite:default/settings/categories/categoriesSettings.html.twig',
+					array("categories"=>null));
+		}
+		
+		
+		public function selectCatPageSettingsAction(Request $request)
+		{
+		
+			$repo = $this->getDoctrine()
+				->getRepository('CmsWebSiteBundle:Categories');
+			$categories = array();
+			$categories = $repo->findAll();
+			$resp = array();
+			foreach($categories as $cat){
+				$c=array(
+					"id" => $cat->getId(),
+					"name" => $cat->getName()
+				);
+				array_push($resp,$c);
+			}
+			$response = new Response(json_encode($resp));
+			$response->headers->set('Content-Type', 'application/json');
+			return $response;
 		
 		}
 		public function manageCategoriesAction(Request $request)

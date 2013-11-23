@@ -23,6 +23,7 @@ framework:
 
 # Twig Configuration
 twig:
+    cache:  false
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
     globals: 
@@ -54,7 +55,7 @@ twig:
                 pageName : "Menus manager"
                 fileName : "manageMenus"
         #Categories pages var
-            newCategorieAction :
+            newCategoryAction :
                 pageName : "create a new categorie"
                 fileName : "newCategorie"
             manageCategoriesAction :
@@ -99,3 +100,11 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+
+services:
+    demo.tokens.action_listener:
+        class: Cms\WebSiteBundle\EventListener\EventListener
+        arguments: [ @service_container ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

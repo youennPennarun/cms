@@ -2,7 +2,8 @@
  
  
 namespace Cms\WebSiteBundle\Controller;
- 
+
+use Cms\WebSiteBundle\Controller\SettingsController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Cms\WebSiteBundle\Entity\Text;
@@ -14,7 +15,7 @@ use Cms\WebSiteBundle\Entity\Form\Type\Menu\MenuType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
  
-class MenuController extends BaseController 
+class MenuController extends SettingsController 
 {
 	public function newMenuAction(Request $request){
 		$menu = new Menu;

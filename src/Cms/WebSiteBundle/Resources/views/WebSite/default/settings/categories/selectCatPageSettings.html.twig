@@ -1,0 +1,11 @@
+{% set i = 0 %}
+<form>
+{% for category in categories %}
+	<div class="span4">
+		<input type="checkbox" name="option1" value="{{category.getId()}}"> {{ category.getName() }}<br>	
+		{% set i = i+1 %}
+	</div>
+{% endfor %}
+
+	<div class="span1">{{ form_row(form.save,{ 'id' : 'saveButton','class' : "btn btn-primary"}) }}</div>
+</form>

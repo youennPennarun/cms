@@ -1,10 +1,9 @@
 {% if form is defined %}
-	
 	<form method="POST" {{ form_enctype(form) }} id="form" style="display:inline;">
 	<div class="row" style="text-align: center;">
 	 <div class="span1">{{ form_label(form.pageName) }}</div>
 	 <div class="span3">{{ form_widget(form.pageName) }}</div>
-	<div class="span1"><button type="button" class="btn btn-primary">Primary</button></div>
+	<div class="span1"><button id="settings-button" type="button" class="btn btn-primary settings-button">settings</button></div>
 	
 	<div class="span1">{{ form_row(form.save,{ 'id' : 'saveButton','class' : "btn btn-primary"}) }}</div>
 	</div>
@@ -19,7 +18,15 @@
 			--<br>
 			{% set i = i +1 %}
 		{% endfor %}
+		
 		</div>
+		
+		{{ form_label(form.categories) }}
+		{{ form_errors(form.categories) }}
+		{{ form_widget(form.categories, { 'id': "categories", 'class' : 'categories' }) }}
+		{{ form_label(form.path) }}
+		{{ form_errors(form.path) }}
+		{{ form_widget(form.path, { 'id': "path", 'class' : 'path' }) }}
 	</div>	
 		{{ form_rest(form) }}
 	</form>
@@ -31,7 +38,7 @@
 	$(document).ready(function(){
 		$( "a" ).not(".defaultAction").click(function( event ) {
 		  event.preventDefault();
-		});
+	});
 		
 		
 		$("#form").submit(function(){

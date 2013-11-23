@@ -27,11 +27,12 @@
 				$yaml = $dumper->dump($values,3);
 				file_put_contents($this->parametersFile, $yaml);
 			}
-			if($values["parameters"]["initialised"] == false){
+			/*if($values["parameters"]["initialised"] == 'false'){
 				return true;
 			}else{
 				return false;
-			}
+			}*/
+				return true;
 		}	
 		
 		public function isInitialized(){

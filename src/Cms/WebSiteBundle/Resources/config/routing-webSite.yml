@@ -7,3 +7,5 @@ PageNoFound:
 Page:
     path:    /{path}
     defaults: { _controller: CmsWebSiteBundle:WebSite:page }
+    requirements:
+        path: ".+"

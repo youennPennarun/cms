@@ -170,6 +170,7 @@
 					$regexTitle = "/(< *title *>(.*)< *\/ *title *>)/i";
 					$regexpVar = "({{([^\(]*)}})";
 					$regexpHead = "([ ]*< *head *>[ ]*)";
+					$regexpEndHead = "([ ]*< */head *>[ ]*)";
 					$regexpImgSrc = '(< *img[^>]*src *= *["\']?([^"\']*).*>)';
 					$regexpImg = '/(.*(<img[^>]+>).*)/i';
 					$regexpStartBody = "([ ]*< *body *>[ ]*)";
@@ -194,11 +195,8 @@
 								$r=str_replace("-","",$r);
 								$buffer = str_replace($return[1],$r."|raw",$buffer);
 							}
-							if(preg_match($regexpHead,$bufferTmp,$return)) {
-								$buffer = $buffer."\r\n"."{% include 'CmsWebSiteBundle:WebSite:default/includes/includes.html.twig' %}"."\r\n"; //add an include used to make the new page
-							}
-							if(preg_match($regexpStartBody,$bufferTmp,$return)) {
-								$buffer = $buffer."\r\n"."{% include 'CmsWebSiteBundle:WebSite:default/includes/menu/adminTopBar.html.twig' %}"; //add an include used to make the new page
+							if(preg_match($regexpEndHead,$bufferTmp,$return)) {
+								$buffer = "{% include 'CmsWebSiteBundle:WebSite:default/includes/includes.html.twig' %}"."\r\n".$buffer."\r\n"; //add an include used to make the new page
 							}
 							if(preg_match($regexpEndBody,$bufferTmp,$return)) {
 								$buffer = "{% include 'CmsWebSiteBundle:WebSite:default/includes/newPageForm.html.twig' %}"."\r\n".$buffer; //add an include used to make the new page
