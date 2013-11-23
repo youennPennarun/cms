@@ -30,22 +30,6 @@ class EventListener extends Controller
             return;
         }
 		
-		if($this->container->getParameter('initialised') != 'true'){
-			$routeName = "ini-settings";
-			$exceptionsRoutes = array("ini-settings","ini-settings-createDB","ini-settings-admin","ini-cache");
-			$redirectUrl = $this->container->get('router')->generate($routeName);
-			
-			foreach($exceptionsRoutes as $route){
-				if($route == $event->getRequest()->get('_route'))
-					return;
-			}
-			if($routeName == $event->getRequest()->get('_route'))
-					return;
-					
-			$event->setController(function() use ($redirectUrl) {
-					return new RedirectResponse($redirectUrl);
-				});
-		}
     }
 	
 	
