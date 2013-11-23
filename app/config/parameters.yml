@@ -11,5 +11,4 @@ parameters:
     mailer_password: null
     locale: en
     secret: 3c18a83c6680e779969317536cb8d893
-    initialised: 'true'
-    base-path: /cms
+    base-path: /
