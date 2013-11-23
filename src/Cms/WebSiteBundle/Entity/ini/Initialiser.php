@@ -38,7 +38,7 @@
 		public function isInitialized(){
 			$yaml = new Parser();
 			$values = $yaml->parse(file_get_contents($this->parametersFile));
-			$values["parameters"]["initialised"] = true;
+			$values["parameters"]["initialised"] = 'true';
 			$dumper = new Dumper();
 			$yaml = $dumper->dump($values,3);
 			file_put_contents($this->parametersFile, $yaml);
@@ -83,3 +83,5 @@
 		
 	
 	}
+	
+?>

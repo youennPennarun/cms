@@ -58,7 +58,7 @@ class InitialisationController extends Controller
 		}
 		try{
 			$error = $ini->setDB();
-			return $this->redirect($this->generateUrl(ini-settings-admin));
+			return $this->redirect($this->generateUrl('ini-settings-admin'));
 		}catch (PDOException $e){
 			echo $e->getMessage();
 		}
