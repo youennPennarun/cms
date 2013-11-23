@@ -35,9 +35,13 @@ class EventListener extends Controller
 			$exceptionsRoutes = array("ini-settings","ini-settings-createDB","ini-settings-admin","ini-cache");
 			$redirectUrl = $this->container->get('router')->generate($routeName);
 			
-			if (in_array($event->getRequest()->get('_route'),$exceptionsRoutes)) {
-				return;
+			foreach($exceptionsRoutes as $route){
+				if($route == $event->getRequest()->get('_route'))
+					return;
 			}
+			if($routeName == $event->getRequest()->get('_route'))
+					return;
+					
 			$event->setController(function() use ($redirectUrl) {
 					return new RedirectResponse($redirectUrl);
 				});
