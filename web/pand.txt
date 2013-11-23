@@ -1,0 +1,3 @@
+
+Parse error: syntax error, unexpected '=' in C:\wamp\www\cms\web\src\Cms\test.php on line 13
+
