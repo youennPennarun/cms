@@ -23,9 +23,15 @@
 			<tr>
 				<td>{{ user.getUsername() }}</td>
 				<td>
-				{% for role in user.getRoles() %}
-					{{ role }}
-				{% endfor %}
+				<select>
+					{% for roleName,roleHierarchy in roles %}
+						{% if attribute(user.getRoles(),0) == roleName %}
+							<option value="{{ roleName }}" selected="selected">{{ roleName }}</option>
+						{% else %}
+							<option value="{{ roleName }}">{{ roleName }}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
 				</td>
 				<td>{{ user.getFirstName() }} {{ user.getLastName() }}</td>
 				<td>{{ user.getEmail() }}</td>

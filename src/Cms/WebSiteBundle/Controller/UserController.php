@@ -71,11 +71,13 @@
 		
 		public function manageUsersAction(){
 			
+				$roles = $this->container->getParameter('security.role_hierarchy.roles');
+				
 				$rep = $this->getDoctrine()
 							->getRepository('CmsWebSiteBundle:User');
 				$userList = $rep->findAll();
 				return $this->render('CmsWebSiteBundle:WebSite:default/settings/user/manageUsers.html.twig', 
-				array('userList' => $userList));
+				array('userList' => $userList,'roles'=>$roles));
 			
 		}
 		

@@ -210,7 +210,7 @@ class appProdProjectContainer extends Container
     protected function getAssetic_AssetManagerService()
     {
         $this->services['assetic.asset_manager'] = $instance = new \Assetic\Factory\LazyAssetManager($this->get('assetic.asset_factory'), array('twig' => new \Assetic\Factory\Loader\CachedFormulaLoader(new \Assetic\Extension\Twig\TwigFormulaLoader($this->get('twig')), new \Assetic\Cache\ConfigCache('C:/wamp/www/cms/app/cache/prod/assetic/config'), false)));
-        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($this->get('templating.loader'), '', 'C:/wamp/www/cms-branch2/app/Resources/views', '/\\.[^.]+\\.twig$/'), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($this->get('templating.loader'), '', 'C:/wamp/www/cms/app/Resources/views', '/\\.[^.]+\\.twig$/'), 'twig');
         return $instance;
     }
     protected function getAssetic_Filter_CssrewriteService()
@@ -229,7 +229,7 @@ class appProdProjectContainer extends Container
     {
         $a = $this->get('kernel');
         $b = $this->get('templating.filename_parser');
-        $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, 'C:/wamp/www/cms-branch2/app/Resources');
+        $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, 'C:/wamp/www/cms/app/Resources');
         return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, $this->get('templating.locator')), 1 => new \Symfony\Bundle\AsseticBundle\CacheWarmer\AssetManagerCacheWarmer($this), 2 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 3 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c), 4 => new \Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer($this->get('doctrine'))));
     }
     protected function getDebug_EmergencyLoggerListenerService()
@@ -255,13 +255,13 @@ class appProdProjectContainer extends Container
     protected function getDoctrine_Orm_DefaultEntityManagerService()
     {
         $a = new \Doctrine\Common\Cache\ArrayCache();
-        $a->setNamespace('sf2orm_default_9c67522073f9f339e0cabfc1b87739e8');
+        $a->setNamespace('sf2orm_default_eea4e941306a8ab0445a73d76beb46c6');
         $b = new \Doctrine\Common\Cache\ArrayCache();
-        $b->setNamespace('sf2orm_default_9c67522073f9f339e0cabfc1b87739e8');
+        $b->setNamespace('sf2orm_default_eea4e941306a8ab0445a73d76beb46c6');
         $c = new \Doctrine\Common\Cache\ArrayCache();
-        $c->setNamespace('sf2orm_default_9c67522073f9f339e0cabfc1b87739e8');
+        $c->setNamespace('sf2orm_default_eea4e941306a8ab0445a73d76beb46c6');
         $d = new \Doctrine\ORM\Mapping\Driver\DriverChain();
-        $d->addDriver(new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($this->get('annotation_reader'), array(0 => 'C:\\wamp\\www\\cms-branch2\\src\\Cms\\WebSiteBundle\\Entity')), 'Cms\\WebSiteBundle\\Entity');
+        $d->addDriver(new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($this->get('annotation_reader'), array(0 => 'C:\\wamp\\www\\cms\\src\\Cms\\WebSiteBundle\\Entity')), 'Cms\\WebSiteBundle\\Entity');
         $e = new \Doctrine\ORM\Configuration();
         $e->setEntityNamespaces(array('CmsWebSiteBundle' => 'Cms\\WebSiteBundle\\Entity'));
         $e->setMetadataCacheImpl($a);
@@ -313,7 +313,7 @@ class appProdProjectContainer extends Container
     }
     protected function getFileLocatorService()
     {
-        return $this->services['file_locator'] = new \Symfony\Component\HttpKernel\Config\FileLocator($this->get('kernel'), 'C:/wamp/www/cms-branch2/app/Resources');
+        return $this->services['file_locator'] = new \Symfony\Component\HttpKernel\Config\FileLocator($this->get('kernel'), 'C:/wamp/www/cms/app/Resources');
     }
     protected function getFilesystemService()
     {
@@ -321,7 +321,7 @@ class appProdProjectContainer extends Container
     }
     protected function getForm_CsrfProviderService()
     {
-        return $this->services['form.csrf_provider'] = new \Symfony\Component\Form\Extension\Csrf\CsrfProvider\SessionCsrfProvider($this->get('session'), 'd53620ec1135bdcf40350493728c3c7b');
+        return $this->services['form.csrf_provider'] = new \Symfony\Component\Form\Extension\Csrf\CsrfProvider\SessionCsrfProvider($this->get('session'), '3c18a83c6680e779969317536cb8d893');
     }
     protected function getForm_FactoryService()
     {
@@ -537,7 +537,7 @@ class appProdProjectContainer extends Container
     }
     protected function getMonolog_Handler_NestedService()
     {
-        return $this->services['monolog.handler.nested'] = new \Monolog\Handler\StreamHandler('C:/wamp/www/cms-branch2/app/logs/prod.log', 100, true);
+        return $this->services['monolog.handler.nested'] = new \Monolog\Handler\StreamHandler('C:/wamp/www/cms/app/logs/prod.log', 100, true);
     }
     protected function getMonolog_Logger_DoctrineService()
     {
@@ -586,7 +586,7 @@ class appProdProjectContainer extends Container
     }
     protected function getRouterService()
     {
-        return $this->services['router'] = new \Symfony\Bundle\FrameworkBundle\Routing\Router($this, 'C:/wamp/www/cms-branch2/app/config/routing.yml', array('cache_dir' => 'C:/wamp/www/cms/app/cache/prod', 'debug' => false, 'generator_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper', 'generator_cache_class' => 'appProdUrlGenerator', 'matcher_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_base_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper', 'matcher_cache_class' => 'appProdUrlMatcher', 'strict_requirements' => NULL), $this->get('router.request_context', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('monolog.logger.router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['router'] = new \Symfony\Bundle\FrameworkBundle\Routing\Router($this, 'C:/wamp/www/cms/app/config/routing.yml', array('cache_dir' => 'C:/wamp/www/cms/app/cache/prod', 'debug' => false, 'generator_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper', 'generator_cache_class' => 'appProdUrlGenerator', 'matcher_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_base_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper', 'matcher_cache_class' => 'appProdUrlMatcher', 'strict_requirements' => NULL), $this->get('router.request_context', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('monolog.logger.router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
     protected function getRouterListenerService()
     {
@@ -785,7 +785,7 @@ class appProdProjectContainer extends Container
     }
     protected function getTemplating_Helper_CodeService()
     {
-        return $this->services['templating.helper.code'] = new \Symfony\Bundle\FrameworkBundle\Templating\Helper\CodeHelper(NULL, 'C:/wamp/www/cms-branch2/app', 'UTF-8');
+        return $this->services['templating.helper.code'] = new \Symfony\Bundle\FrameworkBundle\Templating\Helper\CodeHelper(NULL, 'C:/wamp/www/cms/app', 'UTF-8');
     }
     protected function getTemplating_Helper_FormService()
     {
@@ -966,7 +966,7 @@ class appProdProjectContainer extends Container
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($this->get('translator')));
         $instance->addExtension(new \Symfony\Bundle\TwigBundle\Extension\AssetsExtension($this));
         $instance->addExtension(new \Symfony\Bundle\TwigBundle\Extension\ActionsExtension($this));
-        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\CodeExtension(NULL, 'C:/wamp/www/cms-branch2/app', 'UTF-8'));
+        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\CodeExtension(NULL, 'C:/wamp/www/cms/app', 'UTF-8'));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\RoutingExtension($this->get('router')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\YamlExtension());
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\HttpKernelExtension($this->get('fragment.handler')));
@@ -988,14 +988,14 @@ class appProdProjectContainer extends Container
     protected function getTwig_LoaderService()
     {
         $this->services['twig.loader'] = $instance = new \Symfony\Bundle\TwigBundle\Loader\FilesystemLoader($this->get('templating.locator'), $this->get('templating.name_parser'));
-        $instance->addPath('C:\\wamp\\www\\cms-branch2\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\FrameworkBundle/Resources/views', 'Framework');
-        $instance->addPath('C:\\wamp\\www\\cms-branch2\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\SecurityBundle/Resources/views', 'Security');
-        $instance->addPath('C:\\wamp\\www\\cms-branch2\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\TwigBundle/Resources/views', 'Twig');
-        $instance->addPath('C:\\wamp\\www\\cms-branch2\\vendor\\symfony\\swiftmailer-bundle\\Symfony\\Bundle\\SwiftmailerBundle/Resources/views', 'Swiftmailer');
-        $instance->addPath('C:\\wamp\\www\\cms-branch2\\vendor\\doctrine\\doctrine-bundle\\Doctrine\\Bundle\\DoctrineBundle/Resources/views', 'Doctrine');
-        $instance->addPath('C:\\wamp\\www\\cms-branch2\\src\\Cms\\WebSiteBundle/Resources/views', 'CmsWebSite');
-        $instance->addPath('C:/wamp/www/cms-branch2/app/Resources/views');
-        $instance->addPath('C:\\wamp\\www\\cms-branch2\\vendor\\symfony\\symfony\\src\\Symfony\\Bridge\\Twig/Resources/views/Form');
+        $instance->addPath('C:\\wamp\\www\\cms\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\FrameworkBundle/Resources/views', 'Framework');
+        $instance->addPath('C:\\wamp\\www\\cms\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\SecurityBundle/Resources/views', 'Security');
+        $instance->addPath('C:\\wamp\\www\\cms\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\TwigBundle/Resources/views', 'Twig');
+        $instance->addPath('C:\\wamp\\www\\cms\\vendor\\symfony\\swiftmailer-bundle\\Symfony\\Bundle\\SwiftmailerBundle/Resources/views', 'Swiftmailer');
+        $instance->addPath('C:\\wamp\\www\\cms\\vendor\\doctrine\\doctrine-bundle\\Doctrine\\Bundle\\DoctrineBundle/Resources/views', 'Doctrine');
+        $instance->addPath('C:\\wamp\\www\\cms\\src\\Cms\\WebSiteBundle/Resources/views', 'CmsWebSite');
+        $instance->addPath('C:/wamp/www/cms/app/Resources/views');
+        $instance->addPath('C:\\wamp\\www\\cms\\vendor\\symfony\\symfony\\src\\Symfony\\Bridge\\Twig/Resources/views/Form');
         return $instance;
     }
     protected function getTwig_Translation_ExtractorService()
@@ -1004,7 +1004,7 @@ class appProdProjectContainer extends Container
     }
     protected function getUriSignerService()
     {
-        return $this->services['uri_signer'] = new \Symfony\Component\HttpKernel\UriSigner('d53620ec1135bdcf40350493728c3c7b');
+        return $this->services['uri_signer'] = new \Symfony\Component\HttpKernel\UriSigner('3c18a83c6680e779969317536cb8d893');
     }
     protected function getValidatorService()
     {
@@ -1024,7 +1024,7 @@ class appProdProjectContainer extends Container
     }
     protected function getAssetic_AssetFactoryService()
     {
-        return $this->services['assetic.asset_factory'] = new \Symfony\Bundle\AsseticBundle\Factory\AssetFactory($this->get('kernel'), $this, $this->getParameterBag(), 'C:/wamp/www/cms-branch2/app/../web', false);
+        return $this->services['assetic.asset_factory'] = new \Symfony\Bundle\AsseticBundle\Factory\AssetFactory($this->get('kernel'), $this, $this->getParameterBag(), 'C:/wamp/www/cms/app/../web', false);
     }
     protected function getControllerNameConverterService()
     {
@@ -1066,7 +1066,7 @@ class appProdProjectContainer extends Container
     }
     protected function getValidator_Mapping_ClassMetadataFactoryService()
     {
-        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => 'C:\\wamp\\www\\cms-branch2\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array()))), NULL);
+        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => 'C:\\wamp\\www\\cms\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array()))), NULL);
     }
     public function getParameter($name)
     {
@@ -1095,12 +1095,12 @@ class appProdProjectContainer extends Container
     protected function getDefaultParameters()
     {
         return array(
-            'kernel.root_dir' => 'C:/wamp/www/cms-branch2/app',
+            'kernel.root_dir' => 'C:/wamp/www/cms/app',
             'kernel.environment' => 'prod',
             'kernel.debug' => false,
-            'kernel.name' => 'ap_',
+            'kernel.name' => 'app',
             'kernel.cache_dir' => 'C:/wamp/www/cms/app/cache/prod',
-            'kernel.logs_dir' => 'C:/wamp/www/cms-branch2/app/logs',
+            'kernel.logs_dir' => 'C:/wamp/www/cms/app/logs',
             'kernel.bundles' => array(
                 'FrameworkBundle' => 'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
                 'SecurityBundle' => 'Symfony\\Bundle\\SecurityBundle\\SecurityBundle',
@@ -1125,9 +1125,9 @@ class appProdProjectContainer extends Container
             'mailer_user' => NULL,
             'mailer_password' => NULL,
             'locale' => 'en',
-            'secret' => 'd53620ec1135bdcf40350493728c3c7b',
+            'secret' => '3c18a83c6680e779969317536cb8d893',
+            'initialised' => 'true',
             'base-path' => '/cms',
-            'initialised' => false,
             'controller_resolver.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerResolver',
             'controller_name_converter.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerNameParser',
             'response_listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener',
@@ -1172,7 +1172,7 @@ class appProdProjectContainer extends Container
             'translation.extractor.class' => 'Symfony\\Component\\Translation\\Extractor\\ChainExtractor',
             'translation.writer.class' => 'Symfony\\Component\\Translation\\Writer\\TranslationWriter',
             'debug.errors_logger_listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\ErrorsLoggerListener',
-            'kernel.secret' => 'd53620ec1135bdcf40350493728c3c7b',
+            'kernel.secret' => '3c18a83c6680e779969317536cb8d893',
             'kernel.http_method_override' => true,
             'kernel.trusted_hosts' => array(
             ),
@@ -1243,7 +1243,7 @@ class appProdProjectContainer extends Container
             'validator.mapping.loader.yaml_files_loader.class' => 'Symfony\\Component\\Validator\\Mapping\\Loader\\YamlFilesLoader',
             'validator.validator_factory.class' => 'Symfony\\Bundle\\FrameworkBundle\\Validator\\ConstraintValidatorFactory',
             'validator.mapping.loader.xml_files_loader.mapping_files' => array(
-                0 => 'C:\\wamp\\www\\cms-branch2\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/config/validation.xml',
+                0 => 'C:\\wamp\\www\\cms\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/config/validation.xml',
             ),
             'validator.mapping.loader.yaml_files_loader.mapping_files' => array(
             ),
@@ -1271,7 +1271,7 @@ class appProdProjectContainer extends Container
             'router.request_context.host' => 'localhost',
             'router.request_context.scheme' => 'http',
             'router.request_context.base_url' => '',
-            'router.resource' => 'C:/wamp/www/cms-branch2/app/config/routing.yml',
+            'router.resource' => 'C:/wamp/www/cms/app/config/routing.yml',
             'router.cache_class_prefix' => 'appProd',
             'request_listener.http_port' => 80,
             'request_listener.https_port' => 443,
@@ -1472,8 +1472,8 @@ class appProdProjectContainer extends Container
             'assetic.debug' => false,
             'assetic.use_controller' => false,
             'assetic.enable_profiler' => false,
-            'assetic.read_from' => 'C:/wamp/www/cms-branch2/app/../web',
-            'assetic.write_to' => 'C:/wamp/www/cms-branch2/app/../web',
+            'assetic.read_from' => 'C:/wamp/www/cms/app/../web',
+            'assetic.write_to' => 'C:/wamp/www/cms/app/../web',
             'assetic.variables' => array(
             ),
             'assetic.java.bin' => 'C:\\Windows\\system32\\java.EXE',

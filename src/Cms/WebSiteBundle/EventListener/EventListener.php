@@ -34,7 +34,6 @@ class EventListener extends Controller
 		$routeName = $request->get('_route');
 		if($routeName == "")
 			return;
-		echo "<h1>".$routeName."</h1>";
 		if($this->container->getParameter('initialised') != 'true'){
 			$routeRedir = "ini-settings";
 			$exceptionsRoutes = array("ini-settings","ini-settings-createDB","ini-settings-admin","ini-cache");
