@@ -91,6 +91,8 @@ class InitialisationController extends Controller
 				$em->flush();
 				
 				$ini->isInitialized();
+				
+			return $this->redirect($this->generateUrl('ini-cache',array('goTo'=>'Settings')));	
 			}
 			
 			return $this->render('CmsWebSiteBundle:WebSite:default/settings/user/newUserForm.html.twig',

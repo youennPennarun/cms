@@ -230,10 +230,15 @@
 			}
 			$cssPathList = $session->get("cssToAnalyse");
 			$toUpload = array();
+			$equals=array();
 			$i = 0;
 			foreach($cssPathList as $cssPath){
-				$toUpload[$i] = $template->analyseCss($cssPath);
+				$inIt = false;
+				$result = $template->analyseCss($cssPath);
+				$toUpload[$i] = $result;
+				$toUpload[$i] = array_unique($toUpload[$i]);
 				$i++;
+				
 			}
 			$i = 0;
 			$imgList=array();
@@ -283,10 +288,13 @@
 					//------------------------------------------
 				foreach($cssPathList as $cssPath){
 					$template->editCss($cssPath,$linesToBeReplaced);
+				return $this->redirect($this->generateUrl('Settings'));
 				}
 					
 				$session->remove("cssToAnalyse");
 				$session->remove("template-tmp");
+				
+				
 			}
 			return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/templateSettings.html.twig',
 				array("form"=>$form->createView()));
