@@ -115,15 +115,6 @@ class InitialisationController extends Controller
 
 	}
 	public function cacheClearAction(Request $request) {
-		/*echo $request->query->get("goTo");
-		$input = new \Symfony\Component\Console\Input\ArgvInput(array('console','cache:clear'));
-		$application = new \Symfony\Bundle\FrameworkBundle\Console\Application($this->get('kernel'));
-		
-		$output = new BufferedOutput();
-		echo $application->run($input,$output);
-
-		//$request->query->get("goTo")
-		return $this->redirect($this->generateUrl("nui"));*/
 		$this->execute('cache:clear');
 		return $this->redirect($this->generateUrl($request->query->get('goTo')));	
 	}

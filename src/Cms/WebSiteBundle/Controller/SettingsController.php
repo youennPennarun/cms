@@ -9,11 +9,17 @@
 	use Cms\WebSiteBundle\Entity\Uploader;
 	use Cms\WebSiteBundle\Entity\Page;
 	use Cms\WebSiteBundle\Entity\Text;
+	use Cms\WebSiteBundle\Entity\utils\DoctrineHelper;
 	 
 	class SettingsController extends Controller
 	{
 		public function indexAction(){
-			return $this->render('CmsWebSiteBundle:WebSite:default/settings/settings.html.twig');
+			$dH = new DoctrineHelper($this);
+			$content['warning'] = "";
+			if($dH->findOneBy(new Page,array("isIndex"=>true)) == null){
+				$content['warning'] = "No index is defined";
+			}
+			return $this->render('CmsWebSiteBundle:WebSite:default/settings/settings.html.twig',$content);
 		}
 	}
 ?>

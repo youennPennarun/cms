@@ -7,7 +7,8 @@ security:
 
     role_hierarchy:
         ROLE_USER:        ROLE_USER
-        ROLE_ADMIN:       ROLE_ADMIN
+        ROLE_AUTHOR:        [ROLE_USER,ROLE_AUTHOR]
+        ROLE_ADMIN:       [ROLE_ADMIN,ROLE_AUTHOR]
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
@@ -24,7 +25,8 @@ security:
             security: false
 
         secured_area:
-            pattern:    ^/Settings
+            pattern:    ^/
+            anonymous: ~
             form_login:
                 check_path: /Settings/login_check
                 login_path: /Settings/login
@@ -36,5 +38,8 @@ security:
             #    realm: "Secured Demo Area"
 
     access_control:
+        - { path: ^/Settings/User/manage-users, roles: IS_AUTHENTICATED_ANONYMOUSLY  }
+        - { path: ^/Settings/new-page, roles: ROLE_AUTHOR  }
+        - { path: ^/Settings/new-category, roles: ROLE_AUTHOR  }
+        - { path: ^/Settings/Uploads, roles: ROLE_AUTHOR  }
         - { path: ^/Settings, roles: ROLE_ADMIN }
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

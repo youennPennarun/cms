@@ -10,6 +10,7 @@
 	
 		
 		public function removeTemplateAssets($templateName){
+			
 			$directory = "./uploads/assets/".$templateName;
 			$this->removeDirectory($directory);
 			

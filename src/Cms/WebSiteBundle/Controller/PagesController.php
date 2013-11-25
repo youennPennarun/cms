@@ -33,8 +33,12 @@
 				->add('varList', 'collection', array(
 						'type'   => 'text',
 						'label'  =>  'Variables : '))
-				->add('categories', 'text')
-				->add('path', 'text')
+				->add('categories', 'text', array(
+						'required'  => false,
+						))
+				->add('path', 'text', array(
+						'required'  => false,
+						))
 				->getForm();
 			$form->handleRequest($request);
 			if ($form->isValid()) {	
@@ -49,6 +53,8 @@
 					$var = array();
 					$newPage->setName($data['pageName']);
 					$newPage->setPath($data['path']);
+					if($data['path'] == null || $data['path'] == "" )
+						$newPage->setPath($data['pageName']);
 					$newPage->setTemplate($template->getName());
 					$i=0;
 					foreach( $data['varList'] as $varValue){

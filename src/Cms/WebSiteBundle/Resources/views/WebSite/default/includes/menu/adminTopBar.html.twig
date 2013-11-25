@@ -1,4 +1,4 @@
-{% if app.user %}
+{% if is_granted("ROLE_ADMIN") %}
 	{% set controller = app.request.attributes.get("_controller")|split('::')[1] %}
 	{% if ( controller == "newPageAction" )or ( controller == "editPagesAction" ) %}
 		<div class="navbar navbar-inverse navbar-fixed-bottom">
@@ -17,7 +17,7 @@
 		<div class="navbar navbar-inverse navbar-fixed-top">
 		  <div class="navbar-inner">
 			<div class="container">
-			  <a class="brand" href="./index.html">Admin Pannel</a>
+			  <a class="brand" href="{{ path('Settings') }}">Admin Pannel</a>
 			  <div class="nav-collapse collapse">
 				<ul class="nav">
 					<li><a href="{{path('Settings-newPage')}}">New Page</a></li>
@@ -32,8 +32,5 @@
 		  </div>
 		</div>
 	{% endif %}
-		
-	
-
 
 {% endif %}

@@ -14,6 +14,10 @@ cms_web_site_settings:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-settings.yml"
     prefix:   /Settings
 
+cms_web_site_mailing:
+    resource: "@CmsWebSiteBundle/Resources/config/routing/routing-mailing.yml"
+    prefix:   /Settings
+
 cms_web_site_uploads:
     resource: "@CmsWebSiteBundle/Resources/config/routing/routing-uploads.yml"
     prefix:   /Settings/Uploads

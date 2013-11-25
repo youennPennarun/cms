@@ -175,6 +175,7 @@
 					$regexpImg = '/(.*(<img[^>]+>).*)/i';
 					$regexpStartBody = "([ ]*< *body *>[ ]*)";
 					$regexpEndBody = "([ ]*< */body *>[ ]*)";
+					$regexLoginForm = "/({{ *CMS_LOGIN_FORM *}})/";
 					$nn = 0;
 					
 					$handle = fopen($this->path.".tmp", 'r');
@@ -186,22 +187,23 @@
 						{
 							$buffer = fgets($handle) ;
 							$bufferTmp = str_replace(" ","",$buffer);	//we delete the spaces
-							if(preg_match($regexpTitle,$bufferTmp,$return)) {
-								$r="{{ CMS_PAGE_TITLE }}";
-								$buffer = str_replace($return[1],$r,$buffer);
-							}
-							if(preg_match($regexpVar,$bufferTmp,$return)) {
+							if(preg_match($regexTitle,$bufferTmp,$return)) {
+								$r="<title>{{ CMS_PAGE_TITLE }}</title>\r\n";
+								$buffer = $r;
+							}else if(preg_match($regexLoginForm,$buffer,$return)) {
+								$r="{% include 'CmsWebSiteBundle:WebSite:default/includes/loginForm.html.twig' %}";
+								$buffer = str_replace($return[0],$r,$buffer);
+							}else if(preg_match($regexpVar,$bufferTmp,$return)) {
 								$r=str_replace("+","",$return[1]);
 								$r=str_replace("-","",$r);
 								$buffer = str_replace($return[1],$r."|raw",$buffer);
-							}
-							if(preg_match($regexpEndHead,$bufferTmp,$return)) {
+							}else if(preg_match($regexpEndHead,$bufferTmp,$return)) {
 								$buffer = "{% include 'CmsWebSiteBundle:WebSite:default/includes/includes.html.twig' %}"."\r\n".$buffer."\r\n"; //add an include used to make the new page
-							}
-							if(preg_match($regexpEndBody,$bufferTmp,$return)) {
+							}else if(preg_match($regexpStartBody,$bufferTmp,$return)) {
+								$buffer = $buffer."\r\n"."{% include 'CmsWebSiteBundle:WebSite:default/includes/menu/adminTopBar.html.twig' %}"."\r\n"; //add an include used to make the new page
+							}else if(preg_match($regexpEndBody,$bufferTmp,$return)) {
 								$buffer = "{% include 'CmsWebSiteBundle:WebSite:default/includes/newPageForm.html.twig' %}"."\r\n".$buffer; //add an include used to make the new page
-							}
-							if(preg_match($regexpImg,$buffer,$return) && (preg_match($regexpImgSrc,$buffer,$returnSrc))){	//if the line is an <img> tag
+							}else if(preg_match($regexpImg,$buffer,$return) && (preg_match($regexpImgSrc,$buffer,$returnSrc))){	//if the line is an <img> tag
 								if(in_array($returnSrc[1],$imgToReplace)){
 									$buffer = str_replace($return[2],"{{ img".$nn." | raw }}",$buffer);
 									$nn++;

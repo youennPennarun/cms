@@ -1,0 +1,20 @@
+<form action="{{ path('login_check') }}" method="post" class="form-signin">
+		
+		<h2 class="form-signin-heading">Login</h2>
+		{% if error %}
+			
+			<div class="alert alert-block alert-error fade in">{{ error.message }}</div>
+		{% endif %}
+
+		<input type="text" id="username" name="_username"  placeholder="username"  class="input-block-level" />
+
+		<input type="password" id="password" name="_password" class="input-block-level" placeholder="Password" />
+
+		{#
+			Si vous voulez contrôler l'URL vers laquelle l'utilisateur est redirigé en cas de succès
+			(plus de détails ci-dessous)
+			<input type="hidden" name="_target_path" value="/account" />
+		#}
+
+		<button type="submit" class="btn btn-large btn-primary" >login</button>
+</form>

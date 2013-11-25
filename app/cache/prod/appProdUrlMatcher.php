@@ -177,6 +177,11 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
 
             }
 
+            // Settings-adminMail
+            if ($pathinfo === '/Settings/mailing') {
+                return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\MailingController::adminMailerAction',  '_route' => 'Settings-adminMail',);
+            }
+
             if (0 === strpos($pathinfo, '/Settings/Uploads')) {
                 if (0 === strpos($pathinfo, '/Settings/Uploads/Images')) {
                     // Uploads-uploadImage-wysiwyg

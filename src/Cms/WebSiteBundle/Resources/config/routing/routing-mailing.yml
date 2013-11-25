@@ -1,0 +1,3 @@
+Settings-adminMail:
+    path:    /mailing
+    defaults: { _controller: CmsWebSiteBundle:Mailing:adminMailer }

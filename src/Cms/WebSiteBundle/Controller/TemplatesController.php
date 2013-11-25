@@ -8,6 +8,7 @@
 	use Cms\WebSiteBundle\Entity\Template;
 	use Cms\WebSiteBundle\Entity\Page;
 	use Cms\WebSiteBundle\Entity\Text;
+	use Cms\WebSiteBundle\Entity\utils\DoctrineHelper;
 	use Cms\WebSiteBundle\Entity\managers\TemplateManager;
 	 
 	class TemplatesController extends Controller
@@ -250,6 +251,9 @@
 					}
 				$i++;
 			}
+			if(count($imgList) == 0){
+				return $this->redirect($this->generateUrl('Settings'));	//user is redirected
+			}
 			$defaultData = array(
 							"images" => $imgList,
 							"imagesFiles" => $imgFileList
@@ -275,6 +279,7 @@
 				foreach($data["images"] as $asset){	//for each assets
 						$tmp = explode("/",$asset);
 						$name = $tmp[count($tmp)-1];
+						
 						$linesToBeReplaced[$asset] = $this->container->getParameter('base-path')."/".$uploader->uploadAssets($data["imagesFiles"][$i],$name,$template->getName());
 						if(explode(".",$name)[count(explode(".",$name))-1] == "css"){
 							array_push($cssFilesPath,"/".$tmp);
@@ -294,6 +299,7 @@
 				$session->remove("cssToAnalyse");
 				$session->remove("template-tmp");
 				
+				return $this->redirect($this->generateUrl('Settings'));	//user is redirected
 				
 			}
 			return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/templateSettings.html.twig',
@@ -305,6 +311,7 @@
 		
 		public function selectTemplateAction(Request $request)
 		{
+		echo $this->container->getParameter('base-path');
 			$repo = $this->getDoctrine()
 					->getRepository('CmsWebSiteBundle:Template');
 			$template = array();
@@ -350,29 +357,26 @@
 		
 		public function manageTemplatesAction(Request $request)
 		{
+			$doctrineHelper = new DoctrineHelper($this);
 			$action = $request->query->get('action');
 			$id = $request->query->get('id');
 			if(isset($action) && isset($id)){
-				$em = $this->getDoctrine()->getManager();
-				$templateToDelete = $em->getRepository('CmsWebSiteBundle:Template')->find($id);
-				if (!$templateToDelete) {
+				$templateToDelete = $doctrineHelper->find(new Template, $id);
+				$name = $templateToDelete->getName();
+				if ($templateToDelete == null) {
 					throw $this->createNotFoundException(
-						'Image not found for id : '.$id
+						'Template not found for id : '.$id
 					);	
 				}
-				$em->remove($templateToDelete);
-				$em->flush();
+				$doctrineHelper->remove($templateToDelete);
 				unlink($this->get('kernel')->getRootDir().$templateToDelete->getPath());
 				$manager = new TemplateManager;
 				$manager->removeTemplateAssets($templateToDelete->getName());
 				unset($templateToDelete);
-				$this->get('session')->getFlashBag()->set('validation', 'the template '.$index->getName().' is removed');
+				$this->get('session')->getFlashBag()->set('validation', 'the template '.$name.' is removed');
 				return $this->redirect($this->generateUrl('Settings-manageTemplates'));
 			}else{
-				$repo = $this->getDoctrine()
-						->getRepository('CmsWebSiteBundle:Template');
-				$template = array();
-				$template = $repo->findAll();
+				$template = $doctrineHelper->findAll(new Template);
 				return $this->render('CmsWebSiteBundle:WebSite:default/settings/templates/templateSettings.html.twig',
 					array("template"=>$template));
 			}

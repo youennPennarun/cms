@@ -49,6 +49,12 @@ class WebsiteController extends BaseController
 	}
   
 	public function pageAction($path){
+		$defaultData = array();
+		$loginForm = $this->createFormBuilder($defaultData)
+				->add("username","text")
+				->add("password","text")
+				->add("submit","submit")
+				->getForm();
 		$repo = $this->getDoctrine()
 						->getRepository('CmsWebSiteBundle:Page');
 		$page=$repo->findOneBy(array("path"=>$path));
@@ -76,6 +82,7 @@ class WebsiteController extends BaseController
 			
 		}
 		$content["CMS_PAGE_TITLE"] = $page->getName();
+		$content['CMS_LOGIN_FORM']=$loginForm->createView();
 		return $this->render('CmsWebSiteBundle:WebSite:'.$template->getName().'.html.twig',$content);
 		
 	}

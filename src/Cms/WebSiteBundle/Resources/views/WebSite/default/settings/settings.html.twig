@@ -1,4 +1,17 @@
 {% extends '::settings.html.twig' %}
 
 	{% block body %}
+	
+	
+	<div class="hero-unit">
+		<h1>Admin panel</h1>
+	</div>
+	{% if warning is defined  %}
+		<div class="alert fade in">
+			<strong>Warning </strong>{{ warning }}
+        </div>
+		
+	{% endif %}
+	<div class="row-fluid">
+	</div>
 	{% endblock %}

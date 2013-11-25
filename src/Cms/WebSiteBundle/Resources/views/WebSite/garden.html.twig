@@ -2,15 +2,16 @@
 <!-- Website template by freewebsitetemplates.com -->
 <html>
 <head>
-
-{% include 'CmsWebSiteBundle:WebSite:default/includes/includes.html.twig' %}
 	<meta charset="UTF-8">
-	<title>Garden Walkthrough Website Template</title>
+<title>{{ CMS_PAGE_TITLE }}</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('../web/uploads/assets/garden/css/style.css') }}">
+{% include 'CmsWebSiteBundle:WebSite:default/includes/includes.html.twig' %}
 </head>
+
 <body>
 
-{% include 'CmsWebSiteBundle:WebSite:default/includes/menu/adminTopBar.html.twig' %}	<div id="page">
+{% include 'CmsWebSiteBundle:WebSite:default/includes/menu/adminTopBar.html.twig' %}
+	<div id="page">
 		<div id="header">
 			<a href="index.html" id="logo"><img src="{{ asset('../web/uploads/assets/garden/png/logo.png') }}" alt="Logo"></a>
 			<ul>
