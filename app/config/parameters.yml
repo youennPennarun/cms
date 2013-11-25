@@ -11,5 +11,6 @@ parameters:
     mailer_user: null
     mailer_password: null
     locale: en
+    initialised : 'false'
     secret: 68c4e87211a9f3c32fabff1b111fe154
     base-path: 
