@@ -7,8 +7,8 @@ parameters:
     database_password: null
     mailer_transport: smtp
     mailer_host:  smtp.gmail.com
-    mailer_user: youenn.pennarun
-    mailer_password: null
+    mailer_user: user
+    mailer_password: password
     initialised : 'true'
     locale: en
     secret: 3c18a83c6680e779969317536cb8d893

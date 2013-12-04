@@ -161,7 +161,12 @@
 				->add('varList', 'collection', array(
 						'type'   => 'text',
 						'label'  =>  'Variables : '))
-				->add('categories', 'text')
+				->add('categories', 'text', array(
+						'required'  => false,
+						))
+				->add('path', 'text', array(
+						'required'  => false,
+						))
 				->getForm();
 			$form->handleRequest($request);
 			if ($form->isValid()) {	
@@ -186,6 +191,7 @@
 					return $this->redirect($this->generateUrl('Page',array("path"=>$page->getPath())));
 				}
 			$content["CMS_PAGE_TITLE"] = $page->getName();
+			echo 'page : CmsWebSiteBundle:WebSite:'.$template->getName();
 			return $this->render('CmsWebSiteBundle:WebSite:'.$template->getName().'.html.twig',
 				array_merge (array('form'=>$form->createView(), 'includesPath' => array('default/includes/js/ckeditor.html.twig')),$content));
 		}

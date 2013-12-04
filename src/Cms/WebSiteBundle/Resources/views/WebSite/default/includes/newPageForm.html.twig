@@ -10,13 +10,16 @@
 	<div style="display: none; visibility:hidden;">
 		<div id="var">
 			{% set i = 0 %}
+			
 		{% for varForm in form.varList %}
+			<h1>EXIST</h1>
 			-<br>
 			{{ form_label(varForm) }}
 			{{ form_errors(varForm) }}
 			{{ form_widget(varForm, { 'id': "form-"~i, 'class' : 'variable' }) }}
 			--<br>
 			{% set i = i +1 %}
+			
 		{% endfor %}
 		
 		</div>
@@ -30,7 +33,6 @@
 	</div>	
 		{{ form_rest(form) }}
 	</form>
-	
 	
 	<script>
 	

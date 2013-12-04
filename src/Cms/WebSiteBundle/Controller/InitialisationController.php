@@ -115,6 +115,7 @@ class InitialisationController extends Controller
 
 	}
 	public function cacheClearAction(Request $request) {
+		session_destroy();
 		$this->execute('cache:clear');
 		return $this->redirect($this->generateUrl($request->query->get('goTo')));	
 	}
