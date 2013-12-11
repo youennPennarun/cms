@@ -108,3 +108,6 @@ services:
         arguments: [ @service_container ]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+    pageService:
+        class:        Cms\WebSiteBundle\Services\PageService
+        arguments:    [ @doctrine.orm.entity_manager ]

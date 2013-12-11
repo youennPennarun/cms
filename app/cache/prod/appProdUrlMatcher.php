@@ -131,6 +131,11 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'Settings-editPage')), array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\PagesController::editPagesAction',));
             }
 
+            // Settings-changeTemplate
+            if (0 === strpos($pathinfo, '/Settings/change-template') && preg_match('#^/Settings/change\\-template/(?P<pageName>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'Settings-changeTemplate')), array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\PagesController::changeTemplateAction',));
+            }
+
             // Settings-settingsPage
             if ($pathinfo === '/Settings/page-settings') {
                 return array (  '_controller' => 'Cms\\WebSiteBundle\\Controller\\PagesController::pageSettingsAction',  '_route' => 'Settings-settingsPage',);

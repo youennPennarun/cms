@@ -7,155 +7,177 @@
 		{% set path = "CmsWebSiteBundle:WebSite:default/includes/js/newPage-image.html.twig" %}
 		{% include path %}
 	{% endif %}
-	<script src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery-ui.css" />
 	
 	<link rel="stylesheet" href="{{ app.request.getBaseURL() }}/bootstrap/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="{{ app.request.getBaseURL() }}/bootstrap/css/bootstrap-responsive.min.css" />
-	<script src="{{ app.request.getBaseURL() }}/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="{{ app.request.getBaseURL() }}/bootstrap/js/bootstrap.min.js"></script>
 
-	<script>
-	google.load("jquery", "1.4.2");
-	google.load("jqueryui", "1.7.2");
-	</script>
-
-	<script>
 	
-	$(document).ready(function(){
-			localStorage.removeItem("for");
-			localStorage.removeItem("path");
-			$("[ cmsClass='editable-img']").click(function(){
-				localStorage.setItem("for",$(this).attr("cmsId"));
-				localStorage.setItem("path",$(this).attr("src"));
-				setImage();
-				
-			});
-			$(".settings-button").click(function(){
-				setSettingsDialog();
-			});
-		
-	}); 
-	
-	
-	function setSettingsDialog(){
-	//	var pageName = $("#form_pageName").val();
-		var str = 	'<div id="settingsDialog" title="page settings">\n'+
-					'<button class="settings-setCategories">categories</button><br>\n'+
-					'Path : <input type="text" id="settings-setPath" value="'+$("#path").val()+'">\n'+
-					'</div>\n';
-		$("body").append(str);
-		$("#settingsDialog").dialog({
-			modal: true,
-			closeOnEscape: false,
-			open: function(event, ui) {
-				//$(".ui-dialog-titlebar-close").hide();
-				$("a.ui-dialog-titlebar-close").remove();    //courtesy of user281180, see below
-			 },
-			buttons: {
-				Save: function() {
-					$("#path").val($("#settings-setPath").val());
-					removeSettingsDialog();
-				}
-			}
-		});
-		$(".settings-setCategories").click(function(){
-				settingsDialog_setCat();
-		});
-		
-		
-		$("#settings-setPath").bind('input', function() {
-			var value = $(this).val();
-			value = value.replace(" ","");
-			value = value.replace(/^[/]/,"");
-			//value = value.replace("/"+pageName,"");
-			$(this).val(value);
-		});
-		
-	
-	}
-	function removeSettingsDialog(){
-		$("#settingsDialog").dialog("close");
-		$("#settingsDialog").remove();
-		console.log($("#settingsDialog").html());
-	}
-	
-	function settingsDialog_setCat(){
-		removeSettingsDialog();
-		var path = "{{ path('Category-selectCat') }}";
-		var str = 	'<div id="setCatDialog" title="page settings">\n'+
-					'<h1 class="loading-CMS-AJAX">Loading...</h1>'+
-					'</div>\n';
-		$("body").append(str);
-		$.ajax({
-			url: path,
-			type: "POST",
-			cache: "false",
-			dataType: "html",
-			success: function(data) {
-				data = JSON.parse(data);
-				for (var i = 0; i < data.length; i++) {
-				var str = 	"<div><input type='checkbox' value='"+data[i].id+"' class='categoryCheckBox'>"+data[i].name+"</input></div><br>\n"+
-							"";
-				$("#setCatDialog").append(str);
-					$(".loading-CMS-AJAX").remove();
-				}
-				str = "<button class='setCatButton'>set categories</button><br>\n";
-				$("#setCatDialog").append(str);
-				$(".setCatButton").click(function(){
-					$("#categories").val("");
-					$(".categoryCheckBox").each(function(){
-						if($(this).attr('checked')){
-							$("#categories").val($("#categories").val()+"|~|"+$(this).attr("value"));
-						}
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	{% if app.request.attributes.get('_route') == "Settings-newPage" %}
+		<script type="text/javascript" src="{{ asset('js/default/datePicker.js') }}"></script>
+		<link rel="stylesheet" href="{{ asset('css/default/datePicker.css') }}"/>
+		<script type="text/javascript">
+		$(document).ready(function(){
+				localStorage.removeItem("for");
+				localStorage.removeItem("path");
+				$("[ cmsClass='editable-img']").click(function(){
+					localStorage.setItem("for",$(this).attr("cmsId"));
+					localStorage.setItem("path",$(this).attr("src"));
+					setImage();
 					
-					});
-					alert($("#categories").val());
 				});
+				$(".settings-button").click(function(){
+					setSettingsDialog();
+				});
+			
+		}); 
+		
+		
+		function setSettingsDialog(){
+		//	var pageName = $("#form_pageName").val();
+			var str = 	'<div id="settingsDialog" title="page settings">\n'+
+						'<button class="settings-setCategories">categories</button><br>\n'+
+						'Path : <input type="text" id="settings-setPath" value="'+$("#path").val()+'"><br>\n'+
+						'Publishing date : <input type="text" id="settings-setPublishTime"  class="settings-setPublishTime"><br>\n'+
+						'set as index : <input type="checkbox" id="settings-setIndex" checked="">\n'+
+						'</div>\n';
+			$("body").append(str);
+			$("#settings-setPublishTime").datetimepicker({
+											dateFormat: 'dd-mm-yy',
+											timeFormat: "HH:mm"
+										});
+			if($('#isIndex').is(':checked')){
+			   $("#settings-setIndex").attr ( "checked" ,"checked" );
+				}
+				else
+				{
+					$("#settings-setIndex").removeAttr('checked');
 			}
-		});
-		$("#setCatDialog").dialog({
-			modal: true,
-			width:500,
-			height:500
-		});
-		
-		
-	
-	}
-	
-	
-	$(document).ready(function(){
-		localStorage.removeItem("for");
-		localStorage.removeItem("path");
-		$('.CMS_MENU_EDITABLE').click(function(){
-			localStorage.setItem("for",$(this).attr("cmsId"));
-			localStorage.setItem("id",$(this).attr("0"));
-			openMenuList();
+			$("#settingsDialog").dialog({
+				modal: true,
+				closeOnEscape: false,
+				open: function(event, ui) {
+					//$(".ui-dialog-titlebar-close").hide();
+					$("a.ui-dialog-titlebar-close").remove();    //courtesy of user281180, see below
+				 },
+				buttons: {
+					Save: function() {
+						$("#path").val($("#settings-setPath").val());
+						$("#publishingDate").val($("#settings-setPublishTime").val());
+						if($('#settings-setIndex').is(':checked')){
+						   $("#isIndex").attr ( "checked" ,"checked" );
+							}
+							else
+							{
+								$("#isIndex").removeAttr('checked');
+						}
+						removeSettingsDialog();
+					}
+				}
+			});
+			$(".settings-setCategories").click(function(){
+					settingsDialog_setCat();
+			});
 			
-		});
-	});
-		function openMenuList(){
-		var left  = ($(window).width()/2)-(900/2),
-					top   = ($(window).height()/2)-(600/2),
-					popUp = window.open("{{ path('Settings-selectMenuWysiwyg',{"from":"menuVar"}) }}", "select image", "width=900, height=600, top="+top+", left="+left);
+			
+			$("#settings-setPath").bind('input', function() {
+				var value = $(this).val();
+				value = value.replace(" ","");
+				value = value.replace(/^[/]/,"");
+				//value = value.replace("/"+pageName,"");
+				$(this).val(value);
+			});
+			
+		
 		}
-		function menuPopUpClosed() {setMenu();}
-		function setMenu(){
-			var path = "{{ path('Settings-getMenuRender', {'id': localStorage.getItem("menuId")}) }}"+localStorage.getItem("menuId");
-			
+		function removeSettingsDialog(){
+			$("#settingsDialog").dialog("close");
+			$("#settingsDialog").remove();
+			console.log($("#settingsDialog").html());
+		}
+		
+		function settingsDialog_setCat(){
+			removeSettingsDialog();
+			var path = "{{ path('Category-selectCat') }}";
+			var str = 	'<div id="setCatDialog" title="page settings">\n'+
+						'<h1 class="loading-CMS-AJAX">Loading...</h1>'+
+						'</div>\n';
+			$("body").append(str);
 			$.ajax({
 				url: path,
-			    type: "POST",
-			    cache: "false",
-			    dataType: "html",
+				type: "POST",
+				cache: "false",
+				dataType: "html",
 				success: function(data) {
-					$("[cmsId = '"+localStorage.getItem("for")+"']").empty();
-					$("[cmsId = '"+localStorage.getItem("for")+"']").append(data);
+					data = JSON.parse(data);
+					for (var i = 0; i < data.length; i++) {
+					var str = 	"<div><input type='checkbox' value='"+data[i].id+"' class='categoryCheckBox'>"+data[i].name+"</input></div><br>\n"+
+								"";
+					$("#setCatDialog").append(str);
+						$(".loading-CMS-AJAX").remove();
+					}
+					str = "<button class='setCatButton'>set categories</button><br>\n";
+					$("#setCatDialog").append(str);
+					$(".setCatButton").click(function(){
+						$("#categories").val("");
+						$(".categoryCheckBox").each(function(){
+							if($(this).attr('checked')){
+								$("#categories").val($("#categories").val()+"|~|"+$(this).attr("value"));
+							}
+						
+						});
+						alert($("#categories").val());
+					});
 				}
 			});
+			$("#setCatDialog").dialog({
+				modal: true,
+				width:500,
+				height:500
+			});
+			
+			
 		
 		}
 		
 		
-	</script>
-	{% endblock %}
+		$(document).ready(function(){
+			localStorage.removeItem("for");
+			localStorage.removeItem("path");
+			$('.CMS_MENU_EDITABLE').click(function(){
+				localStorage.setItem("for",$(this).attr("cmsId"));
+				localStorage.setItem("id",$(this).attr("0"));
+				openMenuList();
+				
+			});
+		});
+			function openMenuList(){
+			var left  = ($(window).width()/2)-(900/2),
+						top   = ($(window).height()/2)-(600/2),
+						popUp = window.open("{{ path('Settings-selectMenuWysiwyg',{"from":"menuVar"}) }}", "select image", "width=900, height=600, top="+top+", left="+left);
+			}
+			function menuPopUpClosed() {setMenu();}
+			function setMenu(){
+				var path = "{{ path('Settings-getMenuRender', {'id': localStorage.getItem("menuId")}) }}"+localStorage.getItem("menuId");
+				
+				$.ajax({
+					url: path,
+					type: "POST",
+					cache: "false",
+					dataType: "html",
+					success: function(data) {
+						$("[cmsId = '"+localStorage.getItem("for")+"']").empty();
+						$("[cmsId = '"+localStorage.getItem("for")+"']").append(data);
+					}
+				});
+			
+			}
+			
+			
+		</script>
+	{% endif %}
+{% endblock %}

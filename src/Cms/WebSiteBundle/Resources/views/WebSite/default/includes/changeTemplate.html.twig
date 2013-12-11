@@ -1,0 +1,106 @@
+
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a id="dropVarText" role="button" data-toggle="dropdown" href="#">Text <b class="caret"></b></a>
+					<ul id="menuText varList" class="dropdown-menu droppable varListText" role="menu" aria-labelledby="dropVarText">
+						{% for var in content.CMS_EXISTING_VALUE.text %}
+						<span id = "var1" class='draggable varText'>
+							{{var.getValue() | raw}}
+						</span>
+						<hr>
+						{% endfor %}
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a id="dropVarImages" role="button" data-toggle="dropdown" href="#">Images <b class="caret"></b></a>
+					<ul id="menuText varList" class="dropdown-menu droppable varListImage" role="menu" aria-labelledby="dropVarImages">
+						{% for var in content.CMS_EXISTING_VALUE.image %}
+						<span id = "var1" class='draggable varImage'>
+							{{var.getValue() | raw}}
+						</span>
+						<hr>
+						{% endfor %}
+						
+					</ul>
+				</li>
+			</ul>
+		
+
+
+
+<script>
+	
+
+	function setDroppable(){
+	$(".droppableText").droppable("destroy");
+		$(".droppableText").droppable({
+			tolerance: "pointer",
+			accept : ".varText",
+			drop: function(event, ui) {
+				var obj = $(this);
+			   $(ui.draggable).click(function(){
+					obj.find(".here .old").show();
+					$(".varListText").append($(ui.draggable));
+					$( ".draggable" ).draggable({
+						helper: "clone",
+					});
+					setDroppable();
+			   });
+				$(this).find(".here .old").hide();
+				console.log("dropo");
+				$(".varListText").append($(this).find(".here .draggable"));
+				$(this).find(".here").append($(ui.draggable));
+				setDroppable();
+							
+			}
+		});
+		$(".droppableImage").droppable({
+			tolerance: "pointer",
+			accept : ".varImage",
+			drop: function(event, ui) {
+				var obj = $(this);
+			   $(ui.draggable).click(function(){
+					obj.find(".here .old").show();
+					$(".varListImage").append($(ui.draggable));
+					$( ".draggable" ).draggable({
+						helper: "clone",
+					});
+					setDroppable();
+			   });
+				$(this).find(".here .old").hide();
+				$(".varListImage").append($(this).find(".here .draggable"));
+				$(this).find(".here").append($(ui.draggable));
+				setDroppable();
+				$( ".draggable" ).draggable({
+					helper: "clone",
+				});
+							
+			}
+		});
+		$(".droppableMenu").droppable({
+			tolerance: "pointer",
+			accept : ".varMenu",
+			drop: function(event, ui) {
+				var obj = $(this);
+			   $(ui.draggable).click(function(){
+					obj.find(".here .old").show();
+					$(".varList").append($(ui.draggable));
+			   });
+				$(this).find(".here .old").hide();
+				$(this).find(".here").append($(ui.draggable));
+				setDroppable();
+				$( ".draggable" ).draggable({
+					helper: "clone",
+				});
+							
+			}
+		});
+	
+	};
+	$(document).ready(function(){
+		setDroppable();
+		$( ".draggable" ).draggable({
+			helper: "clone",
+		});
+	});
+</script>

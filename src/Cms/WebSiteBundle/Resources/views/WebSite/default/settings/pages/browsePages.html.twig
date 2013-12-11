@@ -10,17 +10,41 @@
 		</div>
 	{% endfor %}
 		{% set i = 0 %}
-		{% for page in pageList %}
-			<li>
-				{{ page.getName() }}
-				<a href="{{path('Page', { 'path': page.getPath() }) }}">see the page</a> ||
-				<a href="{{path('Settings-browsePages', { 'action': 'setIndex','id':page.getId() }) }}">set as index</a> ||
-				<a href="{{path('Settings-editPage', { 'pageName': page.getName() }) }}">edit the page</a> ||
-				<a href="{{path('Settings-browsePages', { 'action': 'delete','id':page.getId() }) }}">remove</a>
-				{% set i = i+1 %}
-			</li>
-		{% endfor %}
-		</ul>
+		<table class="table table-hover">
+			<thead>
+			  <tr>
+				<th>Page name</th>
+				<th>Index</th>
+				<th>State</th>
+				<th>Actions</th>
+			  </tr>
+			</thead>
+			{% for page in pageList %}
+				<tr>
+					<td>{{ page.getName() }}</td>
+					<td>
+					{% if page.isIndex %}
+							<p class="text-primary" style="color:#2b542c;">Index</p>
+					{%endif%}
+					</td>
+					
+						{% if page.getPublishingDate()|date('d-m-Y H:i:s') == "now"|date('d-m-Y H:i:s') %}
+							<td> published</td>
+						{% else %}
+							<td> Schreduled for {{ page.getPublishingDate()|date('d-m-Y H:i:s') }} </td>
+						{% endif %}
+					<td>
+						<a href="{{path('Page', { 'path': page.getPath() }) }}"><button class="btn btn-default">see the page </button></a>
+						<a href="{{path('Settings-browsePages', { 'action': 'setIndex','id':page.getId() }) }}"><button class="btn btn-default">set as index</button></a>
+						<a href="{{path('Settings-editPage', { 'pageName': page.getName() }) }}"><button class="btn btn-default">edit the page</button></a>
+						<a href="{{path('Settings-browsePages', { 'action': 'delete','id':page.getId() }) }}"><button class="btn btn-danger">remove</button></a>
+					</td>
+						
+						{% set i = i+1 %}
+					
+				</tr>
+			{% endfor %}	
+		</table>
  
  
  {% endblock %}

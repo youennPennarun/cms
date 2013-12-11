@@ -64,7 +64,10 @@ class WebsiteController extends BaseController
 		$repo = $this->getDoctrine()
 						->getRepository('CmsWebSiteBundle:Template');
 		$template = $repo->findOneBy(array("name"=>$page->getTemplate()));
-		
+		$publishingDate = date("Y-m-d H:i:s",strtotime($page->getPublishingDate()));
+		if($publishingDate > date("Y-m-d H:i:s", time())){
+			throw new NotFoundHttpException('Sorry not published!');
+		}
 		$contentList = $page->getContent();
 		foreach($template->getVariableArray() as $varName => $varType){
 			$id = null;

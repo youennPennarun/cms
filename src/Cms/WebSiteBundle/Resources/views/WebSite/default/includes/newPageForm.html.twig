@@ -1,66 +1,78 @@
-{% if form is defined %}
-	<form method="POST" {{ form_enctype(form) }} id="form" style="display:inline;">
-	<div class="row" style="text-align: center;">
-	 <div class="span1">{{ form_label(form.pageName) }}</div>
-	 <div class="span3">{{ form_widget(form.pageName) }}</div>
-	<div class="span1"><button id="settings-button" type="button" class="btn btn-primary settings-button">settings</button></div>
-	
-	<div class="span1">{{ form_row(form.save,{ 'id' : 'saveButton','class' : "btn btn-primary"}) }}</div>
-	</div>
-	<div style="display: none; visibility:hidden;">
-		<div id="var">
-			{% set i = 0 %}
-			
-		{% for varForm in form.varList %}
-			<h1>EXIST</h1>
-			-<br>
-			{{ form_label(varForm) }}
-			{{ form_errors(varForm) }}
-			{{ form_widget(varForm, { 'id': "form-"~i, 'class' : 'variable' }) }}
-			--<br>
-			{% set i = i +1 %}
-			
-		{% endfor %}
+
+	{% if form is defined %}
+
+		<form method="POST" {{ form_enctype(form) }} id="form" style="display:inline;">
+		<div class="row" style="text-align: center;">
+		 <div class="span1">{{ form_label(form.pageName) }}</div>
+		 <div class="span3">{{ form_widget(form.pageName) }}</div>
+		<div class="span1"><button id="settings-button" type="button" class="btn btn-primary settings-button">settings</button></div>
 		
+		<div class="span1">{{ form_row(form.save,{ 'id' : 'saveButton','class' : "btn btn-primary"}) }}</div>
 		</div>
-		
-		{{ form_label(form.categories) }}
-		{{ form_errors(form.categories) }}
-		{{ form_widget(form.categories, { 'id': "categories", 'class' : 'categories' }) }}
-		{{ form_label(form.path) }}
-		{{ form_errors(form.path) }}
-		{{ form_widget(form.path, { 'id': "path", 'class' : 'path' }) }}
-	</div>	
-		{{ form_rest(form) }}
-	</form>
-	
-	<script>
-	
-	
-	$(document).ready(function(){
-		$( "a" ).not(".defaultAction").click(function( event ) {
-		  event.preventDefault();
-	});
-		
-		
-		$("#form").submit(function(){
-			{% set i = 0 %}
-			
+		<div style="display: none; visibility:hidden;">
+			<div id="var">
+				{% set i = 0 %}
+				
 			{% for varForm in form.varList %}
-				if($("#val-{{i}}").attr("class") == "ckeditor"){
-					$("#form-{{ i }}").val(CKEDITOR.instances['val-{{ i }}'].getData());
-					
-				}else if($("#[cmsId = 'val-{{ i }}']").attr("cmsClass") == "editable-img"){
-					$("#form-{{ i }}").val("<img src="+$("#[cmsId = 'val-{{ i }}']").attr("src")+" id="+$("#[cmsId = 'val-{{ i }}']").attr("id")+" class="+$("#[cmsId = 'val-{{ i }}']").attr("class")+" width="+$("#[cmsId = 'val-{{ i }}']").attr("width")+" height="+$("#[cmsId = 'val-{{ i }}']").attr("height")+"  cmsClass='editable-img' cmsId='val-{{ i }}' >");
-					
-					
-				}else if ($("#[cmsId = 'val-{{ i }}']").attr("class") == "CMS_MENU_EDITABLE"){
-					$("#form-{{ i }}").val($("#[cmsId = 'val-{{ i }}']").html());
-				}
+				<h1>EXIST</h1>
+				-<br>
+				{{ form_label(varForm) }}
+				{{ form_errors(varForm) }}
+				{{ form_widget(varForm, { 'id': "form-"~i, 'class' : 'variable' }) }}
+				--<br>
 				{% set i = i +1 %}
+				
 			{% endfor %}
 			
-			});
+			</div>
+			
+			{{ form_label(form.categories) }}
+			{{ form_errors(form.categories) }}
+			{{ form_widget(form.categories, { 'id': "categories", 'class' : 'categories' }) }}
+			
+			{{ form_label(form.path) }}
+			{{ form_errors(form.path) }}
+			{{ form_widget(form.path, { 'id': "path", 'class' : 'path' }) }}
+			
+			{{ form_label(form.publishingDate) }}
+			{{ form_errors(form.publishingDate) }}
+			{{ form_widget(form.publishingDate, { 'id': "publishingDate", 'class' : 'publishingDate' }) }}
+			
+			{{ form_label(form.isIndex) }}
+			{{ form_errors(form.isIndex) }}
+			{{ form_widget(form.isIndex, { 'id': "isIndex", 'class' : 'isIndex' }) }}
+			
+			{{ form_rest(form) }}
+		</div>	
+		</form>
+		
+		<script>
+		
+		
+		$(document).ready(function(){
+			$( "a" ).not(".defaultAction").click(function( event ) {
+			  event.preventDefault();
 		});
-	</script>
-{% endif %}
+			
+			
+			$("#form").submit(function(){
+				{% set i = 0 %}
+				
+				{% for varForm in form.varList %}
+				
+					if($("#val-{{i}}").attr("class") == "ckeditor"){
+						$("#form-{{ i }}").val(CKEDITOR.instances['val-{{ i }}'].getData());
+						
+					}else if($("[cmsId = 'val-{{ i }}']").attr("cmsClass") == "editable-img"){
+						$("#form-{{ i }}").val("<img src="+$("[cmsId = 'val-{{ i }}']").attr("src")+" id="+$("[cmsId = 'val-{{ i }}']").attr("id")+" class="+$("[cmsId = 'val-{{ i }}']").attr("class")+" width="+$("[cmsId = 'val-{{ i }}']").attr("width")+" height="+$("[cmsId = 'val-{{ i }}']").attr("height")+"  cmsClass='editable-img' cmsId='val-{{ i }}' >");
+						
+						
+					}else if ($("[cmsId = 'val-{{ i }}']").attr("class") == "CMS_MENU_EDITABLE"){
+						$("#form-{{ i }}").val($("[cmsId = 'val-{{ i }}']").html());
+					}
+					{% set i = i +1 %}
+				{% endfor %}
+				});
+			});
+		</script>
+	{% endif %}

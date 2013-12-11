@@ -14,6 +14,10 @@ Settings-editPage:
     path:    /edit-page/{pageName}
     defaults: { _controller: CmsWebSiteBundle:Pages:editPages }
 
+Settings-changeTemplate:
+    path:    /change-template/{pageName}
+    defaults: { _controller: CmsWebSiteBundle:Pages:changeTemplate }
+
 Settings-settingsPage:
     path:    /page-settings
     defaults: { _controller: CmsWebSiteBundle:Pages:pageSettings }

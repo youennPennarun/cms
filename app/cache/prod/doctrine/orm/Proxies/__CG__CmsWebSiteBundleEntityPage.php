@@ -123,6 +123,18 @@ class Page extends \Cms\WebSiteBundle\Entity\Page implements \Doctrine\ORM\Proxy
         return parent::getIsIndex();
     }
 
+    public function setPublishingDate($publishingDate)
+    {
+        $this->__load();
+        return parent::setPublishingDate($publishingDate);
+    }
+
+    public function getPublishingDate()
+    {
+        $this->__load();
+        return parent::getPublishingDate();
+    }
+
     public function setIsReady($isReady)
     {
         $this->__load();
@@ -138,7 +150,7 @@ class Page extends \Cms\WebSiteBundle\Entity\Page implements \Doctrine\ORM\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'path', 'template', 'content', 'categories', 'isIndex', 'isReady');
+        return array('__isInitialized__', 'id', 'name', 'path', 'template', 'content', 'categories', 'publishingDate', 'isIndex', 'isReady');
     }
 
     public function __clone()

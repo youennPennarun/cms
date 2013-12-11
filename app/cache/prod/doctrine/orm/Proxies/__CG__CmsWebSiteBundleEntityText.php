@@ -63,10 +63,22 @@ class Text extends \Cms\WebSiteBundle\Entity\Text implements \Doctrine\ORM\Proxy
         return parent::getValue();
     }
 
+    public function setType($type)
+    {
+        $this->__load();
+        return parent::setType($type);
+    }
+
+    public function getType()
+    {
+        $this->__load();
+        return parent::getType();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'value');
+        return array('__isInitialized__', 'id', 'value', 'type');
     }
 
     public function __clone()

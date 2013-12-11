@@ -9,7 +9,7 @@
 	use Cms\WebSiteBundle\Entity\Page;
 	use Cms\WebSiteBundle\Entity\Text;
 	use Cms\WebSiteBundle\Entity\Categories;
-	use Cms\WebSiteBundle\Entity\utils\UtilsTemplate;
+	use Cms\WebSiteBundle\Entity\utils\PageUtils;
 	 
 	class PagesController extends Controller
 	{
@@ -20,14 +20,18 @@
 				return $this->redirect($this->generateUrl('Settings-selectTemplate'));
 			}
 			
-			$utils = new UtilsTemplate;
-			$varUtils = $utils->creatVarEditor_NewPage($template->getVariableArray());
+			//$utils = new UtilsTemplate;
+			//$varUtils = $utils->createVarEditor_NewPage($template->getVariableArray());
+			$pageService = $this->get('pageService');
+			$varUtils = $pageService->createVarEditor_NewPage($template->getVariableArray());
+			
 			$varList = $varUtils["varList"];
 			$varEditor = $varUtils["varEditor"];
+			$varType = $varUtils["varType"];
 			
-			$defaultData = array('varList'=>$varList);
+			$data = array('varList'=>$varList);
 			
-			$form = $this->createFormBuilder($defaultData)
+			$form = $this->createFormBuilder($data)
 				->add('pageName', 'text')
 				->add('save','submit')
 				->add('varList', 'collection', array(
@@ -39,40 +43,21 @@
 				->add('path', 'text', array(
 						'required'  => false,
 						))
+				->add('publishingDate', 'text', array(
+						'label'     => 'publish the ',
+						'required'  => false,
+						))
+				->add('isIndex', 'checkbox', array(
+						'label'     => 'set as index',
+						'required'  => false,
+						))
 				->getForm();
 			$form->handleRequest($request);
 			if ($form->isValid()) {	
 				$data = $form->getData();
-				$repo = $this->getDoctrine()
-						->getRepository('CmsWebSiteBundle:Page');
-				$page=$repo->findOneBy(array("name"=>$data['pageName']));
-				if($page == null){
-					
-					$newPage = new Page;
-					$newPage->setCategories(explode("|~|",$data['categories']));
-					$var = array();
-					$newPage->setName($data['pageName']);
-					$newPage->setPath($data['path']);
-					if($data['path'] == null || $data['path'] == "" )
-						$newPage->setPath($data['pageName']);
-					$newPage->setTemplate($template->getName());
-					$i=0;
-					foreach( $data['varList'] as $varValue){
-						$text = new Text;
-						$text->setValue($varValue);
-						$em = $this->getDoctrine()->getManager();
-						$em->persist($text);
-						$em->flush();
-						
-						$var[$varList[$i]] = $text->getId();
-						$i++;
-					}
-					$newPage->setContent($var);
-					$em = $this->getDoctrine()->getManager();
-					$newPage->setContent($var);
-						
-					$em->persist($newPage);
-					$em->flush();
+				$pageUtils = new PageUtils($this->getDoctrine(),$this->get('logger'));
+				$newPage = $pageUtils->newPage($data,$template,$varList,$varType);
+				if($newPage != null){
 					$session->remove('template');
 					return $this->redirect($this->generateUrl('Page',array("path"=>$newPage->getPath())));
 				}else{
@@ -97,12 +82,27 @@
 						}
 						$i++;
 					}
+					
 					$form = $this->createFormBuilder($data)
 						->add('pageName', 'text')
 						->add('save','submit')
 						->add('varList', 'collection', array(
 								'type'   => 'text',
 								'label'  =>  'Variables : '))
+						->add('categories', 'text', array(
+								'required'  => false,
+								))
+						->add('path', 'text', array(
+								'required'  => false,
+								))
+						->add('publishingDate', 'text', array(
+								'label'     => 'publish the ',
+								'required'  => false,
+								))
+						->add('isIndex', 'checkbox', array(
+								'label'     => 'set as index',
+								'required'  => false,
+								))
 						->getForm();
 				}
 					
@@ -126,35 +126,13 @@
 			$varList = array();
 			$ids = array();
 			$regexMenu = "(CMS_MENU_[1-9]+)";
-			foreach($template->getVariableArray() as $varName => $values){
-				$id = null;
-					foreach($contentList as $cVarName => $varId){
-						if($cVarName == $varName){
-							$id=$varId;
-							array_push($ids,$id);
-						}
-					}
-					if($id != null){
-						$repo = $this->getDoctrine()
-							->getRepository('CmsWebSiteBundle:text');
-						$text = $repo->findOneBy(array("id"=>$id));
-						if( $values['type'] == 'text'){
-							if(preg_match_all($regexMenu, $varName, $matches)){
-								$content[$varName] = "<div class='CMS_MENU_EDITABLE' cmsId='val-".$i."'>".$text->getValue()."</div>";
-							}else{
-								$content[$varName] = "<div class='hideBox'><textarea class='ckeditor' id='val-".$i."'>".$text->getValue()."</textarea ></div>";
-							}
-							
-							
-						}else if($values['type'] == 'image'){
-							$content[$varName] = $text->getValue();
-						}
-						$i++;
-						array_push($varList,$text->getValue());
-					}
-				
-			}
-			$defaultData = array('pageName' => $pageName,'varList'=>$varList);
+			
+			$pageService = $this->get('pageService');
+			$content = $pageService->createVarEditor_EditPage($page);
+			
+			
+			
+			$defaultData = array('pageName' => $pageName,'varList'=>$varList,"path"=>$page->getPath(),"publishingDate"=>$page->getPublishingDate());
 			$form = $this->createFormBuilder($defaultData)
 				->add('pageName', 'text')
 				->add('save','submit')
@@ -165,6 +143,14 @@
 						'required'  => false,
 						))
 				->add('path', 'text', array(
+						'required'  => false,
+						))
+				->add('publishingDate', 'text', array(
+						'label'     => 'publish the ',
+						'required'  => false,
+						))
+				->add('isIndex', 'checkbox', array(
+						'label'     => 'set as index',
 						'required'  => false,
 						))
 				->getForm();
@@ -191,7 +177,6 @@
 					return $this->redirect($this->generateUrl('Page',array("path"=>$page->getPath())));
 				}
 			$content["CMS_PAGE_TITLE"] = $page->getName();
-			echo 'page : CmsWebSiteBundle:WebSite:'.$template->getName();
 			return $this->render('CmsWebSiteBundle:WebSite:'.$template->getName().'.html.twig',
 				array_merge (array('form'=>$form->createView(), 'includesPath' => array('default/includes/js/ckeditor.html.twig')),$content));
 		}
@@ -208,25 +193,12 @@
 				$page=$repo->findOneBy(array("id"=>$id));
 				if($page != null){
 					$contentList = $page->getContent();
-					$repo = $this->getDoctrine()
-									->getRepository('CmsWebSiteBundle:Template');
-					$template = $repo->findOneBy(array("name"=>$page->getTemplate()));
 					
-					foreach($template->getVariableArray() as $varName => $values){
-						$textId = null;
-						foreach($contentList as $cVarName => $varId){
-							if($cVarName == $varName){
-								echo "founded";
-								$textId=$varId;
-							}
-						}
-						if($textId != null){
-							$text = $em->getRepository('CmsWebSiteBundle:Text')->findOneBy(array("id"=>$textId));
-							if($text != null){
-								$em->remove($text);
-								$em->flush();
-							}
-						}
+					$repo = $this->getDoctrine()
+									->getRepository('CmsWebSiteBundle:Text');
+					foreach($contentList as $varName => $id){
+						$var = $repo->findOneBy(array("id"=>$id));
+						$em->remove($var);
 					}
 					$oldPageName = $page->getName();
 					$em->remove($page);
@@ -246,7 +218,7 @@
 				}
 				$index->setIsIndex(true);
 				$em->flush();
-				$this->get('session')->getFlashBag()->set('validation', 'the page '.$index->getName().' is know the index');
+				$this->get('session')->getFlashBag()->set('validation', 'the page '.$index->getName().' is now the index');
 				return $this->redirect($this->generateUrl('Settings-browsePages'));
 			}
 			$repo = $this->getDoctrine()
@@ -258,6 +230,122 @@
 			return $this->render('CmsWebSiteBundle:WebSite:default/settings/pages/browsePages.html.twig',
 				array("pageList"=>$pages));
 
+		}
+		
+		public function changeTemplateAction($pageName,Request $request){
+			$session = $this->getRequest()->getSession();
+			$template = $session->get('template');
+			if($template == null ){
+				return $this->redirect($this->generateUrl('Settings-selectTemplate'));
+			}
+			
+			//$utils = new UtilsTemplate;
+			//$varUtils = $utils->createVarEditor_NewPage($template->getVariableArray());
+			$pageService = $this->get('pageService');
+			$varUtils = $pageService->createVarEditor_ChangeTemplate($template->getVariableArray());
+			
+			$varList = $varUtils["varList"];
+			$varEditor = $varUtils["varEditor"];
+			$varType = $varUtils["varType"];
+			
+			$repo = $this->getDoctrine()
+						->getRepository('CmsWebSiteBundle:Page');
+			$page=$repo->findOneBy(array("name"=>$pageName));
+			foreach($page->getContent() as $name=>$id){
+				$repo = $this->getDoctrine()
+						->getRepository('CmsWebSiteBundle:Text');
+				$text=$repo->findOneBy(array("id"=>$id));
+				if( $text->getType() == 'text'){
+					$content["CMS_EXISTING_VALUE"]["text"][] = $text;
+				}else if($text->getType() == 'image'){
+					$content["CMS_EXISTING_VALUE"]["image"][] = $text;
+				}
+			}
+			
+			
+			
+			$data = array('varList'=>$varList);
+			
+			$form = $this->createFormBuilder($data)
+				->add('pageName', 'text')
+				->add('save','submit')
+				->add('varList', 'collection', array(
+						'type'   => 'text',
+						'label'  =>  'Variables : '))
+				->add('categories', 'text', array(
+						'required'  => false,
+						))
+				->add('path', 'text', array(
+						'required'  => false,
+						))
+				->add('publishingDate', 'text', array(
+						'label'     => 'publish the ',
+						'required'  => false,
+						))
+				->add('isIndex', 'checkbox', array(
+						'label'     => 'set as index',
+						'required'  => false,
+						))
+				->getForm();
+			$form->handleRequest($request);
+			if ($form->isValid()) {	
+				$data = $form->getData();
+				$pageUtils = new PageUtils($this->getDoctrine(),$this->get('logger'));
+				$newPage = $pageUtils->newPage($data,$template,$varList,$varType);
+				if($newPage != null){
+					$session->remove('template');
+					return $this->redirect($this->generateUrl('Page',array("path"=>$newPage->getPath())));
+				}else{
+					$i = 0;
+					foreach($template->getVariableArray() as $varName=>$values){
+						$varList[] = $varName; 
+						if( $values['type'] == 'text'){
+							$varEditor[$varName] = "<div class='hideBox'><textarea class='ckeditor' id='val-".$i."'>".$data['varList'][$i]."</textarea ></div>";
+							
+						}else if($values['type'] == 'image'){
+							if(isset($values['options']['id'])){
+								$id= $values['options']['id'];
+							}else{
+								$id = '';
+							}
+							if(isset($values['options']['class'])){
+								$class= $values['options']['class'];
+							}else{
+								$class= '';
+							}
+							$varEditor[$varName] = $data['varList'][$i];
+						}
+						$i++;
+					}
+					
+					$form = $this->createFormBuilder($data)
+						->add('pageName', 'text')
+						->add('save','submit')
+						->add('varList', 'collection', array(
+								'type'   => 'text',
+								'label'  =>  'Variables : '))
+						->add('categories', 'text', array(
+								'required'  => false,
+								))
+						->add('path', 'text', array(
+								'required'  => false,
+								))
+						->add('publishingDate', 'text', array(
+								'label'     => 'publish the ',
+								'required'  => false,
+								))
+						->add('isIndex', 'checkbox', array(
+								'label'     => 'set as index',
+								'required'  => false,
+								))
+						->getForm();
+				}
+					
+				
+			}
+			$varEditor["CMS_PAGE_TITLE"] = "";
+			return $this->render('CmsWebSiteBundle:WebSite:'.$template->getName().'.html.twig',
+				array_merge (array('form'=>$form->createView(),"content"=>$content, 'includesPath' => array('default/includes/js/ckeditor.html.twig')),$varEditor));
 		
 		}
 		
@@ -277,6 +365,7 @@
 
 		
 		}
+
 		
 	}
 ?>

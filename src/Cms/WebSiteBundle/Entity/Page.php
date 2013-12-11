@@ -44,9 +44,16 @@
 		protected $categories = array();
 		
 		/**
+		 * @var date $birthday
+		 *
+		 * @ORM\Column(name="publishingDate", type="string", nullable=true)
+		 */
+		private $publishingDate;
+		/**
 		 * @ORM\Column(name="isIndex",type="boolean", length=255)
 		 */
 		protected $isIndex = false;
+		
 		
 		/**
 		 * @ORM\Column(name="isReady",type="boolean", length=255)
@@ -208,6 +215,28 @@
     public function getIsIndex()
     {
         return $this->isIndex;
+    }
+	
+	/**
+     * Set isIndex
+     *
+     * @param date $publishingDate
+     * @return Page
+     */
+    public function setPublishingDate($publishingDate)
+    {
+		$this->publishingDate = $publishingDate;
+        return $this;
+    }
+
+    /**
+     * Get publishingDate
+     *
+     * @return date 
+     */
+    public function getPublishingDate()
+    {
+		return $this->publishingDate;
     }
 	
 	/**

@@ -25,6 +25,10 @@
 		 */
 		protected $value;
 		
+		/**
+		 * @ORM\Column(name="type",type="string", length=255, nullable = true)
+		 */
+		protected $type;
 		
 	
     /**
@@ -58,5 +62,28 @@
     public function getValue()
     {
         return $this->value;
+    }
+	
+	/**
+     * Set value
+     *
+     * @param string $value
+     * @return Text
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
