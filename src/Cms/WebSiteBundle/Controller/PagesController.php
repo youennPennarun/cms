@@ -256,9 +256,9 @@
 						->getRepository('CmsWebSiteBundle:Text');
 				$text=$repo->findOneBy(array("id"=>$id));
 				if( $text->getType() == 'text'){
-					$content["CMS_EXISTING_VALUE"]["text"][] = $text;
+					$content["CMS_EXISTING_VALUE"]["text"][] = array("varName"=>$name,"value"=>$text);
 				}else if($text->getType() == 'image'){
-					$content["CMS_EXISTING_VALUE"]["image"][] = $text;
+					$content["CMS_EXISTING_VALUE"]["image"][] = array("varName"=>$name,"value"=>$text);
 				}
 			}
 			

@@ -4,8 +4,8 @@
 					<a id="dropVarText" role="button" data-toggle="dropdown" href="#">Text <b class="caret"></b></a>
 					<ul id="menuText varList" class="dropdown-menu droppable varListText" role="menu" aria-labelledby="dropVarText">
 						{% for var in content.CMS_EXISTING_VALUE.text %}
-						<span id = "var1" class='draggable varText'>
-							{{var.getValue() | raw}}
+						<span id = "var1" class='draggable varText' style='display: inline-block'>
+							<span class="varIdSpan" varId="{{var.value.getId()}}">{{var.value.getValue() | raw}}</span>
 						</span>
 						<hr>
 						{% endfor %}
@@ -16,12 +16,15 @@
 					<ul id="menuText varList" class="dropdown-menu droppable varListImage" role="menu" aria-labelledby="dropVarImages">
 						{% for var in content.CMS_EXISTING_VALUE.image %}
 						<span id = "var1" class='draggable varImage'>
-							{{var.getValue() | raw}}
+							{{var.value.getValue() | raw}}
 						</span>
 						<hr>
 						{% endfor %}
 						
 					</ul>
+				</li>
+				<li>
+					<button id="submit">sub</button>
 				</li>
 			</ul>
 		
@@ -32,12 +35,18 @@
 	
 
 	function setDroppable(){
-	$(".droppableText").droppable("destroy");
 		$(".droppableText").droppable({
 			tolerance: "pointer",
 			accept : ".varText",
+			over: function(){
+				$(this).css("background-color","#ff0000");
+			},
+			out: function(){
+				$(this).css("background-color","");
+			},
 			drop: function(event, ui) {
 				var obj = $(this);
+				$(this).css("background-color","");
 			   $(ui.draggable).click(function(){
 					obj.find(".here .old").show();
 					$(".varListText").append($(ui.draggable));
@@ -47,19 +56,28 @@
 					setDroppable();
 			   });
 				$(this).find(".here .old").hide();
-				console.log("dropo");
 				$(".varListText").append($(this).find(".here .draggable"));
 				$(this).find(".here").append($(ui.draggable));
 				setDroppable();
+				$( ".draggable" ).draggable({
+					helper: "clone",
+				});
 							
 			}
 		});
 		$(".droppableImage").droppable({
 			tolerance: "pointer",
 			accept : ".varImage",
+			over: function(){
+				$(this).css("background-color","#ff0000");
+			},
+			out: function(){
+				$(this).css("background-color","");
+			},
 			drop: function(event, ui) {
 				var obj = $(this);
-			   $(ui.draggable).click(function(){
+				$(this).css("background-color","");
+				$(ui.draggable).click(function(){
 					obj.find(".here .old").show();
 					$(".varListImage").append($(ui.draggable));
 					$( ".draggable" ).draggable({
@@ -98,6 +116,13 @@
 	
 	};
 	$(document).ready(function(){
+		$("#submit").click(function(){
+			{% for var in content.CMS_EXISTING_VALUE.text %}
+				if(typeof $("span[cmsVarName='{{var.varName}}']").find(".varIdSpan").attr("varId") == 'undefined'){
+					$("span[cmsVarName='{{var.varName}}']").css("background-color","#00ff00");
+				}
+			{% endfor %}
+		});
 		setDroppable();
 		$( ".draggable" ).draggable({
 			helper: "clone",

@@ -88,7 +88,14 @@
 					echo "<h1>htgrfdx</h1>";
 						$varEditor[$varName] = "<div id='droppable' class='CMS_MENU_EDITABLE' cmsId='val-".$i."'>ADD A MENU</div>";
 					}else{
-						$varEditor[$varName] = "<span id='' class='droppableText varBox'><span class='here'><span class='old'>".$varName."</span></span></span>";
+						$varEditor[$varName] = 		"<span id='' class='droppableText varBox' cmsVarName='".$varName."'  style='display: inline-block'>".
+												"	<span class='here'  style='display: block'  cmsId='val-".$i."'>".
+												"		<span class='old'  style='display: block'>".
+												"			".$varName.
+												"		</span>".
+												"	</span>".
+												"</span>";
+					//	$varEditor[$varName] = "<span id='' class='droppableText varBox'><span class='here'><span class='old'>".$varName."</span></span></span>";
 					}
 					$varType[] = "text";
 				}else if($values['type'] == 'image'){
@@ -102,9 +109,13 @@
 					}else{
 						$class= '';
 					}
-					$varEditor[$varName] = 	"<span id='' class='droppableImage varBox'  style='display: block'><span class='here'  style='display: block'><span class='old'  style='display: block'>".
-											"<img src='/img.jpg' class='".$class."' id='droppable ".$id."' width='".$values['options']['width']."' height='".$values['options']['height']."' cmsClass='editable-img' cmsId='val-".$i."'>".
-											"</span></span></span>";
+					$varEditor[$varName] = 	"<span id='' class='droppableImage varBox' cmsVarName='".$varName."'  style='display: inline-block'>".
+											"	<span class='here'  style='display: block'>".
+											"		<span class='old'  style='display: block'>".
+											"			<img src='/img.jpg' class='".$class."' id='droppable ".$id."' width='".$values['options']['width']."' height='".$values['options']['height']."' cmsClass='editable-img' cmsId='val-".$i."'>".
+											"		</span>".
+											"	</span>".
+											"</span>";
 					"";
 					$varType[] = "image";
 				}
