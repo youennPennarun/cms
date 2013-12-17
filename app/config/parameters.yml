@@ -2,11 +2,7 @@ parameters:
     database_driver: pdo_mysql
     database_host: localhost
     database_port: null
-<<<<<<< HEAD
     database_name: cms
-=======
-    database_name: null
->>>>>>> cd76caa773f879bb55fd94edea1f35a177a56be4
     database_user: root
     database_password: null
     mailer_transport: smtp
@@ -15,11 +11,5 @@ parameters:
     mailer_password: password
     initialised : 'true'
     locale: en
-<<<<<<< HEAD
     secret: 3c18a83c6680e779969317536cb8d893
     base-path: /cms
-=======
-    initialised : 'false'
-    secret: 68c4e87211a9f3c32fabff1b111fe154
-    base-path: 
->>>>>>> cd76caa773f879bb55fd94edea1f35a177a56be4
